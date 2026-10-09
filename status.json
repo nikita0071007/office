@@ -1,0 +1,53 @@
+{
+ "updated_at": "2026-10-09T13:55:00+03:00",
+ "account": {
+  "username": "gusevmade",
+  "followers": 1,
+  "posts": 2,
+  "queue": 0,
+  "next_post": "2026-10-10T09:00:00+03:00"
+ },
+ "agents": {
+  "analyst": {
+   "status": "idle",
+   "task": "Готов к работе. Первый разбор статистики — завтра в 8:15.",
+   "last_run": null,
+   "next_run": "2026-10-10T08:15:00+03:00",
+   "last_result": ""
+  },
+  "poster": {
+   "status": "idle",
+   "task": "Папка «Очередь» пока пуста — добавьте фото на Google Диск.",
+   "last_run": null,
+   "next_run": "2026-10-10T09:00:00+03:00",
+   "last_result": "",
+   "draft_caption": ""
+  },
+  "scout": {
+   "status": "idle",
+   "task": "Первая разведка трендов — в понедельник.",
+   "last_run": null,
+   "next_run": "2026-10-12T10:00:00+03:00",
+   "last_result": ""
+  }
+ },
+ "recommendations": [],
+ "ideas": [],
+ "log": [
+  {
+   "at": "2026-10-09T13:55:00+03:00",
+   "who": "owner",
+   "text": "Подключены Google Диск и GitHub. Офис переехал на GitHub Pages."
+  },
+  {
+   "at": "2026-10-09T13:20:00+03:00",
+   "who": "owner",
+   "text": "В офис пришёл третий сотрудник — разведчик трендов."
+  },
+  {
+   "at": "2026-10-09T12:50:00+03:00",
+   "who": "owner",
+   "text": "Офис открыт. Instagram gusevmade подключён к агентам."
+  }
+ ]
+}
