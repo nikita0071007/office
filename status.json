@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-09T21:47:38+03:00",
+ "updated_at": "2026-10-09T21:48:43+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 1,
@@ -49,10 +49,10 @@
    "next_run": "2026-10-12T10:00:00+03:00"
   },
   "guard": {
-   "status": "working",
-   "task": "Обхожу офис…",
+   "status": "idle",
+   "task": "Всё спокойно",
    "last_run": "2026-10-09T21:47:38+03:00",
-   "next_run": null
+   "next_run": "2026-10-09T23:48:43+03:00"
   }
  },
  "draft": {
@@ -62,6 +62,11 @@
   "issue_url": "https://github.com/nikita0071007/office-data/issues/1"
  },
  "log": [
+  {
+   "who": "guard",
+   "at": "2026-10-09T21:48:43+03:00",
+   "text": "Обход завершён: всё спокойно."
+  },
   {
    "at": "2026-10-09T20:30:23+03:00",
    "who": "poster",
