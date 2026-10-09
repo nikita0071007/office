@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-09T14:05:00+03:00",
+ "updated_at": "2026-10-09T14:07:46+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 1,
@@ -24,9 +24,9 @@
    "draft_caption": ""
   },
   "scout": {
-   "status": "idle",
-   "task": "Первая разведка трендов — в понедельник.",
-   "last_run": null,
+   "status": "working",
+   "task": "Ищу тренды недели…",
+   "last_run": "2026-10-09T14:07:46+03:00",
    "next_run": "2026-10-12T10:00:00+03:00",
    "last_result": ""
   }
