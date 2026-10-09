@@ -171,6 +171,13 @@ html[data-size="m"] .floor{max-width:1000px}
 .ask select,.ask input{font:inherit;font-size:14px;border:1px solid var(--line);border-radius:8px;padding:9px 10px;background:var(--card);color:var(--ink);min-width:0}
 .ask .btn{padding:9px 14px}
 @media (max-width:820px){.say{grid-template-columns:1fr}.ask{grid-template-columns:1fr}}
+.goals{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.goal{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 14px;min-width:0}
+.goal span{display:block;font-size:12px;color:var(--muted)}
+.goal b{font-family:var(--display);font-weight:500;font-size:16px;font-variant-numeric:tabular-nums}
+.bar{height:8px;border-radius:99px;background:var(--bg);margin-top:6px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:99px;transition:width .4s}
+@media (max-width:820px){.goals{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -188,6 +195,7 @@ html[data-size="m"] .floor{max-width:1000px}
 <div class="kpi"><span>Фото в очереди</span><b id="k-queue">—</b></div>
 <div class="kpi"><span>Следующий пост</span><b id="k-next">—</b></div>
 </section>
+<section class="goals" id="goals" aria-label="Цели"></section>
 <div class="tools"><span class="lbl">Нажмите на кабинет, чтобы открыть подробности</span>
 <div class="zoom" role="group" aria-label="Размер офиса"><button type="button" data-z="s" aria-label="Компактно">−</button><button type="button" data-z="m" aria-label="Средне">◻</button><button type="button" data-z="l" aria-label="Крупно">+</button></div></div>
 <section class="floor" aria-label="План офиса">
@@ -448,7 +456,7 @@ html[data-size="m"] .floor{max-width:1000px}
 function set(z){document.documentElement.dataset.size=z;document.querySelectorAll(".zoom button").forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.z===z))});try{localStorage.setItem("office-size",z)}catch(e){}}
 set(sz);document.querySelectorAll(".zoom button").forEach(function(b){b.addEventListener("click",function(){set(b.dataset.z)})});})();
 (function(){
-var SEED = {"updated_at": "2026-10-09T15:00:00+03:00", "account": {"username": "gusevmade", "followers": 1, "posts": 2, "queue": 0, "next_post": "2026-10-10T09:00:00+03:00"}, "agents": {"analyst": {"status": "idle", "task": "Готов к работе. Первый разбор статистики — завтра в 8:15.", "last_run": null, "next_run": "2026-10-10T08:15:00+03:00"}, "poster": {"status": "waiting", "task": "Ждёт вашего решения: рилс «Процесс»", "last_run": "2026-10-09T14:30:00+03:00", "next_run": "2026-10-10T09:00:00+03:00"}, "scout": {"status": "idle", "task": "Тренд недели — «Процесс»: сырое закулисье работы от инструментов до результата.", "last_run": "2026-10-09T14:09:50+03:00", "next_run": "2026-10-12T10:00:00+03:00"}, "guard": {"status": "idle", "task": "Первая проверка — в ближайшие 2 часа.", "last_run": null, "next_run": null}}, "draft": {"id": "20261009-1430", "status": "waiting", "type": "reel", "issue_url": "https://github.com/nikita0071007/office-data/issues/1"}, "log": [{"at": "2026-10-09T15:00:00+03:00", "who": "owner", "text": "В офис пришёл четвёртый сотрудник — охранник. Появилась переговорная."}, {"at": "2026-10-09T14:55:00+03:00", "who": "owner", "text": "Офис под защитой: черновики, подписи и переписка — в закрытом репозитории."}, {"at": "2026-10-09T14:30:00+03:00", "who": "poster", "text": "Черновик готов: рилс «Процесс» по идее разведчика"}, {"at": "2026-10-09T14:10:05+03:00", "who": "scout", "text": "Новая подборка: 7 идей на неделю"}, {"at": "2026-10-09T14:09:24+03:00", "who": "scout", "text": "Новая подборка: 7 идей на неделю"}, {"at": "2026-10-09T14:05:00+03:00", "who": "owner", "text": "В офисе появился чат с контент-менеджером: черновики, кнопки «Одобрить» и «Переделать»."}, {"at": "2026-10-09T13:55:00+03:00", "who": "owner", "text": "Подключены Google Диск и GitHub. Офис переехал на GitHub Pages."}, {"at": "2026-10-09T13:20:00+03:00", "who": "owner", "text": "В офис пришёл третий сотрудник — разведчик трендов."}, {"at": "2026-10-09T12:50:00+03:00", "who": "owner", "text": "Офис открыт. Instagram gusevmade подключён к агентам."}]};
+var SEED = {"updated_at": "2026-10-09T15:25:00+03:00", "account": {"username": "gusevmade", "followers": 1, "posts": 2, "queue": 0, "next_post": "2026-10-10T09:00:00+03:00", "goals": [{"key": "followers", "name": "Подписчики к 31 октября", "target": 100, "current": 1, "deadline": "2026-10-31"}, {"key": "reels_week", "name": "Рилсы на этой неделе", "target": 3, "current": 0}, {"key": "link_taps_week", "name": "Переходы по ссылке в профиле за неделю", "target": 20, "current": null}]}, "agents": {"analyst": {"status": "idle", "task": "Готов к работе. Первый разбор статистики — завтра в 8:15.", "last_run": null, "next_run": "2026-10-10T08:15:00+03:00"}, "poster": {"status": "waiting", "task": "Рилс «Процесс» готов — выложите вручную из Instagram (видео и подпись у вас в чате Claude).", "last_run": "2026-10-09T15:01:26+03:00", "next_run": "2026-10-10T09:00:00+03:00"}, "scout": {"status": "idle", "task": "Тренд недели — «Процесс»: сырое закулисье работы от инструментов до результата.", "last_run": "2026-10-09T14:09:50+03:00", "next_run": "2026-10-12T10:00:00+03:00"}, "guard": {"status": "idle", "task": "Первая проверка — в ближайшие 2 часа.", "last_run": null, "next_run": null}}, "draft": {"id": "20261009-1430", "status": "approved", "type": "reel", "issue_url": "https://github.com/nikita0071007/office-data/issues/1"}, "log": [{"at": "2026-10-09T15:25:00+03:00", "who": "owner", "text": "Цели: 100 подписчиков к 31 октября, 3 рилса в неделю, 20 переходов в игру в неделю."}, {"at": "2026-10-09T15:12:00+03:00", "who": "poster", "text": "Автопубликация недоступна — рилс передан владельцу для ручной публикации"}, {"at": "2026-10-09T15:03:57+03:00", "who": "poster", "text": "Ошибка: публикация рилса 20261009-1430 заблокирована разрешениями"}, {"at": "2026-10-09T15:01:26+03:00", "who": "poster", "text": "Черновик 20261009-1430 одобрен — публикую"}, {"at": "2026-10-09T15:00:00+03:00", "who": "owner", "text": "В офис пришёл четвёртый сотрудник — охранник. Появилась переговорная."}, {"at": "2026-10-09T14:55:00+03:00", "who": "owner", "text": "Офис под защитой: черновики, подписи и переписка — в закрытом репозитории."}, {"at": "2026-10-09T14:30:00+03:00", "who": "poster", "text": "Черновик готов: рилс «Процесс» по идее разведчика"}, {"at": "2026-10-09T14:10:05+03:00", "who": "scout", "text": "Новая подборка: 7 идей на неделю"}, {"at": "2026-10-09T14:09:24+03:00", "who": "scout", "text": "Новая подборка: 7 идей на неделю"}, {"at": "2026-10-09T14:05:00+03:00", "who": "owner", "text": "В офисе появился чат с контент-менеджером: черновики, кнопки «Одобрить» и «Переделать»."}, {"at": "2026-10-09T13:55:00+03:00", "who": "owner", "text": "Подключены Google Диск и GitHub. Офис переехал на GitHub Pages."}, {"at": "2026-10-09T13:20:00+03:00", "who": "owner", "text": "В офис пришёл третий сотрудник — разведчик трендов."}, {"at": "2026-10-09T12:50:00+03:00", "who": "owner", "text": "Офис открыт. Instagram gusevmade подключён к агентам."}]};
 var TZ = "Europe/Moscow";
 var INFO = {
 owner:{name:"Мой кабинет",role:"Руководитель",about:"Здесь собирается всё, что требует вашего решения. Черновик поста приходит уведомлением: ответьте «да» — пост выйдет, или напишите правки."},
@@ -497,7 +505,7 @@ scene("owner", os==="waiting"?"waiting":"calm");
 var anyErr=["analyst","poster","scout","guard"].some(function(k){return ((state.agents||{})[k]||{}).status==="error"});
 document.querySelectorAll("#lamp").forEach(function(l){l.classList.toggle("alarm",anyErr)});
 var md=(state.draft&&state.draft.status==="waiting"); chip($('[data-chip="meet"]'), md?"waiting":"calm", md?"Есть черновик":"Чат");
-renderChat(); renderTeam();
+renderChat(); renderTeam(); renderGoals();
 list($("#recs"), state.recommendations, "🔒 Видны только вам — в закрытых заметках."); addNotes($("#recs"));
 list($("#ideas"), state.ideas, "🔒 Видны только вам — в закрытых заметках."); addNotes($("#ideas"));
 var ul=$("#log"); ul.innerHTML="";
@@ -571,6 +579,12 @@ function renderTeam(){
 function askUpd(){ var to=$("#askTo").value, q=$("#askQ").value.trim(), b=$("#askBtn");
  if(q){ b.setAttribute("aria-disabled","false"); b.href="https://github.com/nikita0071007/office-data/issues/new?title="+encodeURIComponent("Вопрос — "+to)+"&body="+encodeURIComponent(q); }
  else { b.setAttribute("aria-disabled","true"); b.removeAttribute("href"); } }
+function renderGoals(){ var box=$("#goals"); if(!box) return; box.innerHTML="";
+ ((state.account||{}).goals||[]).forEach(function(g){ var d=document.createElement("div"); d.className="goal";
+  var s=document.createElement("span"); s.textContent="🎯 "+g.name; d.appendChild(s);
+  var b=document.createElement("b"); b.textContent=(g.current==null?"—":g.current)+" / "+g.target; d.appendChild(b);
+  var bar=document.createElement("div"); bar.className="bar"; var i=document.createElement("i"); i.style.width=Math.min(100,Math.round(100*(g.current||0)/g.target))+"%"; bar.appendChild(i); d.appendChild(bar);
+  box.appendChild(d); }); }
 var dlg=$("#dlg");
 function openRoom(key){
 var info=INFO[key]; var d=key==="owner"?{}:((state.agents||{})[key]||{});
