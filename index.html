@@ -159,6 +159,18 @@ html[data-size="m"] .floor{max-width:1000px}
 :root{--floor-gu:#E3E6EE;--floor-mt:#EEE7DA}
 @media (prefers-color-scheme:dark){:root{--floor-gu:#232934;--floor-mt:#2C2820}}
 .alarm .lampglass{fill:#E2675F}.alarm .lamphalo{fill:#E2675F;opacity:.35;animation:glow .8s ease-in-out infinite}
+.team{display:flex;flex-direction:column;gap:14px}
+.team h2 i{background:var(--accent)}
+.say{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.say li{display:flex;gap:10px;align-items:flex-start;background:var(--bg);border-radius:12px;padding:10px 12px;min-width:0}
+.ava{flex:none;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:15px}
+.say b{display:block;font-size:13.5px}
+.say span{font-size:13.5px;overflow-wrap:anywhere}
+.say small{display:block;font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:2px}
+.ask{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:start}
+.ask select,.ask input{font:inherit;font-size:14px;border:1px solid var(--line);border-radius:8px;padding:9px 10px;background:var(--card);color:var(--ink);min-width:0}
+.ask .btn{padding:9px 14px}
+@media (max-width:820px){.say{grid-template-columns:1fr}.ask{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -241,7 +253,7 @@ html[data-size="m"] .floor{max-width:1000px}
 <g class="bubble b-zz" transform="translate(124 56)"><text font-family="Unbounded,sans-serif" font-size="12" fill="var(--muted)">z<tspan dx="2" dy="-6" font-size="9">z</tspan></text></g>
 </g></svg>
 <div class="plate">
-<div class="plate-top"><p class="who">Аналитик</p><span class="chip" data-chip="analyst" data-s="idle">Отдыхает</span></div>
+<div class="plate-top"><p class="who">Вера · аналитик</p><span class="chip" data-chip="analyst" data-s="idle">Отдыхает</span></div>
 <p class="role">Статистика · ежедневно в 8:15</p>
 <p class="task" data-task="analyst">—</p>
 <span class="more">Подробнее →</span>
@@ -277,7 +289,7 @@ html[data-size="m"] .floor{max-width:1000px}
 <g class="bubble b-zz" transform="translate(124 56)"><text font-family="Unbounded,sans-serif" font-size="12" fill="var(--muted)">z<tspan dx="2" dy="-6" font-size="9">z</tspan></text></g>
 </g></svg>
 <div class="plate">
-<div class="plate-top"><p class="who">Контент-менеджер</p><span class="chip" data-chip="poster" data-s="idle">Отдыхает</span></div>
+<div class="plate-top"><p class="who">Макс · контент</p><span class="chip" data-chip="poster" data-s="idle">Отдыхает</span></div>
 <p class="role">Посты · каждый час 9–22</p>
 <p class="task" data-task="poster">—</p>
 <span class="more">Подробнее →</span>
@@ -315,7 +327,7 @@ html[data-size="m"] .floor{max-width:1000px}
 <g class="bubble b-zz" transform="translate(124 56)"><text font-family="Unbounded,sans-serif" font-size="12" fill="var(--muted)">z<tspan dx="2" dy="-6" font-size="9">z</tspan></text></g>
 </g></svg>
 <div class="plate">
-<div class="plate-top"><p class="who">Разведчик трендов</p><span class="chip" data-chip="scout" data-s="idle">Отдыхает</span></div>
+<div class="plate-top"><p class="who">Тимур · тренды</p><span class="chip" data-chip="scout" data-s="idle">Отдыхает</span></div>
 <p class="role">Тренды · по понедельникам</p>
 <p class="task" data-task="scout">—</p>
 <span class="more">Подробнее →</span>
@@ -351,7 +363,7 @@ html[data-size="m"] .floor{max-width:1000px}
 <g class="bubble b-zz" transform="translate(124 56)"><text font-family="Unbounded,sans-serif" font-size="12" fill="var(--muted)">z<tspan dx="2" dy="-6" font-size="9">z</tspan></text></g>
 </g></svg>
 <div class="plate">
-<div class="plate-top"><p class="who">Охранник</p><span class="chip" data-chip="guard" data-s="idle">Отдыхает</span></div>
+<div class="plate-top"><p class="who">Борис · охрана</p><span class="chip" data-chip="guard" data-s="idle">Отдыхает</span></div>
 <p class="role">Безопасность · каждые 2 часа</p>
 <p class="task" data-task="guard">—</p>
 <span class="more">Подробнее →</span>
@@ -371,7 +383,17 @@ html[data-size="m"] .floor{max-width:1000px}
 <g transform="translate(90 132)"><rect width="18" height="14" rx="2" fill="#FFFFFF" stroke="var(--line)"/></g><g transform="translate(212 132)"><rect width="18" height="14" rx="2" fill="#FFFFFF" stroke="var(--line)"/></g>
 </svg>
 <div class="plate"><div class="plate-top"><p class="who">Переговорная</p><span class="chip" data-chip="meet" data-s="calm">Чат</span></div>
-<p class="role">Черновики и ответы</p><p class="task" data-task="meet">Открыть чат с контент-менеджером</p></div></button>
+<p class="role">Черновики и ответы</p><p class="task" data-task="meet">Спросить команду и черновики</p></div></button>
+</section>
+<section class="panel team" id="team" aria-label="Переговорная">
+<h2><i></i>Переговорная — команда отвечает</h2>
+<ul class="say" id="say"></ul>
+<div class="ask">
+<select id="askTo" aria-label="Кому вопрос"><option value="Всем">Всем</option><option value="Макс">Макс · контент</option><option value="Вера">Вера · аналитик</option><option value="Тимур">Тимур · тренды</option><option value="Борис">Борис · охрана</option></select>
+<input id="askQ" type="text" placeholder="Например: Макс, пост уже вышел?" aria-label="Вопрос">
+<a class="btn ok" id="askBtn" target="_blank" rel="noopener" aria-disabled="true">Спросить</a>
+</div>
+<p class="hint">Вопрос уйдёт в закрытый раздел (нужен вход в GitHub, нажмите «Create»). Ответ придёт в течение ~30 минут: <a id="answersLink" target="_blank" rel="noopener" href="https://github.com/nikita0071007/office-data/issues?q=%D0%92%D0%BE%D0%BF%D1%80%D0%BE%D1%81">все вопросы и ответы →</a></p>
 </section>
 <section class="panel chat" id="chat" aria-label="Чат с контент-менеджером">
 <h2><i></i>Чат с контент-менеджером</h2>
@@ -430,13 +452,13 @@ var SEED = {"updated_at": "2026-10-09T15:00:00+03:00", "account": {"username": "
 var TZ = "Europe/Moscow";
 var INFO = {
 owner:{name:"Мой кабинет",role:"Руководитель",about:"Здесь собирается всё, что требует вашего решения. Черновик поста приходит уведомлением: ответьте «да» — пост выйдет, или напишите правки."},
-analyst:{name:"Аналитик",role:"Каждый день в 8:15",about:"Смотрит, как сработали посты: лайки, комментарии, сохранения, рост подписчиков. Пишет рекомендации, что публиковать сегодня. Подробная статистика по каждому посту откроется после 1000 подписчиков."},
-poster:{name:"Контент-менеджер",role:"Каждый день в 9:00",about:"Читает рекомендации аналитика и идеи разведчика, берёт фото из папки «Очередь» на Google Диске, пишет подпись и хэштеги. Публикует только после вашего «да»."},
-guard:{name:"Охранник",role:"Каждые 2 часа",about:"Следит, чтобы всё работало и было безопасно: проверяет подключения Instagram, Google Диска и GitHub, ищет спам и мошенников в комментариях (явных — скрывает, о спорных сообщает), проверяет, что в открытый офис не попало ничего личного. Если что-то не так — загорается красная лампа, и вам приходит уведомление."},
-scout:{name:"Разведчик трендов",role:"По понедельникам в 10:00",about:"Изучает, что сейчас заходит у инди-разработчиков игр и тревел-блогеров: форматы рилсов, звуки, темы, хэштеги. Кладёт 5–7 идей в план на неделю."}
+analyst:{name:"Вера · аналитик",role:"Каждый день в 8:15",about:"Смотрит, как сработали посты: лайки, комментарии, сохранения, рост подписчиков. Пишет рекомендации, что публиковать сегодня. Подробная статистика по каждому посту откроется после 1000 подписчиков."},
+poster:{name:"Макс · контент-менеджер",role:"Каждый день в 9:00",about:"Читает рекомендации аналитика и идеи разведчика, берёт фото из папки «Очередь» на Google Диске, пишет подпись и хэштеги. Публикует только после вашего «да»."},
+guard:{name:"Борис · охранник",role:"Каждые 2 часа",about:"Следит, чтобы всё работало и было безопасно: проверяет подключения Instagram, Google Диска и GitHub, ищет спам и мошенников в комментариях (явных — скрывает, о спорных сообщает), проверяет, что в открытый офис не попало ничего личного. Если что-то не так — загорается красная лампа, и вам приходит уведомление."},
+scout:{name:"Тимур · разведчик трендов",role:"По понедельникам в 10:00",about:"Изучает, что сейчас заходит у инди-разработчиков игр и тревел-блогеров: форматы рилсов, звуки, темы, хэштеги. Кладёт 5–7 идей в план на неделю."}
 };
 var LABEL = {working:"Работает",waiting:"Ждёт вас",idle:"Отдыхает",error:"Нужна помощь",calm:"Всё спокойно"};
-var NAMES = {guard:"Охранник",analyst:"Аналитик",poster:"Контент-менеджер",scout:"Разведчик",owner:"Вы"};
+var NAMES = {guard:"Борис",analyst:"Вера",poster:"Макс",scout:"Тимур",owner:"Вы"};
 var state = SEED;
 function $(s,r){return (r||document).querySelector(s)}
 function fmt(iso,opts){ if(!iso) return "—"; var d=new Date(iso); if(isNaN(d)) return String(iso);
@@ -475,7 +497,7 @@ scene("owner", os==="waiting"?"waiting":"calm");
 var anyErr=["analyst","poster","scout","guard"].some(function(k){return ((state.agents||{})[k]||{}).status==="error"});
 document.querySelectorAll("#lamp").forEach(function(l){l.classList.toggle("alarm",anyErr)});
 var md=(state.draft&&state.draft.status==="waiting"); chip($('[data-chip="meet"]'), md?"waiting":"calm", md?"Есть черновик":"Чат");
-renderChat();
+renderChat(); renderTeam();
 list($("#recs"), state.recommendations, "🔒 Видны только вам — в закрытых заметках."); addNotes($("#recs"));
 list($("#ideas"), state.ideas, "🔒 Видны только вам — в закрытых заметках."); addNotes($("#ideas"));
 var ul=$("#log"); ul.innerHTML="";
@@ -525,6 +547,30 @@ function upd(){ var t=fix.value.trim();
 }
 fix.oninput=upd; upd();
 }
+var TEAM=[["poster","Макс","контент","#B0507A"],["analyst","Вера","аналитик","#3C6FB0"],["scout","Тимур","тренды","#5E8C4A"],["guard","Борис","охрана","#2B3A52"]];
+function sayLine(k){ var a=(state.agents||{})[k]||{}, d=state.draft, acc=state.account||{}, s=a.status;
+ if(k==="poster"){
+  if(d && d.status==="waiting") return "Черновик "+d.id+" ждёт вашего «Одобрить». Пост пока не выложен.";
+  if(d && d.status==="approved") return "Вы одобрили — публикую в ближайший час.";
+  if(d && d.status==="redo") return "Переделываю черновик по вашим правкам.";
+  if(d && d.status==="published") return "Пост выложен"+(acc.last_post_url?": ":".")+(acc.last_post_url||"");
+ }
+ if(s==="error") return "Нужна помощь: "+(a.task||"что-то сломалось");
+ if(s==="working") return "Сейчас работаю: "+(a.task||"");
+ return a.task || "На месте, жду своего часа.";
+}
+function renderTeam(){
+ var ul=$("#say"); if(!ul) return; ul.innerHTML="";
+ TEAM.forEach(function(t){ var a=(state.agents||{})[t[0]]||{};
+  var li=document.createElement("li"); var av=document.createElement("div"); av.className="ava"; av.style.background=t[3]; av.textContent=t[1][0]; li.appendChild(av);
+  var tx=document.createElement("div"); var b=document.createElement("b"); b.textContent=t[1]+" · "+t[2]; tx.appendChild(b);
+  var sp=document.createElement("span"); sp.textContent=sayLine(t[0]); tx.appendChild(sp);
+  var sm=document.createElement("small"); sm.textContent=(LABEL[a.status]||"Отдыхает")+(a.last_run?" · был в "+fmt(a.last_run):"")+(a.next_run?" · следующий раз "+fmt(a.next_run):""); tx.appendChild(sm);
+  li.appendChild(tx); ul.appendChild(li); });
+}
+function askUpd(){ var to=$("#askTo").value, q=$("#askQ").value.trim(), b=$("#askBtn");
+ if(q){ b.setAttribute("aria-disabled","false"); b.href="https://github.com/nikita0071007/office-data/issues/new?title="+encodeURIComponent("Вопрос — "+to)+"&body="+encodeURIComponent(q); }
+ else { b.setAttribute("aria-disabled","true"); b.removeAttribute("href"); } }
 var dlg=$("#dlg");
 function openRoom(key){
 var info=INFO[key]; var d=key==="owner"?{}:((state.agents||{})[key]||{});
@@ -544,7 +590,7 @@ var mine=(state.log||[]).filter(function(e){return e.who===key}).slice(0,8);
 if(!mine.length){ ul.innerHTML='<li style="display:block"><span class="empty">Пока ничего.</span></li>'; } else mine.forEach(function(e){ ul.appendChild(logItem(e)); });
 if(dlg.showModal) dlg.showModal(); else dlg.setAttribute("open","");
 }
-document.querySelectorAll(".room").forEach(function(b){ b.addEventListener("click", function(){ if(b.dataset.key==="meet"){ $("#chat").scrollIntoView({behavior:"smooth"}); return; } openRoom(b.dataset.key); }); });
+document.querySelectorAll(".room").forEach(function(b){ b.addEventListener("click", function(){ if(b.dataset.key==="meet"){ $("#team").scrollIntoView({behavior:"smooth"}); return; } openRoom(b.dataset.key); }); });
 $("#d-close").addEventListener("click", function(){ dlg.close ? dlg.close() : dlg.removeAttribute("open"); });
 dlg.addEventListener("click", function(e){ if(e.target===dlg) dlg.close(); });
 var live=$("#live");
@@ -554,6 +600,7 @@ fetch("status.json?t="+Date.now(),{cache:"no-store"}).then(function(r){ if(!r.ok
 .then(function(j){ state=j; render(); live.className="live on"; live.textContent="онлайн · "+ago(j.updated_at); })
 .catch(function(){ live.className="live"; live.textContent="нет связи"; });
 }
+$("#askQ").addEventListener("input",askUpd); $("#askTo").addEventListener("change",askUpd); askUpd();
 render(); load(); setInterval(load, 60000);
 document.addEventListener("visibilitychange", function(){ if(!document.hidden) load(); });
 })();
