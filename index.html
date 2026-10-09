@@ -152,6 +152,13 @@ html[data-size="s"] .floor .task{-webkit-line-clamp:1;font-size:12.5px}
 html[data-size="s"] .floor .plate{padding:8px 12px 10px;gap:4px}
 html[data-size="s"] .floor .who{font-size:13px}
 html[data-size="s"] .kpi{padding:6px 12px}
+.floor{grid-template-columns:repeat(3,1fr)}
+@media (max-width:640px){.floor{grid-template-columns:1fr 1fr}}
+html[data-size="s"] .floor{max-width:max(320px,calc((100dvh - 330px) * 2.2))}
+html[data-size="m"] .floor{max-width:1000px}
+:root{--floor-gu:#E3E6EE;--floor-mt:#EEE7DA}
+@media (prefers-color-scheme:dark){:root{--floor-gu:#232934;--floor-mt:#2C2820}}
+.alarm .lampglass{fill:#E2675F}.alarm .lamphalo{fill:#E2675F;opacity:.35;animation:glow .8s ease-in-out infinite}
 </style>
 </head>
 <body>
@@ -159,7 +166,7 @@ html[data-size="s"] .kpi{padding:6px 12px}
 <header>
 <div>
 <h1>Офис gusevmade</h1>
-<p class="sub">Три ИИ-сотрудника ведут Instagram, пока вы занимаетесь своими делами</p>
+<p class="sub">Четыре ИИ-сотрудника ведут Instagram, пока вы занимаетесь своими делами</p>
 </div>
 <div class="clock"><b id="clock">--:--</b>Москва · <span class="live" id="live">загрузка…</span></div>
 </header>
@@ -271,7 +278,7 @@ html[data-size="s"] .kpi{padding:6px 12px}
 </g></svg>
 <div class="plate">
 <div class="plate-top"><p class="who">Контент-менеджер</p><span class="chip" data-chip="poster" data-s="idle">Отдыхает</span></div>
-<p class="role">Посты · ежедневно в 9:00</p>
+<p class="role">Посты · каждый час 9–22</p>
 <p class="task" data-task="poster">—</p>
 <span class="more">Подробнее →</span>
 </div>
@@ -309,11 +316,62 @@ html[data-size="s"] .kpi{padding:6px 12px}
 </g></svg>
 <div class="plate">
 <div class="plate-top"><p class="who">Разведчик трендов</p><span class="chip" data-chip="scout" data-s="idle">Отдыхает</span></div>
-<p class="role">Тренды и идеи · по понедельникам в 10:00</p>
+<p class="role">Тренды · по понедельникам</p>
 <p class="task" data-task="scout">—</p>
 <span class="more">Подробнее →</span>
 </div>
 </button>
+<button class="room" data-key="guard" type="button">
+<svg class="scene" viewBox="0 0 320 200" role="img" aria-label="Пост охраны"><rect width="320" height="200" fill="var(--floor-gu)"/><rect width="320" height="92" fill="var(--wall)"/><rect y="90" width="320" height="3" fill="var(--line)"/>
+<g transform="translate(168 10)"><rect width="134" height="74" rx="4" fill="#1B2530"/>
+<g fill="#2E4A3A"><rect x="6" y="6" width="38" height="28" rx="2"/><rect x="48" y="6" width="38" height="28" rx="2"/><rect x="90" y="6" width="38" height="28" rx="2"/><rect x="6" y="40" width="38" height="28" rx="2"/><rect x="48" y="40" width="38" height="28" rx="2"/><rect x="90" y="40" width="38" height="28" rx="2"/></g>
+<g fill="#7FE0A2" opacity=".8"><path d="M10 28 L18 20 L24 25 L32 14 L40 22 V30 H10Z"/><circle cx="67" cy="20" r="6"/><rect x="96" y="12" width="26" height="4"/><rect x="96" y="20" width="18" height="4"/><path d="M12 62 L22 48 L30 56 L40 46"  stroke="#7FE0A2" stroke-width="2" fill="none"/><text x="67" y="59" font-size="11" text-anchor="middle" fill="#7FE0A2" font-family="monospace">OK</text><circle cx="109" cy="54" r="7" fill="none" stroke="#7FE0A2" stroke-width="2"/></g></g>
+<g id="lamp" transform="translate(48 26)"><rect x="-10" y="16" width="20" height="8" rx="2" fill="#5B6878"/><path d="M-12 16 Q-12 -6 0 -6 Q12 -6 12 16Z" fill="#53C287" class="lampglass"/><circle class="lamphalo" r="26" cy="6" fill="#53C287" opacity=".18"/></g>
+<g transform="translate(272 120)"><path d="M18 0 L34 6 V22 C34 34 26 42 18 46 C10 42 2 34 2 22 V6Z" fill="#6B8FB3"/><path d="M11 22 L16 28 L26 15" stroke="#fff" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g>
+<g id="p-guard">
+<rect x="134" y="78" width="52" height="58" rx="10" fill="var(--chair)"/>
+<g class="head">
+<rect x="155" y="92" width="10" height="10" fill="#D9A47E"/>
+<circle cx="160" cy="82" r="15" fill="#D9A47E"/>
+<path d="M144 76 Q144 60 160 60 Q176 60 176 76 L180 78 H140Z" fill="#2B3A52"/><rect x="152" y="64" width="16" height="6" rx="2" fill="#E0B341"/>
+<circle class="eye" cx="154.5" cy="83" r="1.8" fill="#1B2530"/><circle class="eye" cx="165.5" cy="83" r="1.8" fill="#1B2530"/>
+<path d="M155 90 Q160 93.5 165 90" fill="none" stroke="#1B2530" stroke-width="1.6" stroke-linecap="round"/>
+<rect x="146" y="80" width="28" height="7" rx="3" fill="#1B2530" opacity=".85"/>
+</g>
+<path d="M136 132 Q136 102 160 100 Q184 102 184 132 Z" fill="#2B3A52"/>
+<rect x="84" y="128" width="152" height="10" rx="2" fill="var(--wood)"/>
+<rect x="84" y="136" width="152" height="4" fill="var(--wood-dark)"/>
+<rect x="92" y="140" width="6" height="40" fill="var(--wood-dark)"/><rect x="222" y="140" width="6" height="40" fill="var(--wood-dark)"/>
+<g class="hands"><ellipse cx="134" cy="126" rx="7" ry="4.5" fill="#D9A47E"/><ellipse cx="186" cy="126" rx="7" ry="4.5" fill="#D9A47E"/></g>
+<path d="M140 104 H180 L183 128 H137 Z" fill="#AEB8C4"/>
+<circle class="screen-glow" cx="160" cy="116" r="4" fill="#7FE0A2" opacity=".9"/>
+<g transform="translate(98 110)"><rect width="18" height="18" rx="3" fill="#1B2530"/><circle cx="9" cy="9" r="4" fill="#C2413B"/></g>
+<g class="bubble b-wait" transform="translate(186 34)"><rect width="34" height="24" rx="8" fill="#FFFFFF" stroke="var(--warn)" stroke-width="2"/><path d="M6 24 L2 32 L14 24Z" fill="#FFFFFF" stroke="var(--warn)" stroke-width="2" stroke-linejoin="round"/><rect x="9" y="7" width="16" height="11" rx="1.5" fill="none" stroke="var(--warn)" stroke-width="2"/><path d="M9 8 L17 14 L25 8" fill="none" stroke="var(--warn)" stroke-width="2"/></g>
+<g class="bubble b-err" transform="translate(186 34)"><rect width="28" height="24" rx="8" fill="#FFFFFF" stroke="var(--bad)" stroke-width="2"/><text x="14" y="18" text-anchor="middle" font-family="Manrope,sans-serif" font-weight="700" font-size="16" fill="var(--bad)">!</text></g>
+<g class="bubble b-zz" transform="translate(124 56)"><text font-family="Unbounded,sans-serif" font-size="12" fill="var(--muted)">z<tspan dx="2" dy="-6" font-size="9">z</tspan></text></g>
+</g></svg>
+<div class="plate">
+<div class="plate-top"><p class="who">Охранник</p><span class="chip" data-chip="guard" data-s="idle">Отдыхает</span></div>
+<p class="role">Безопасность · каждые 2 часа</p>
+<p class="task" data-task="guard">—</p>
+<span class="more">Подробнее →</span>
+</div>
+</button>
+<button class="room" data-key="meet" type="button">
+<svg class="scene" viewBox="0 0 320 200" role="img" aria-label="Переговорная"><rect width="320" height="200" fill="var(--floor-mt)"/><rect width="320" height="92" fill="var(--wall)"/><rect y="90" width="320" height="3" fill="var(--line)"/>
+<g transform="translate(40 14)"><rect width="150" height="66" rx="3" fill="#FFFFFF" stroke="var(--line)" stroke-width="3"/>
+<text x="12" y="22" font-size="13" font-family="Inter,sans-serif" font-weight="700" fill="#1B2530">План недели</text>
+<g stroke="#9DB8DA" stroke-width="3" stroke-linecap="round"><path d="M14 34 H90"/><path d="M14 44 H120"/><path d="M14 54 H70"/></g>
+<g fill="#53C287"><circle cx="128" cy="34" r="4"/></g></g>
+<g transform="translate(228 22)"><circle r="18" fill="#FFFFFF" stroke="var(--line)" stroke-width="3"/><path d="M0 0 V-11 M0 0 H8" stroke="#1B2530" stroke-width="2" stroke-linecap="round"/></g>
+<ellipse cx="160" cy="148" rx="92" ry="26" fill="var(--wood)"/><ellipse cx="160" cy="142" rx="92" ry="26" fill="#C99A6B"/>
+<rect x="154" y="160" width="12" height="34" fill="var(--wood-dark)"/>
+<g fill="var(--chair)"><rect x="56" y="112" width="26" height="30" rx="7"/><rect x="238" y="112" width="26" height="30" rx="7"/><rect x="110" y="98" width="26" height="24" rx="7"/><rect x="184" y="98" width="26" height="24" rx="7"/></g>
+<g transform="translate(140 128)"><rect width="40" height="16" rx="3" fill="#1B2530"/><rect x="3" y="3" width="34" height="10" rx="2" fill="#7FD1D8" class="screen-glow"/></g>
+<g transform="translate(90 132)"><rect width="18" height="14" rx="2" fill="#FFFFFF" stroke="var(--line)"/></g><g transform="translate(212 132)"><rect width="18" height="14" rx="2" fill="#FFFFFF" stroke="var(--line)"/></g>
+</svg>
+<div class="plate"><div class="plate-top"><p class="who">Переговорная</p><span class="chip" data-chip="meet" data-s="calm">Чат</span></div>
+<p class="role">Черновики и ответы</p><p class="task" data-task="meet">Открыть чат с контент-менеджером</p></div></button>
 </section>
 <section class="panel chat" id="chat" aria-label="Чат с контент-менеджером">
 <h2><i></i>Чат с контент-менеджером</h2>
@@ -331,7 +389,7 @@ html[data-size="s"] .kpi{padding:6px 12px}
 <a class="btn ok" id="b-ok" target="_blank" rel="noopener" aria-disabled="true">✓ Одобрить</a>
 <a class="btn redo" id="b-redo" target="_blank" rel="noopener" aria-disabled="true">↻ Переделать</a>
 </div>
-<p class="hint" id="b-hint"></p>
+<p class="hint" id="b-hint">Кнопка откроет GitHub с готовым ответом — нажмите там «Create». Контент-менеджер проверяет ответы каждый час.</p>
 </div>
 </div>
 </div>
@@ -368,16 +426,17 @@ html[data-size="s"] .kpi{padding:6px 12px}
 function set(z){document.documentElement.dataset.size=z;document.querySelectorAll(".zoom button").forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.z===z))});try{localStorage.setItem("office-size",z)}catch(e){}}
 set(sz);document.querySelectorAll(".zoom button").forEach(function(b){b.addEventListener("click",function(){set(b.dataset.z)})});})();
 (function(){
-var SEED = {"updated_at": "2026-10-09T14:55:00+03:00", "account": {"username": "gusevmade", "followers": 1, "posts": 2, "queue": 0, "next_post": "2026-10-10T09:00:00+03:00"}, "agents": {"analyst": {"status": "idle", "task": "Готов к работе. Первый разбор статистики — завтра в 8:15.", "last_run": null, "next_run": "2026-10-10T08:15:00+03:00"}, "poster": {"status": "waiting", "task": "Ждёт вашего решения: рилс «Процесс»", "last_run": "2026-10-09T14:30:00+03:00", "next_run": "2026-10-10T09:00:00+03:00"}, "scout": {"status": "idle", "task": "Тренд недели — «Процесс»: сырое закулисье работы от инструментов до результата.", "last_run": "2026-10-09T14:09:50+03:00", "next_run": "2026-10-12T10:00:00+03:00"}}, "draft": {"id": "20261009-1430", "status": "waiting", "type": "reel", "issue_url": "https://github.com/nikita0071007/office-data/issues/1"}, "log": [{"at": "2026-10-09T14:55:00+03:00", "who": "owner", "text": "Офис под защитой: черновики, подписи и переписка — в закрытом репозитории."}, {"at": "2026-10-09T14:30:00+03:00", "who": "poster", "text": "Черновик готов: рилс «Процесс» по идее разведчика"}, {"at": "2026-10-09T14:10:05+03:00", "who": "scout", "text": "Новая подборка: 7 идей на неделю"}, {"at": "2026-10-09T14:09:24+03:00", "who": "scout", "text": "Новая подборка: 7 идей на неделю"}, {"at": "2026-10-09T14:05:00+03:00", "who": "owner", "text": "В офисе появился чат с контент-менеджером: черновики, кнопки «Одобрить» и «Переделать»."}, {"at": "2026-10-09T13:55:00+03:00", "who": "owner", "text": "Подключены Google Диск и GitHub. Офис переехал на GitHub Pages."}, {"at": "2026-10-09T13:20:00+03:00", "who": "owner", "text": "В офис пришёл третий сотрудник — разведчик трендов."}, {"at": "2026-10-09T12:50:00+03:00", "who": "owner", "text": "Офис открыт. Instagram gusevmade подключён к агентам."}]};
+var SEED = {"updated_at": "2026-10-09T15:00:00+03:00", "account": {"username": "gusevmade", "followers": 1, "posts": 2, "queue": 0, "next_post": "2026-10-10T09:00:00+03:00"}, "agents": {"analyst": {"status": "idle", "task": "Готов к работе. Первый разбор статистики — завтра в 8:15.", "last_run": null, "next_run": "2026-10-10T08:15:00+03:00"}, "poster": {"status": "waiting", "task": "Ждёт вашего решения: рилс «Процесс»", "last_run": "2026-10-09T14:30:00+03:00", "next_run": "2026-10-10T09:00:00+03:00"}, "scout": {"status": "idle", "task": "Тренд недели — «Процесс»: сырое закулисье работы от инструментов до результата.", "last_run": "2026-10-09T14:09:50+03:00", "next_run": "2026-10-12T10:00:00+03:00"}, "guard": {"status": "idle", "task": "Первая проверка — в ближайшие 2 часа.", "last_run": null, "next_run": null}}, "draft": {"id": "20261009-1430", "status": "waiting", "type": "reel", "issue_url": "https://github.com/nikita0071007/office-data/issues/1"}, "log": [{"at": "2026-10-09T15:00:00+03:00", "who": "owner", "text": "В офис пришёл четвёртый сотрудник — охранник. Появилась переговорная."}, {"at": "2026-10-09T14:55:00+03:00", "who": "owner", "text": "Офис под защитой: черновики, подписи и переписка — в закрытом репозитории."}, {"at": "2026-10-09T14:30:00+03:00", "who": "poster", "text": "Черновик готов: рилс «Процесс» по идее разведчика"}, {"at": "2026-10-09T14:10:05+03:00", "who": "scout", "text": "Новая подборка: 7 идей на неделю"}, {"at": "2026-10-09T14:09:24+03:00", "who": "scout", "text": "Новая подборка: 7 идей на неделю"}, {"at": "2026-10-09T14:05:00+03:00", "who": "owner", "text": "В офисе появился чат с контент-менеджером: черновики, кнопки «Одобрить» и «Переделать»."}, {"at": "2026-10-09T13:55:00+03:00", "who": "owner", "text": "Подключены Google Диск и GitHub. Офис переехал на GitHub Pages."}, {"at": "2026-10-09T13:20:00+03:00", "who": "owner", "text": "В офис пришёл третий сотрудник — разведчик трендов."}, {"at": "2026-10-09T12:50:00+03:00", "who": "owner", "text": "Офис открыт. Instagram gusevmade подключён к агентам."}]};
 var TZ = "Europe/Moscow";
 var INFO = {
 owner:{name:"Мой кабинет",role:"Руководитель",about:"Здесь собирается всё, что требует вашего решения. Черновик поста приходит уведомлением: ответьте «да» — пост выйдет, или напишите правки."},
 analyst:{name:"Аналитик",role:"Каждый день в 8:15",about:"Смотрит, как сработали посты: лайки, комментарии, сохранения, рост подписчиков. Пишет рекомендации, что публиковать сегодня. Подробная статистика по каждому посту откроется после 1000 подписчиков."},
 poster:{name:"Контент-менеджер",role:"Каждый день в 9:00",about:"Читает рекомендации аналитика и идеи разведчика, берёт фото из папки «Очередь» на Google Диске, пишет подпись и хэштеги. Публикует только после вашего «да»."},
+guard:{name:"Охранник",role:"Каждые 2 часа",about:"Следит, чтобы всё работало и было безопасно: проверяет подключения Instagram, Google Диска и GitHub, ищет спам и мошенников в комментариях (явных — скрывает, о спорных сообщает), проверяет, что в открытый офис не попало ничего личного. Если что-то не так — загорается красная лампа, и вам приходит уведомление."},
 scout:{name:"Разведчик трендов",role:"По понедельникам в 10:00",about:"Изучает, что сейчас заходит у инди-разработчиков игр и тревел-блогеров: форматы рилсов, звуки, темы, хэштеги. Кладёт 5–7 идей в план на неделю."}
 };
 var LABEL = {working:"Работает",waiting:"Ждёт вас",idle:"Отдыхает",error:"Нужна помощь",calm:"Всё спокойно"};
-var NAMES = {analyst:"Аналитик",poster:"Контент-менеджер",scout:"Разведчик",owner:"Вы"};
+var NAMES = {guard:"Охранник",analyst:"Аналитик",poster:"Контент-менеджер",scout:"Разведчик",owner:"Вы"};
 var state = SEED;
 function $(s,r){return (r||document).querySelector(s)}
 function fmt(iso,opts){ if(!iso) return "—"; var d=new Date(iso); if(isNaN(d)) return String(iso);
@@ -406,13 +465,16 @@ txt($("#k-followers"), a.followers!=null ? a.followers.toLocaleString("ru-RU") :
 txt($("#k-posts"), a.posts!=null ? a.posts : "—");
 txt($("#k-queue"), a.queue!=null ? a.queue : "—");
 txt($("#k-next"), a.next_post ? fmt(a.next_post,{month:"short"}) : "—");
-["analyst","poster","scout"].forEach(function(k){
+["analyst","poster","scout","guard"].forEach(function(k){
 var d=(state.agents||{})[k]||{}; var s=LABEL[d.status]?d.status:"idle";
 chip($('[data-chip="'+k+'"]'), s); txt($('[data-task="'+k+'"]'), d.task||"—"); scene(k,s);
 });
 var os=ownerState(); chip($('[data-chip="owner"]'), os, os==="waiting"?"Есть черновик":"Всё спокойно");
 txt($('[data-task="owner"]'), os==="waiting" ? "Контент-менеджер ждёт вашего ответа: «да» или правки." : "Новых черновиков на подпись нет.");
 scene("owner", os==="waiting"?"waiting":"calm");
+var anyErr=["analyst","poster","scout","guard"].some(function(k){return ((state.agents||{})[k]||{}).status==="error"});
+document.querySelectorAll("#lamp").forEach(function(l){l.classList.toggle("alarm",anyErr)});
+var md=(state.draft&&state.draft.status==="waiting"); chip($('[data-chip="meet"]'), md?"waiting":"calm", md?"Есть черновик":"Чат");
 renderChat();
 list($("#recs"), state.recommendations, "🔒 Видны только вам — в закрытых заметках."); addNotes($("#recs"));
 list($("#ideas"), state.ideas, "🔒 Видны только вам — в закрытых заметках."); addNotes($("#ideas"));
@@ -482,7 +544,7 @@ var mine=(state.log||[]).filter(function(e){return e.who===key}).slice(0,8);
 if(!mine.length){ ul.innerHTML='<li style="display:block"><span class="empty">Пока ничего.</span></li>'; } else mine.forEach(function(e){ ul.appendChild(logItem(e)); });
 if(dlg.showModal) dlg.showModal(); else dlg.setAttribute("open","");
 }
-document.querySelectorAll(".room").forEach(function(b){ b.addEventListener("click", function(){ openRoom(b.dataset.key); }); });
+document.querySelectorAll(".room").forEach(function(b){ b.addEventListener("click", function(){ if(b.dataset.key==="meet"){ $("#chat").scrollIntoView({behavior:"smooth"}); return; } openRoom(b.dataset.key); }); });
 $("#d-close").addEventListener("click", function(){ dlg.close ? dlg.close() : dlg.removeAttribute("open"); });
 dlg.addEventListener("click", function(e){ if(e.target===dlg) dlg.close(); });
 var live=$("#live");
