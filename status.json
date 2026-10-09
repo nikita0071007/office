@@ -1,9 +1,9 @@
 {
- "updated_at": "2026-10-09T15:25:00+03:00",
+ "updated_at": "2026-10-09T15:45:00+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 1,
-  "posts": 2,
+  "posts": 3,
   "queue": 0,
   "next_post": "2026-10-10T09:00:00+03:00",
   "goals": [
@@ -18,7 +18,7 @@
     "key": "reels_week",
     "name": "Рилсы на этой неделе",
     "target": 3,
-    "current": 0
+    "current": 1
    },
    {
     "key": "link_taps_week",
@@ -26,7 +26,8 @@
     "target": 20,
     "current": null
    }
-  ]
+  ],
+  "last_post_url": "https://www.instagram.com/reel/DeRfiOoArWX/"
  },
  "agents": {
   "analyst": {
@@ -36,8 +37,8 @@
    "next_run": "2026-10-10T08:15:00+03:00"
   },
   "poster": {
-   "status": "waiting",
-   "task": "Рилс «Процесс» готов — выложите вручную из Instagram (видео и подпись у вас в чате Claude).",
+   "status": "idle",
+   "task": "Рилс «Процесс» опубликован. Жду фото в «Очереди» для следующего.",
    "last_run": "2026-10-09T15:01:26+03:00",
    "next_run": "2026-10-10T09:00:00+03:00"
   },
@@ -56,11 +57,16 @@
  },
  "draft": {
   "id": "20261009-1430",
-  "status": "approved",
+  "status": "published",
   "type": "reel",
   "issue_url": "https://github.com/nikita0071007/office-data/issues/1"
  },
  "log": [
+  {
+   "at": "2026-10-09T15:45:00+03:00",
+   "who": "poster",
+   "text": "Опубликован рилс «Процесс»"
+  },
   {
    "at": "2026-10-09T15:25:00+03:00",
    "who": "owner",
