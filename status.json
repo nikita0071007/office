@@ -1,11 +1,32 @@
 {
- "updated_at": "2026-10-09T15:12:00+03:00",
+ "updated_at": "2026-10-09T15:25:00+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 1,
   "posts": 2,
   "queue": 0,
-  "next_post": "2026-10-10T09:00:00+03:00"
+  "next_post": "2026-10-10T09:00:00+03:00",
+  "goals": [
+   {
+    "key": "followers",
+    "name": "Подписчики к 31 октября",
+    "target": 100,
+    "current": 1,
+    "deadline": "2026-10-31"
+   },
+   {
+    "key": "reels_week",
+    "name": "Рилсы на этой неделе",
+    "target": 3,
+    "current": 0
+   },
+   {
+    "key": "link_taps_week",
+    "name": "Переходы по ссылке в профиле за неделю",
+    "target": 20,
+    "current": null
+   }
+  ]
  },
  "agents": {
   "analyst": {
@@ -40,6 +61,11 @@
   "issue_url": "https://github.com/nikita0071007/office-data/issues/1"
  },
  "log": [
+  {
+   "at": "2026-10-09T15:25:00+03:00",
+   "who": "owner",
+   "text": "Цели: 100 подписчиков к 31 октября, 3 рилса в неделю, 20 переходов в игру в неделю."
+  },
   {
    "at": "2026-10-09T15:12:00+03:00",
    "who": "poster",
