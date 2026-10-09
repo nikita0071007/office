@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ru">
+<html lang="ru" data-size="s">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -138,6 +138,20 @@ dialog::backdrop{background:rgba(10,15,20,.55)}
 .hint{font-size:12.5px;color:var(--muted);margin:0}
 .meet{grid-template-columns:repeat(2,minmax(0,1fr))}
 @media (max-width:820px){.chat-grid{grid-template-columns:1fr}.pv{max-width:260px;margin:0 auto;width:100%}.meet{grid-template-columns:1fr}}
+.tools{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:-8px}
+.tools .lbl{font-size:13px;color:var(--muted)}
+.zoom{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--card)}
+.zoom button{border:0;background:transparent;color:var(--ink);font:inherit;font-weight:700;font-size:15px;padding:6px 14px;cursor:pointer;min-width:44px}
+.zoom button+button{border-left:1px solid var(--line)}
+.zoom button[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent)}
+.floor{width:100%;margin-inline:auto;transition:max-width .25s ease}
+html[data-size="s"] .floor{max-width:max(300px,calc((100dvh - 330px) * 1.6))}
+html[data-size="m"] .floor{max-width:900px}
+html[data-size="s"] .floor .role,html[data-size="s"] .floor .more{display:none}
+html[data-size="s"] .floor .task{-webkit-line-clamp:1;font-size:12.5px}
+html[data-size="s"] .floor .plate{padding:8px 12px 10px;gap:4px}
+html[data-size="s"] .floor .who{font-size:13px}
+html[data-size="s"] .kpi{padding:6px 12px}
 </style>
 </head>
 <body>
@@ -155,6 +169,8 @@ dialog::backdrop{background:rgba(10,15,20,.55)}
 <div class="kpi"><span>Фото в очереди</span><b id="k-queue">—</b></div>
 <div class="kpi"><span>Следующий пост</span><b id="k-next">—</b></div>
 </section>
+<div class="tools"><span class="lbl">Нажмите на кабинет, чтобы открыть подробности</span>
+<div class="zoom" role="group" aria-label="Размер офиса"><button type="button" data-z="s" aria-label="Компактно">−</button><button type="button" data-z="m" aria-label="Средне">◻</button><button type="button" data-z="l" aria-label="Крупно">+</button></div></div>
 <section class="floor" aria-label="План офиса">
 <button class="room" data-key="owner" type="button">
 <svg class="scene" viewBox="0 0 320 200" role="img" aria-label="Мой кабинет"><rect width="320" height="200" fill="var(--floor-me)"/><rect width="320" height="92" fill="var(--wall)"/><rect y="90" width="320" height="3" fill="var(--line)"/>
@@ -348,6 +364,9 @@ dialog::backdrop{background:rgba(10,15,20,.55)}
 </div>
 </dialog>
 <script>
+(function(){var sz="s";try{sz=localStorage.getItem("office-size")||"s"}catch(e){}
+function set(z){document.documentElement.dataset.size=z;document.querySelectorAll(".zoom button").forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.z===z))});try{localStorage.setItem("office-size",z)}catch(e){}}
+set(sz);document.querySelectorAll(".zoom button").forEach(function(b){b.addEventListener("click",function(){set(b.dataset.z)})});})();
 (function(){
 var SEED = {"updated_at": "2026-10-09T14:05:00+03:00", "account": {"username": "gusevmade", "followers": 1, "posts": 2, "queue": 0, "next_post": "2026-10-10T09:00:00+03:00"}, "agents": {"analyst": {"status": "idle", "task": "Готов к работе. Первый разбор статистики — завтра в 8:15.", "last_run": null, "next_run": "2026-10-10T08:15:00+03:00", "last_result": ""}, "poster": {"status": "idle", "task": "Сам собирает рилс с музыкой, подписью и хэштегами — ждёт фото в «Очереди».", "last_run": null, "next_run": "2026-10-10T09:00:00+03:00", "last_result": "", "draft_caption": ""}, "scout": {"status": "idle", "task": "Первая разведка трендов — в понедельник.", "last_run": null, "next_run": "2026-10-12T10:00:00+03:00", "last_result": ""}}, "recommendations": [], "ideas": [], "log": [{"at": "2026-10-09T14:05:00+03:00", "who": "owner", "text": "В офисе появился чат с контент-менеджером: черновики, кнопки «Одобрить» и «Переделать»."}, {"at": "2026-10-09T13:55:00+03:00", "who": "owner", "text": "Подключены Google Диск и GitHub. Офис переехал на GitHub Pages."}, {"at": "2026-10-09T13:20:00+03:00", "who": "owner", "text": "В офис пришёл третий сотрудник — разведчик трендов."}, {"at": "2026-10-09T12:50:00+03:00", "who": "owner", "text": "Офис открыт. Instagram gusevmade подключён к агентам."}], "draft": null, "chat": [{"at": "2026-10-09T14:05:00+03:00", "who": "poster", "text": "Привет! Теперь я присылаю черновики сюда: готовый рилс с музыкой, подпись и хэштеги. Нажмите «Одобрить» — опубликую. Напишите правки и нажмите «Переделать» — переделаю. Ответы проверяю каждый час."}]};
 var TZ = "Europe/Moscow";
