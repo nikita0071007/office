@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Офис gusevmade · 3D</title>
+<meta name="theme-color" content="#1b2530">
+<style>
+:root{--ink:#eef2f6;--muted:#a9b4c2;--panel:rgba(20,27,36,.78);--line:rgba(255,255,255,.12);--ok:#53c287;--warn:#e3a341;--bad:#e2675f;--idle:#8995a3}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#0f141a;color:var(--ink);font-family:Manrope,Inter,system-ui,-apple-system,"Segoe UI",sans-serif;overflow:hidden}
+#c{position:fixed;inset:0}
+.top{position:fixed;left:0;right:0;top:0;padding:max(12px,env(safe-area-inset-top)) 16px 10px;display:flex;gap:10px;align-items:center;justify-content:space-between;pointer-events:none}
+.top>*{pointer-events:auto}
+.brand{background:var(--panel);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:12px;padding:8px 14px}
+.brand b{display:block;font-size:16px}
+.brand span{font-size:12px;color:var(--muted)}
+.views{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.views button,.views a{font:inherit;font-size:13px;font-weight:700;color:var(--ink);background:var(--panel);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:999px;padding:8px 12px;cursor:pointer;text-decoration:none}
+.views button[aria-pressed="true"]{background:#2f6f73}
+.tag{transform:translate(-50%,-100%);pointer-events:none;white-space:nowrap;text-align:center}
+.tag .n{display:inline-flex;align-items:center;gap:6px;background:var(--panel);backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:13px;font-weight:800}
+.tag .n i{width:8px;height:8px;border-radius:50%;background:var(--idle)}
+.tag .t{display:block;max-width:220px;margin:4px auto 0;font-size:11px;color:var(--muted);white-space:normal;line-height:1.3;background:rgba(15,20,26,.55);border-radius:8px;padding:3px 7px}
+.s-working i{background:var(--ok)!important;animation:p 1s infinite}.s-waiting i{background:var(--warn)!important}.s-error i{background:var(--bad)!important;animation:p .6s infinite}
+@keyframes p{50%{opacity:.3}}
+.load{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--muted)}
+.foot{position:fixed;left:16px;bottom:max(12px,env(safe-area-inset-bottom));font-size:12px;color:var(--muted);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:6px 10px}
+@media (max-width:600px){.tag .t{display:none}.brand span{display:none}}
+</style>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div class="load" id="load">Загружаю офис…</div>
+<div class="top">
+ <div class="brand"><b>Офис gusevmade · 3D</b><span id="upd">—</span></div>
+ <div class="views">
+  <button data-v="all" aria-pressed="true">Весь офис</button>
+  <button data-v="boss">Мой стол</button>
+  <button data-v="team">Команда</button>
+  <button data-v="guard">Охрана</button>
+  <a href="./">2D-офис</a>
+ </div>
+</div>
+<div class="foot">Крутите пальцем или мышкой · колесо — приблизить</div>
+<script type="module">
+import * as THREE from 'three';
+import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
+import {CSS2DRenderer, CSS2DObject} from 'three/addons/renderers/CSS2DRenderer.js';
+import * as SkeletonUtils from 'three/addons/utils/SkeletonUtils.js';
+import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
+
+const canvas=document.getElementById('c');
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.shadowMap.enabled=true; renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+renderer.toneMapping=THREE.ACESFilmicToneMapping; renderer.toneMappingExposure=1.05;
+const labels=new CSS2DRenderer(); labels.domElement.style.cssText='position:fixed;inset:0;pointer-events:none'; document.body.appendChild(labels.domElement);
+const scene=new THREE.Scene();
+scene.background=new THREE.Color(0x0f141a);
+const pmrem=new THREE.PMREMGenerator(renderer); scene.environment=pmrem.fromScene(new RoomEnvironment(),0.04).texture;
+const camera=new THREE.PerspectiveCamera(42,1,0.1,200);
+const controls=new OrbitControls(camera,canvas); controls.enableDamping=true; controls.maxPolarAngle=Math.PI*0.47; controls.minDistance=4; controls.maxDistance=34;
+
+scene.add(new THREE.HemisphereLight(0xdfe9ff,0x3a2c20,0.55));
+const sun=new THREE.DirectionalLight(0xfff1dc,2.2); sun.position.set(-8,14,10); sun.castShadow=true;
+sun.shadow.mapSize.set(2048,2048); Object.assign(sun.shadow.camera,{left:-16,right:16,top:14,bottom:-14,near:1,far:50}); sun.shadow.bias=-0.0004; scene.add(sun);
+
+const M=(c,r=.7,m=0)=>new THREE.MeshStandardMaterial({color:c,roughness:r,metalness:m});
+const wood=M(0xb98a5e,.55), woodDark=M(0x6b4a30,.6), white=M(0xf1f3f5,.6), dark=M(0x1d242c,.4,.2), glassM=new THREE.MeshPhysicalMaterial({color:0xcfe8ff,transmission:.85,roughness:.05,thickness:.05,transparent:true,opacity:.35});
+const box=(w,h,d,mat,x,y,z,parent=scene)=>{const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);m.position.set(x,y,z);m.castShadow=m.receiveShadow=true;parent.add(m);return m;};
+
+const floorTex=(()=>{const c=document.createElement('canvas');c.width=c.height=512;const g=c.getContext('2d');for(let i=0;i<16;i++){g.fillStyle=i%2?'#a77c55':'#b08660';g.fillRect(0,i*32,512,32);g.fillStyle='rgba(0,0,0,.06)';g.fillRect(((i*137)%512),i*32,2,32);}const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(4,3);t.colorSpace=THREE.SRGBColorSpace;return t;})();
+const floor=new THREE.Mesh(new THREE.PlaneGeometry(30,22),new THREE.MeshStandardMaterial({map:floorTex,roughness:.6}));floor.rotation.x=-Math.PI/2;floor.receiveShadow=true;scene.add(floor);
+box(30,4,.2,M(0xe9ecef,.9),0,2,-11); box(.2,4,22,M(0xe9ecef,.9),-15,2,0);
+const mtnTex=(()=>{const c=document.createElement('canvas');c.width=1024;c.height=256;const g=c.getContext('2d');const sky=g.createLinearGradient(0,0,0,256);sky.addColorStop(0,'#8ec5ee');sky.addColorStop(1,'#d9eefb');g.fillStyle=sky;g.fillRect(0,0,1024,256);
+ const ridge=(col,base,amp,seed)=>{g.fillStyle=col;g.beginPath();g.moveTo(0,256);for(let x=0;x<=1024;x+=8){const y=base-Math.abs(Math.sin(x*0.006+seed))*amp-Math.sin(x*0.021+seed*2)*amp*.25;g.lineTo(x,y);}g.lineTo(1024,256);g.fill();};
+ ridge('#9db3c6',150,90,1);g.fillStyle='#fff';ridge('#7f9bb2',190,70,3);ridge('#c9a23a',235,40,5);ridge('#7e9a4e',256,25,7);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t;})();
+const win=new THREE.Mesh(new THREE.PlaneGeometry(22,2.6),new THREE.MeshBasicMaterial({map:mtnTex}));win.position.set(1,2.2,-10.88);scene.add(win);
+for(let x=-10;x<=12;x+=2.75) box(.08,2.7,.12,dark,x,2.2,-10.85);
+box(22.2,.1,.15,dark,1,3.55,-10.85); box(22.2,.1,.15,dark,1,.85,-10.85);
+function plant(x,z){box(.5,.6,.5,M(0x7e6a5a),x,.3,z);const l=new THREE.Mesh(new THREE.IcosahedronGeometry(.55,1),M(0x4e9a6a,.8));l.position.set(x,1.05,z);l.castShadow=true;scene.add(l);}
+plant(-13.5,-9.5); plant(13.5,-9.5); plant(-13.5,8.5);
+
+function signTex(text,bg,fg){const c=document.createElement('canvas');c.width=512;c.height=128;const g=c.getContext('2d');g.fillStyle=bg;g.fillRect(0,0,512,128);g.fillStyle=fg;g.font='800 64px Manrope, Inter, sans-serif';g.textAlign='center';g.textBaseline='middle';g.fillText(text,256,68);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t;}
+
+function chair(x,z,ry,scale=1){const g=new THREE.Group();g.position.set(x,0,z);g.rotation.y=ry;g.scale.setScalar(scale);scene.add(g);
+ box(.55,.08,.55,dark,0,.48,0,g);box(.55,.6,.08,dark,0,.85,-.26,g);box(.06,.45,.06,M(0x777777,.3,.8),0,.24,0,g);box(.5,.04,.5,M(0x777777,.3,.8),0,.03,0,g);return g;}
+function monitor(x,y,z,ry,parent=scene){const g=new THREE.Group();g.position.set(x,y,z);g.rotation.y=ry;parent.add(g);box(.7,.42,.04,dark,0,.32,0,g);const s=new THREE.Mesh(new THREE.PlaneGeometry(.64,.36),new THREE.MeshBasicMaterial({color:0x7fd1d8}));s.position.set(0,.32,.021);g.add(s);box(.05,.15,.05,dark,0,.07,0,g);box(.2,.02,.14,dark,0,.01,0,g);return s;}
+
+box(3.4,.08,1.5,woodDark,0,.78,4.2); box(.08,.74,1.3,woodDark,-1.6,.39,4.2); box(.08,.74,1.3,woodDark,1.6,.39,4.2); box(3.2,.5,.05,woodDark,0,.52,4.9);
+monitor(-.45,.82,3.85,Math.PI); monitor(.45,.82,3.85,Math.PI);
+const bossChair=chair(0,5.3,Math.PI,1.15);
+const bossPlate=new THREE.Mesh(new THREE.PlaneGeometry(1.4,.35),new THREE.MeshBasicMaterial({map:signTex('Руководитель','#2f6f73','#ffffff')}));bossPlate.position.set(0,.55,3.44);bossPlate.rotation.y=Math.PI;scene.add(bossPlate);
+
+const team=[{k:'poster',name:'Макс',role:'контент',x:-4.5,col:0xd9763f},{k:'analyst',name:'Вера',role:'аналитик',x:0,col:0x3c6fb0},{k:'scout',name:'Тимур',role:'тренды',x:4.5,col:0x5e8c4a}];
+const screens={};
+team.forEach(t=>{box(1.8,.06,.9,wood,t.x,.76,-3.2);[[-.85,-.4],[.85,-.4],[-.85,.4],[.85,.4]].forEach(([dx,dz])=>box(.05,.74,.05,M(0x888888,.3,.8),t.x+dx,.38,-3.2+dz));
+ screens[t.k]=monitor(t.x,.79,-3.45,0); chair(t.x,-2.35,Math.PI);
+ const p=new THREE.Mesh(new THREE.PlaneGeometry(1.2,.3),new THREE.MeshBasicMaterial({map:signTex(t.name+' · '+t.role,'#ffffff','#1b2530')}));p.position.set(t.x,.6,-2.74);scene.add(p);});
+
+const GX=10.5,GZ=5.5;
+box(.1,3,6,glassM,GX-3,1.5,GZ); box(6,3,.1,glassM,GX,1.5,GZ-3); box(6,.08,6,M(0xdfe3ea,.8),GX,3.04,GZ);
+[[GX-3,GZ-3],[GX-3,GZ+3],[GX+3,GZ-3]].forEach(([x,z])=>box(.1,3,.1,dark,x,1.5,z));
+const sign=new THREE.Mesh(new THREE.PlaneGeometry(2.4,.6),new THREE.MeshBasicMaterial({map:signTex('ОХРАНА','#1b2530','#7fe0a2')}));sign.position.set(GX,2.55,GZ-3.07);sign.rotation.y=Math.PI;scene.add(sign);
+const sign2=sign.clone();sign2.position.set(GX-3.07,2.55,GZ);sign2.rotation.y=-Math.PI/2;scene.add(sign2);
+box(4.6,1.6,.1,dark,GX+.6,1.9,GZ+2.9);
+const camScreens=[];for(let i=0;i<6;i++){const s=new THREE.Mesh(new THREE.PlaneGeometry(1.3,.62),new THREE.MeshBasicMaterial({color:0x2e4a3a}));s.position.set(GX-.85+(i%3)*1.45,2.32-Math.floor(i/3)*.72,GZ+2.84);s.rotation.y=Math.PI;scene.add(s);camScreens.push(s);}
+box(2.2,.06,.8,wood,GX+.6,.76,GZ+1.9); chair(GX+.6,GZ+1.1,0);
+const lampMat=new THREE.MeshStandardMaterial({color:0x53c287,emissive:0x53c287,emissiveIntensity:1.5});
+const lamp=new THREE.Mesh(new THREE.SphereGeometry(.18,24,16),lampMat);lamp.position.set(GX-2.6,3.25,GZ-2.6);scene.add(lamp);
+const lampLight=new THREE.PointLight(0x53c287,4,5);lampLight.position.copy(lamp.position);scene.add(lampLight);
+
+const loader=new GLTFLoader(); const people={}; const mixers=[]; let ready=false;
+function tint(obj,body,joints){obj.traverse(o=>{if(o.isMesh){o.castShadow=true;o.frustumCulled=false;o.material=o.material.clone();if(/Joints/i.test(o.name))o.material.color.setHex(joints);else o.material.color.setHex(body);o.material.roughness=.55;}});}
+function bone(obj,n){let b=null;obj.traverse(o=>{if(o.isBone&&o.name==='mixamorig'+n)b=o;});return b;}
+function makeLabel(name,role){const d=document.createElement('div');d.className='tag';d.innerHTML='<span class="n"><i></i>'+name+' · '+role+'</span><span class="t"></span>';return new CSS2DObject(d);}
+loader.load('Xbot.glb',gltf=>{
+ const clips=gltf.animations; const find=n=>clips.find(c=>c.name===n);
+ const spawn=(key,name,role,body,joints,pos,ry,seated,hair)=>{
+  const m=SkeletonUtils.clone(gltf.scene); tint(m,body,joints); m.position.copy(pos); m.rotation.y=ry; scene.add(m);
+  const mixer=new THREE.AnimationMixer(m); mixers.push(mixer);
+  const idle=mixer.clipAction(find('idle')), walk=mixer.clipAction(find('walk')); idle.play();
+  const b={hips:bone(m,'Hips'),lul:bone(m,'LeftUpLeg'),rul:bone(m,'RightUpLeg'),ll:bone(m,'LeftLeg'),rl:bone(m,'RightLeg'),la:bone(m,'LeftArm'),ra:bone(m,'RightArm'),lf:bone(m,'LeftForeArm'),rf:bone(m,'RightForeArm'),head:bone(m,'Head'),spine:bone(m,'Spine')};
+  if(hair&&b.head){const h=new THREE.Mesh(new THREE.SphereGeometry(11.5,24,16,0,Math.PI*2,0,Math.PI*0.55),M(hair,.8));h.position.set(0,11,1);h.scale.set(1,.85,1.05);b.head.add(h);}
+  const label=makeLabel(name,role); label.position.set(0,seated?1.65:2.05,0); m.add(label);
+  people[key]={m,mixer,idle,walk,b,seated,label,home:pos.clone(),homeRy:ry,mode:'sit',t:Math.random()*10};
+ };
+ spawn('owner','Никита','руководитель',0x2b3440,0xd9b48f,new THREE.Vector3(0,0,5.15),Math.PI,true,0x2a1a10);
+ spawn('poster','Макс','контент',0xd9763f,0x3a2a20,new THREE.Vector3(-4.5,0,-2.45),Math.PI,true,0x1a1a1a);
+ spawn('analyst','Вера','аналитик',0x3c6fb0,0xf0c8a6,new THREE.Vector3(0,0,-2.45),Math.PI,true,0x7a4b2e);
+ spawn('scout','Тимур','тренды',0x5e8c4a,0xe3b08a,new THREE.Vector3(4.5,0,-2.45),Math.PI,true,0xe0a23a);
+ spawn('guard','Борис','охрана',0x2b3a52,0xd9a47e,new THREE.Vector3(GX+.6,0,GZ+1.2),0,true,0x111111);
+ people.guard.mode='patrol';
+ document.getElementById('load').remove(); ready=true; load();
+},undefined,()=>{document.getElementById('load').textContent='Не удалось загрузить модели — обновите страницу';});
+
+function sitPose(p,typing,t){const b=p.b; if(!b.lul) return;
+ b.hips.position.y-=38;
+ b.lul.rotation.x=-1.45; b.rul.rotation.x=-1.45; b.ll.rotation.x=1.55; b.rl.rotation.x=1.55;
+ if(b.spine) b.spine.rotation.x+= typing ? 0.18+Math.sin(t*1.3+p.t)*0.03 : 0.05;
+ if(typing&&b.head) b.head.rotation.x+=0.12+Math.sin(t*0.7+p.t)*0.05;
+}
+const tmp=new THREE.Vector3();
+function walkTo(p,target,dt,speed=1.1){const pos=p.m.position; tmp.subVectors(target,pos); tmp.y=0; const d=tmp.length(); if(d<.08) return true;
+ const ang=Math.atan2(tmp.x,tmp.z); p.m.rotation.y+= ((ang-p.m.rotation.y+Math.PI*3)%(Math.PI*2)-Math.PI)*Math.min(1,dt*6);
+ pos.addScaledVector(tmp.normalize(),Math.min(d,speed*dt)); return false;}
+function setAnim(p,walking){if(walking&&!p.walk.isRunning()){p.walk.reset().fadeIn(.25).play();p.idle.fadeOut(.25);}if(!walking&&!p.idle.isRunning()){p.idle.reset().fadeIn(.25).play();p.walk.fadeOut(.25);}if(!walking&&p.walk.isRunning()&&p.walk.getEffectiveWeight()<.02)p.walk.stop();}
+
+const patrol=[new THREE.Vector3(GX-1.8,0,GZ-1.8),new THREE.Vector3(GX+2.2,0,GZ-1.8),new THREE.Vector3(GX+2.2,0,GZ+.3),new THREE.Vector3(GX-1.8,0,GZ+.3)];let pi=0;
+const bossVisit=new THREE.Vector3(-.9,0,3.0);
+let state={agents:{},draft:null};
+function update(dt,t){
+ for(const [k,p] of Object.entries(people)){
+  const st=(state.agents||{})[k]||{}; const s=k==='owner'?'idle':(st.status||'idle');
+  if(k==='guard'){
+   if(s==='working'){p.seated=false;setAnim(p,true);if(walkTo(p,patrol[pi],dt,.9))pi=(pi+1)%patrol.length;}
+   else {p.seated=true; const home=p.home; if(!walkTo(p,home,dt,1.2)){p.seated=false;setAnim(p,true);} else {setAnim(p,false);p.m.rotation.y=p.homeRy;}}
+   continue; }
+  if(k==='poster' && state.draft && state.draft.status==='waiting'){
+   p.cycle=(p.cycle||0)+dt; const phase=p.cycle%26;
+   if(phase<9){p.seated=false;setAnim(p,true);if(walkTo(p,bossVisit,dt)){setAnim(p,false);p.m.rotation.y=Math.PI*.15;}}
+   else {const back=walkTo(p,p.home,dt); setAnim(p,!back); p.seated=back; if(back)p.m.rotation.y=p.homeRy;}
+   continue; }
+  p.seated=true; setAnim(p,false);
+ }
+}
+function pose(t){for(const [k,p] of Object.entries(people)){ if(!p.seated) continue; const st=(state.agents||{})[k]||{}; const typing=k==='owner'?true:(st.status==='working'||st.status==='waiting'||Math.sin(t*.3+p.t)>.2); sitPose(p,typing,t); }}
+
+const STATUS={working:'Работает',waiting:'Ждёт вас',idle:'Отдыхает',error:'Нужна помощь'};
+function applyState(){
+ for(const [k,p] of Object.entries(people)){ const el=p.label.element; const st=(state.agents||{})[k]||{};
+  let s=st.status||'idle', txt=st.task||''; if(k==='owner'){ const d=state.draft; s=d&&d.status==='waiting'?'waiting':'idle'; txt=s==='waiting'?'Черновик ждёт вашего решения':'Всё под контролем'; }
+  el.className='tag s-'+s; el.querySelector('.t').textContent=(STATUS[s]||'')+(txt?' · '+txt:''); }
+ const anyErr=Object.values(state.agents||{}).some(a=>a.status==='error'); const c=anyErr?0xe2675f:0x53c287; lampMat.color.setHex(c);lampMat.emissive.setHex(c);lampLight.color.setHex(c);
+ for(const t of team){const st=(state.agents||{})[t.k]||{};screens[t.k].material.color.setHex(st.status==='error'?0xe2675f:st.status==='working'?0x9df0b8:0x7fd1d8);}
+ document.getElementById('upd').textContent=state.updated_at?'Обновлено: '+new Date(state.updated_at).toLocaleString('ru-RU',{timeZone:'Europe/Moscow',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}):'—';
+}
+function load(){ if(location.protocol==='file:') return; fetch('status.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.json()).then(j=>{state=j;applyState();}).catch(()=>{}); }
+setInterval(load,60000);
+
+const VIEWS={all:[[-11,11,15],[1.5,.5,0]],boss:[[0,3.2,9.5],[0,1,3.8]],team:[[0,3.4,3.2],[0,1,-3.2]],guard:[[GX-6,4.5,GZ-6],[GX,1,GZ+.5]]};
+let fly=null; function go(v){const [p,tg]=VIEWS[v]; fly={p:new THREE.Vector3(...p),t:new THREE.Vector3(...tg)}; document.querySelectorAll('.views button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.v===v)));}
+document.querySelectorAll('.views button').forEach(b=>b.onclick=()=>go(b.dataset.v));
+camera.position.set(...VIEWS.all[0]); controls.target.set(...VIEWS.all[1]);
+const isPhone=matchMedia('(max-width:600px)').matches; if(isPhone){camera.position.set(-14,16,22);}
+
+function resize(){const w=innerWidth,h=innerHeight;renderer.setSize(w,h,false);labels.setSize(w,h);camera.aspect=w/h;camera.updateProjectionMatrix();}
+addEventListener('resize',resize); resize();
+const clock=new THREE.Clock();
+function render(){
+ const dt=Math.min(clock.getDelta(),.05), t=clock.elapsedTime;
+ if(ready){ update(dt,t); mixers.forEach(m=>m.update(dt)); pose(t); }
+ camScreens.forEach((s,i)=>s.material.color.setHSL(.38,.35,.18+.06*Math.sin(t*2+i)));
+ lamp.scale.setScalar(1+.08*Math.sin(t*(Object.values(state.agents||{}).some(a=>a.status==='error')?10:2)));
+ if(fly){camera.position.lerp(fly.p,.06);controls.target.lerp(fly.t,.06);if(camera.position.distanceTo(fly.p)<.05)fly=null;}
+ controls.update(); renderer.render(scene,camera); labels.render(scene,camera);
+ requestAnimationFrame(render);
+}
+requestAnimationFrame(render);
+</script>
+</body>
+</html>
