@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-09T21:48:43+03:00",
+ "updated_at": "2026-10-10T00:06:00+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 1,
@@ -27,7 +27,12 @@
     "current": null
    }
   ],
-  "last_post_url": "https://www.instagram.com/reel/DeRfiOoArWX/"
+  "last_post_url": "https://www.instagram.com/reel/DeRfiOoArWX/",
+  "facebook": {
+   "page": "Gusevmade",
+   "page_id": "1435004723022101",
+   "followers": 0
+  }
  },
  "agents": {
   "analyst": {
@@ -62,6 +67,11 @@
   "issue_url": "https://github.com/nikita0071007/office-data/issues/1"
  },
  "log": [
+  {
+   "at": "2026-10-10T00:06:00+03:00",
+   "who": "owner",
+   "text": "Подключена страница Facebook Gusevmade: Вера считает статистику, Борис следит за комментариями."
+  },
   {
    "who": "guard",
    "at": "2026-10-09T21:48:43+03:00",
