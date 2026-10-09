@@ -331,7 +331,7 @@ html[data-size="s"] .kpi{padding:6px 12px}
 <a class="btn ok" id="b-ok" target="_blank" rel="noopener" aria-disabled="true">✓ Одобрить</a>
 <a class="btn redo" id="b-redo" target="_blank" rel="noopener" aria-disabled="true">↻ Переделать</a>
 </div>
-<p class="hint" id="b-hint">Кнопка откроет GitHub с готовым ответом — нажмите там «Create». Контент-менеджер проверяет ответы каждый час.</p>
+<p class="hint" id="b-hint"></p>
 </div>
 </div>
 </div>
@@ -368,7 +368,7 @@ html[data-size="s"] .kpi{padding:6px 12px}
 function set(z){document.documentElement.dataset.size=z;document.querySelectorAll(".zoom button").forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.z===z))});try{localStorage.setItem("office-size",z)}catch(e){}}
 set(sz);document.querySelectorAll(".zoom button").forEach(function(b){b.addEventListener("click",function(){set(b.dataset.z)})});})();
 (function(){
-var SEED = {"updated_at": "2026-10-09T14:30:00+03:00", "account": {"username": "gusevmade", "followers": 1, "posts": 2, "queue": 0, "next_post": "2026-10-10T09:00:00+03:00"}, "agents": {"analyst": {"status": "idle", "task": "Готов к работе. Первый разбор статистики — завтра в 8:15.", "last_run": null, "next_run": "2026-10-10T08:15:00+03:00", "last_result": ""}, "poster": {"status": "waiting", "task": "Ждёт вашего решения: рилс «Процесс»", "last_run": "2026-10-09T14:30:00+03:00", "next_run": "2026-10-10T09:00:00+03:00", "last_result": "", "draft_caption": "Один уровень моей игры — от идеи до запуска за 15 секунд 🎮\n\nТак рождается уровень в «Бабушкиной даче»:\n1️⃣ Идея — поле 7×7 и цель: собрать 12 помидоров за 16 ходов\n2️⃣ Код — в игре уровень это просто строчка данных\n3️⃣ Игра — собираем урожай и получаем звёзды 🍅⭐\n\nМузыка в ролике — из самой игры, 8-бит.\nИграть: @babushkina_dacha_bot в Telegram (ссылка в профиле)\n\nА вы бы прошли первый уровень с запасом ходов? 👇"}, "scout": {"status": "idle", "task": "Тренд недели — «Процесс»: сырое закулисье работы от инструментов до результата.", "last_run": "2026-10-09T14:09:50+03:00", "next_run": "2026-10-12T10:00:00+03:00", "last_result": "Источники: Later — тренды Reels 18.09–02.10.2026 («The process», «Where are you», «This is your sign») later.com/blog/instagram-reels-trends; NewEngen, окт. 2026 — «Autumn Colors» (LuLuMusic, для бизнес-аккаунтов) newengen.com/insights/instagram-trends; presskit.gg (02.2026) — было/стало, лупы механик, баги, серии «День N», 10–30 сек; gtstu.com (06.2026) — хук-результат, 3–5 хэштегов; SocialPilot — алгоритм: досмотры и пересылки, штраф за неоригинальность с апреля 2026 и для каруселей; Manychat — сырой контент, сериалы, текст на экране; travelto.ru — золотые лиственницы Алтая в 1–2 неделю октября. Учтено: уже были пост-знакомство и рилс про «Бабушкину дачу»."}}, "recommendations": [], "ideas": ["Рилс «Процесс»: как рождается один уровень «Бабушкиной дачи» — набросок → код → готовый экран, финал — пройденный уровень. Хук: «Один уровень моей игры — от идеи до запуска за 15 секунд». #геймдев #индиигры #бабушкинадача #тривряд #gamedev", "Рилс «Было/стало» с жёсткой склейкой (без плавного перехода): первая версия игры vs сейчас, самое сильное улучшение — первым. Хук: «Так моя игра выглядела в первый день… а так — сейчас». #девлог #разработкаигр #indiegame #индиигры", "Рилс «Золотая осень на Алтае», 15–30 сек: 4–6 клипов — лиственницы, бирюзовая Катунь, Чуйский тракт, максимум одна строка текста; звук «Autumn Colors» (LuLuMusic, разрешён для бизнес-аккаунтов). Хук: «Алтай в начале октября: лиственницы горят на фоне снега». #алтай #горныйалтай #золотаяосень #чуйскийтракт #путешествияпороссии", "Рилс «Где ты?»: фейковая переписка поверх 7-секундного клипа — «Ты где?» → «На работе» → кадр: ноутбук с игрой на фоне гор. #алтай #разработчик #удалённаяработа #геймдев", "Рилс-серия «День 1»: переношу «Бабушкину дачу» из Telegram в Яндекс Игры/ВК — нумерованная рубрика, 2 раза в неделю. Хук: «День 1: переношу свою игру из Telegram в Яндекс Игры». #яндексигры #девлог #индиигры #геймдев", "Короткий зацикленный рилс с реальным смешным багом или «залипательной» механикой (каскад совпадений в три в ряд). Хук: «Я сломал свою игру так, что…» / сразу каскад без текста. #геймдев #баги #тривряд #indiedev", "Карусель-сторителлинг «Сделал игру в одиночку: 5 вещей, которые понял» — фото с Алтая + скрины игры, вывод на последнем слайде и призыв сыграть. Первая строка: «Год назад я не умел делать игры. Вот что понял, сделав свою». #индиигры #геймдев #разработкаигр #бабушкинадача"], "log": [{"at": "2026-10-09T14:30:00+03:00", "who": "poster", "text": "Черновик готов: рилс «Процесс» по идее разведчика"}, {"at": "2026-10-09T14:10:05+03:00", "who": "scout", "text": "Новая подборка: 7 идей на неделю"}, {"at": "2026-10-09T14:09:24+03:00", "who": "scout", "text": "Новая подборка: 7 идей на неделю"}, {"at": "2026-10-09T14:05:00+03:00", "who": "owner", "text": "В офисе появился чат с контент-менеджером: черновики, кнопки «Одобрить» и «Переделать»."}, {"at": "2026-10-09T13:55:00+03:00", "who": "owner", "text": "Подключены Google Диск и GitHub. Офис переехал на GitHub Pages."}, {"at": "2026-10-09T13:20:00+03:00", "who": "owner", "text": "В офис пришёл третий сотрудник — разведчик трендов."}, {"at": "2026-10-09T12:50:00+03:00", "who": "owner", "text": "Офис открыт. Instagram gusevmade подключён к агентам."}], "draft": {"id": "20261009-1430", "type": "reel", "file_name": "Рилс «Процесс» (собран из игры)", "drive_file_id": null, "preview_url": "drafts/20261009-1430.mp4", "cover_url": "drafts/20261009-1430-cover.jpg", "full_url": "https://raw.githubusercontent.com/nikita0071007/office/main/drafts/20261009-1430-full.mp4", "caption": "Один уровень моей игры — от идеи до запуска за 15 секунд 🎮\n\nТак рождается уровень в «Бабушкиной даче»:\n1️⃣ Идея — поле 7×7 и цель: собрать 12 помидоров за 16 ходов\n2️⃣ Код — в игре уровень это просто строчка данных\n3️⃣ Игра — собираем урожай и получаем звёзды 🍅⭐\n\nМузыка в ролике — из самой игры, 8-бит.\nИграть: @babushkina_dacha_bot в Telegram (ссылка в профиле)\n\nА вы бы прошли первый уровень с запасом ходов? 👇", "hashtags": ["#геймдев", "#индиигры", "#бабушкинадача", "#тривряд", "#девлог", "#разработкаигр", "#игрывтелеграм", "#gamedev", "#indiegame", "#devlog", "#match3"], "music": "Музыка уровня из «Бабушкиной дачи» (8-бит)", "status": "waiting"}, "chat": [{"at": "2026-10-09T14:05:00+03:00", "who": "poster", "text": "Привет! Теперь я присылаю черновики сюда: готовый рилс с музыкой, подпись и хэштеги. Нажмите «Одобрить» — опубликую. Напишите правки и нажмите «Переделать» — переделаю. Ответы проверяю каждый час."}, {"at": "2026-10-09T14:30:00+03:00", "who": "poster", "text": "Черновик готов: рилс «Процесс» — идея → код → готовый уровень за 15 секунд. Геймплей записан из настоящей игры, музыка — трек уровня из игры. Посмотрите и нажмите «Одобрить» или напишите правки."}]};
+var SEED = {"updated_at": "2026-10-09T14:55:00+03:00", "account": {"username": "gusevmade", "followers": 1, "posts": 2, "queue": 0, "next_post": "2026-10-10T09:00:00+03:00"}, "agents": {"analyst": {"status": "idle", "task": "Готов к работе. Первый разбор статистики — завтра в 8:15.", "last_run": null, "next_run": "2026-10-10T08:15:00+03:00"}, "poster": {"status": "waiting", "task": "Ждёт вашего решения: рилс «Процесс»", "last_run": "2026-10-09T14:30:00+03:00", "next_run": "2026-10-10T09:00:00+03:00"}, "scout": {"status": "idle", "task": "Тренд недели — «Процесс»: сырое закулисье работы от инструментов до результата.", "last_run": "2026-10-09T14:09:50+03:00", "next_run": "2026-10-12T10:00:00+03:00"}}, "draft": {"id": "20261009-1430", "status": "waiting", "type": "reel", "issue_url": "https://github.com/nikita0071007/office-data/issues/1"}, "log": [{"at": "2026-10-09T14:55:00+03:00", "who": "owner", "text": "Офис под защитой: черновики, подписи и переписка — в закрытом репозитории."}, {"at": "2026-10-09T14:30:00+03:00", "who": "poster", "text": "Черновик готов: рилс «Процесс» по идее разведчика"}, {"at": "2026-10-09T14:10:05+03:00", "who": "scout", "text": "Новая подборка: 7 идей на неделю"}, {"at": "2026-10-09T14:09:24+03:00", "who": "scout", "text": "Новая подборка: 7 идей на неделю"}, {"at": "2026-10-09T14:05:00+03:00", "who": "owner", "text": "В офисе появился чат с контент-менеджером: черновики, кнопки «Одобрить» и «Переделать»."}, {"at": "2026-10-09T13:55:00+03:00", "who": "owner", "text": "Подключены Google Диск и GitHub. Офис переехал на GitHub Pages."}, {"at": "2026-10-09T13:20:00+03:00", "who": "owner", "text": "В офис пришёл третий сотрудник — разведчик трендов."}, {"at": "2026-10-09T12:50:00+03:00", "who": "owner", "text": "Офис открыт. Instagram gusevmade подключён к агентам."}]};
 var TZ = "Europe/Moscow";
 var INFO = {
 owner:{name:"Мой кабинет",role:"Руководитель",about:"Здесь собирается всё, что требует вашего решения. Черновик поста приходит уведомлением: ответьте «да» — пост выйдет, или напишите правки."},
@@ -414,13 +414,14 @@ var os=ownerState(); chip($('[data-chip="owner"]'), os, os==="waiting"?"Есть
 txt($('[data-task="owner"]'), os==="waiting" ? "Контент-менеджер ждёт вашего ответа: «да» или правки." : "Новых черновиков на подпись нет.");
 scene("owner", os==="waiting"?"waiting":"calm");
 renderChat();
-list($("#recs"), state.recommendations, "Появятся после первого разбора статистики.");
-list($("#ideas"), state.ideas, "Первая подборка трендов — в понедельник.");
+list($("#recs"), state.recommendations, "🔒 Видны только вам — в закрытых заметках."); addNotes($("#recs"));
+list($("#ideas"), state.ideas, "🔒 Видны только вам — в закрытых заметках."); addNotes($("#ideas"));
 var ul=$("#log"); ul.innerHTML="";
 (state.log||[]).slice(0,30).forEach(function(e){ ul.appendChild(logItem(e)); });
 if(!(state.log||[]).length){ ul.innerHTML='<li style="display:block"><span class="empty">Пока тихо.</span></li>'; }
 txt($("#updated"), state.updated_at ? "Данные обновлены: "+fmt(state.updated_at) : "—");
 }
+function addNotes(box){ var a=document.createElement("a"); a.href=NOTES; a.target="_blank"; a.rel="noopener"; a.className="hint"; a.style.display="inline-block"; a.style.marginTop="8px"; a.textContent="Открыть закрытые заметки →"; box.appendChild(a); }
 function list(box,items,empty){
 box.innerHTML="";
 if(!items||!items.length){ var e=document.createElement("p"); e.className="empty"; e.textContent=empty; box.appendChild(e); return; }
@@ -433,34 +434,32 @@ var li=document.createElement("li"); var t=document.createElement("time"); t.tex
 var d=document.createElement("div"); var tag=document.createElement("span"); tag.className="tag "+(e.who||""); tag.textContent=NAMES[e.who]||e.who||"";
 d.appendChild(tag); d.appendChild(document.createTextNode(e.text||"")); li.appendChild(d); return li;
 }
-var REPO="https://github.com/nikita0071007/office/issues/new";
+var REPO="https://github.com/nikita0071007/office-data/issues/new"; var NOTES="https://github.com/nikita0071007/office-data/blob/main/notes.md";
 function issueUrl(kind,id,text){ return REPO+"?title="+encodeURIComponent(kind+" "+id)+"&body="+encodeURIComponent(text||""); }
 var lastPv="";
 function renderChat(){
 var dr=state.draft||null; var waiting=dr && dr.status==="waiting";
-var pv=$("#pv"); var key=dr?(dr.id+"|"+(dr.preview_url||"")+"|"+(dr.cover_url||"")):"";
-if(key!==lastPv){ lastPv=key; pv.innerHTML="";
- if(dr && dr.preview_url && /\.mp4($|\?)/i.test(dr.preview_url)){ var v=document.createElement("video"); v.src=dr.preview_url; if(dr.cover_url) v.poster=dr.cover_url; v.controls=true; v.playsInline=true; v.preload="metadata"; pv.appendChild(v); }
- else if(dr && (dr.preview_url||dr.cover_url)){ var im=document.createElement("img"); im.src=dr.preview_url||dr.cover_url; im.alt="Черновик поста"; pv.appendChild(im); }
- else { var ph=document.createElement("p"); ph.className="ph"; ph.textContent=dr?"Превью недоступно":"Здесь появится черновик: видео или фото, подпись, музыка и хэштеги."; pv.appendChild(ph); } }
+var pv=$("#pv"); pv.innerHTML="";
+var box=document.createElement("div"); box.className="ph"; box.style.cssText="display:flex;flex-direction:column;align-items:center;gap:14px";
+var ic=document.createElement("div"); ic.textContent="🔒"; ic.style.fontSize="44px"; box.appendChild(ic);
+var tx=document.createElement("p"); tx.textContent= dr ? "Черновик "+dr.id+" лежит в закрытом разделе — его видите только вы (нужен вход в GitHub)." : "Здесь появится ссылка на новый черновик. Сами видео и подписи хранятся в закрытом разделе."; box.appendChild(tx);
+if(dr && dr.issue_url){ var a=document.createElement("a"); a.className="btn ok"; a.href=dr.issue_url; a.target="_blank"; a.rel="noopener"; a.textContent="Открыть черновик"; box.appendChild(a); }
+pv.appendChild(box);
 var dm=$("#dmeta"); dm.innerHTML="";
 if(dr){ var st={waiting:"Ждёт вашего решения",approved:"Одобрено — публикую",redo:"Переделываю по правкам",published:"Опубликовано"}[dr.status]||"";
- var c=document.createElement("span"); c.className="chip"; c.dataset.s=dr.status==="waiting"?"waiting":(dr.status==="redo"||dr.status==="approved"?"working":"idle"); c.textContent=st; dm.appendChild(c);
- if(dr.caption){ var cp=document.createElement("p"); cp.className="draft"; cp.style.marginTop="8px"; cp.textContent=dr.caption; dm.appendChild(cp); }
- if(dr.music){ var m=document.createElement("p"); m.className="music"; m.textContent="♪ "+dr.music; dm.appendChild(m); }
- if(dr.hashtags&&dr.hashtags.length){ var tg=document.createElement("p"); tg.className="dinfo"; dr.hashtags.slice(0,15).forEach(function(h){ var s=document.createElement("span"); s.className="tagchip"; s.textContent=h.charAt(0)==="#"?h:"#"+h; tg.appendChild(s); }); dm.appendChild(tg); } }
+ var c=document.createElement("span"); c.className="chip"; c.dataset.s=dr.status==="waiting"?"waiting":(dr.status==="redo"||dr.status==="approved"?"working":"idle"); c.textContent=st; dm.appendChild(c); }
 var ul=$("#msgs"); ul.innerHTML="";
-var chat=(state.chat||[]).slice(-30);
-if(!chat.length){ var li=document.createElement("li"); li.className="msg"; li.textContent="Пока сообщений нет. Утром контент-менеджер пришлёт сюда черновик."; ul.appendChild(li); }
-chat.forEach(function(m){ var li=document.createElement("li"); li.className="msg"+(m.who==="owner"?" me":""); var s=document.createElement("small"); s.textContent=(m.who==="owner"?"Вы":"Контент-менеджер")+" · "+fmt(m.at); li.appendChild(s); li.appendChild(document.createTextNode(m.text||"")); ul.appendChild(li); });
-ul.scrollTop=ul.scrollHeight;
+var li=document.createElement("li"); li.className="msg";
+li.textContent= waiting ? "Видео, подпись и хэштеги — по кнопке «Открыть черновик». Ответить можно прямо там комментарием («Одобрить» или «Переделать: …») или кнопками ниже." : "Переписка и черновики хранятся в закрытом разделе.";
+ul.appendChild(li);
+var li2=document.createElement("li"); li2.className="msg"; var a2=document.createElement("a"); a2.href=NOTES; a2.target="_blank"; a2.rel="noopener"; a2.textContent="Закрытые заметки: переписка, рекомендации, идеи →"; li2.appendChild(a2); ul.appendChild(li2);
 var ok=$("#b-ok"), redo=$("#b-redo"), fix=$("#fix");
 function upd(){ var t=fix.value.trim();
  if(waiting){ ok.setAttribute("aria-disabled","false"); ok.href=issueUrl("Одобрить",dr.id,t||"Одобряю"); }
  else { ok.setAttribute("aria-disabled","true"); ok.removeAttribute("href"); }
  if(waiting && t){ redo.setAttribute("aria-disabled","false"); redo.href=issueUrl("Переделать",dr.id,t); }
  else { redo.setAttribute("aria-disabled","true"); redo.removeAttribute("href"); }
- $("#b-hint").textContent = !waiting ? "Кнопки станут активными, когда придёт черновик." : (t ? "Кнопка откроет GitHub с готовым ответом — нажмите там «Create». Контент-менеджер проверяет ответы каждый час." : "Чтобы попросить переделать, напишите правки в поле выше.");
+ $("#b-hint").textContent = !waiting ? "Кнопки станут активными, когда придёт черновик." : (t ? "Откроется закрытый раздел GitHub с готовым ответом — нажмите «Create». Проверяю ответы каждый час." : "Чтобы попросить переделать, напишите правки в поле выше.");
 }
 fix.oninput=upd; upd();
 }
