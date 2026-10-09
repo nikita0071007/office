@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-09T15:00:00+03:00",
+ "updated_at": "2026-10-09T15:01:26+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 1,
@@ -15,9 +15,9 @@
    "next_run": "2026-10-10T08:15:00+03:00"
   },
   "poster": {
-   "status": "waiting",
-   "task": "Ждёт вашего решения: рилс «Процесс»",
-   "last_run": "2026-10-09T14:30:00+03:00",
+   "status": "working",
+   "task": "Публикую рилс «Процесс»…",
+   "last_run": "2026-10-09T15:01:26+03:00",
    "next_run": "2026-10-10T09:00:00+03:00"
   },
   "scout": {
@@ -35,11 +35,16 @@
  },
  "draft": {
   "id": "20261009-1430",
-  "status": "waiting",
+  "status": "approved",
   "type": "reel",
   "issue_url": "https://github.com/nikita0071007/office-data/issues/1"
  },
  "log": [
+  {
+   "at": "2026-10-09T15:01:26+03:00",
+   "who": "poster",
+   "text": "Черновик 20261009-1430 одобрен — публикую"
+  },
   {
    "at": "2026-10-09T15:00:00+03:00",
    "who": "owner",
