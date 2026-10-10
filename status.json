@@ -1,9 +1,9 @@
 {
- "updated_at": "2026-10-10T16:19:28+03:00",
+ "updated_at": "2026-10-10T16:20:21+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 1,
-  "posts": 4,
+  "posts": 5,
   "queue": 15,
   "next_post": "2026-10-10T09:00:00+03:00",
   "goals": [
@@ -18,7 +18,7 @@
     "key": "reels_week",
     "name": "Рилсы на этой неделе",
     "target": 3,
-    "current": 2
+    "current": 3
    },
    {
     "key": "link_taps_week",
@@ -27,7 +27,7 @@
     "current": 0
    }
   ],
-  "last_post_url": "https://www.instagram.com/p/DeUKBkLG-UT/",
+  "last_post_url": "https://www.instagram.com/reel/DeULPw7iius/",
   "facebook": {
    "page": "Gusevmade",
    "page_id": "1435004723022101",
@@ -35,7 +35,8 @@
    "posts_7d": 2,
    "views_7d": 0,
    "engagements_7d": 0
-  }
+  },
+  "last_published_at": "2026-10-10T16:20:21+03:00"
  },
  "agents": {
   "analyst": {
@@ -45,8 +46,8 @@
    "next_run": "2026-10-11T08:15:00+03:00"
   },
   "poster": {
-   "status": "waiting",
-   "task": "Одобрено — ждёт публикации",
+   "status": "idle",
+   "task": "Вышел рилс — работаем дальше",
    "last_run": "2026-10-10T16:13:52+03:00",
    "next_run": "2026-10-10T19:00:00+03:00"
   },
@@ -71,11 +72,16 @@
  },
  "draft": {
   "id": "20261010-161352",
-  "status": "approved",
+  "status": "published",
   "type": "reel",
   "issue_url": null
  },
  "log": [
+  {
+   "at": "2026-10-10T16:20:21+03:00",
+   "who": "poster",
+   "text": "Опубликовано: рилс «Будни инди-разработчика на осеннем Алтае»"
+  },
   {
    "at": "2026-10-10T16:19:28+03:00",
    "who": "poster",
