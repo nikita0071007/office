@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-10T17:03:44+03:00",
+ "updated_at": "2026-10-10T21:40:00+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 1,
@@ -58,9 +58,9 @@
    "next_run": "2026-10-12T10:00:00+03:00"
   },
   "guard": {
-   "status": "idle",
-   "task": "Всё спокойно",
-   "last_run": "2026-10-10T09:49:11+03:00",
+   "status": "working",
+   "task": "Обхожу офис…",
+   "last_run": "2026-10-10T21:40:00+03:00",
    "next_run": "2026-10-10T11:49:11+03:00"
   },
   "editor": {
