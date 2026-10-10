@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-10T08:54:47+03:00",
+ "updated_at": "2026-10-10T09:11:21+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 1,
@@ -45,10 +45,10 @@
    "next_run": "2026-10-11T08:15:00+03:00"
   },
   "poster": {
-   "status": "working",
-   "task": "Готовлю пост…",
-   "last_run": "2026-10-10T08:54:47+03:00",
-   "next_run": "2026-10-10T09:00:00+03:00"
+   "status": "waiting",
+   "task": "Ждёт вашего решения",
+   "last_run": "2026-10-10T09:11:21+03:00",
+   "next_run": "2026-10-10T14:00:00+03:00"
   },
   "scout": {
    "status": "idle",
@@ -64,12 +64,17 @@
   }
  },
  "draft": {
-  "id": "20261009-1430",
-  "status": "published",
+  "id": "20261010-0900",
+  "status": "waiting",
   "type": "reel",
-  "issue_url": "https://github.com/nikita0071007/office-data/issues/1"
+  "issue_url": "https://github.com/nikita0071007/office-data/issues/4"
  },
  "log": [
+  {
+   "who": "poster",
+   "at": "2026-10-10T09:11:21+03:00",
+   "text": "Подготовил черновик рилса «Золотая осень в горах» — ждёт решения"
+  },
   {
    "who": "analyst",
    "at": "2026-10-10T08:17:01+03:00",
