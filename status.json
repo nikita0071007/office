@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-10T00:06:00+03:00",
+ "updated_at": "2026-10-10T08:16:20+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 1,
@@ -36,9 +36,9 @@
  },
  "agents": {
   "analyst": {
-   "status": "idle",
-   "task": "Готов к работе. Первый разбор статистики — завтра в 8:15.",
-   "last_run": null,
+   "status": "working",
+   "task": "Разбираю статистику…",
+   "last_run": "2026-10-10T08:16:20+03:00",
    "next_run": "2026-10-10T08:15:00+03:00"
   },
   "poster": {
