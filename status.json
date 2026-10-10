@@ -1,9 +1,9 @@
 {
- "updated_at": "2026-10-10T16:02:24+03:00",
+ "updated_at": "2026-10-10T16:09:14+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 1,
-  "posts": 3,
+  "posts": 4,
   "queue": 23,
   "next_post": "2026-10-10T09:00:00+03:00",
   "goals": [
@@ -27,7 +27,7 @@
     "current": 0
    }
   ],
-  "last_post_url": "https://www.instagram.com/reel/DeRfiOoArWX/",
+  "last_post_url": "https://www.instagram.com/p/DeUKBkLG-UT/",
   "facebook": {
    "page": "Gusevmade",
    "page_id": "1435004723022101",
@@ -45,8 +45,8 @@
    "next_run": "2026-10-11T08:15:00+03:00"
   },
   "poster": {
-   "status": "waiting",
-   "task": "Одобрено — ждёт публикации",
+   "status": "idle",
+   "task": "Вышел пост — работаем дальше",
    "last_run": "2026-10-10T15:21:42+03:00",
    "next_run": "2026-10-10T19:00:00+03:00"
   },
@@ -76,6 +76,11 @@
   "issue_url": null
  },
  "log": [
+  {
+   "at": "2026-10-10T16:09:14+03:00",
+   "who": "poster",
+   "text": "Опубликовано: пост «Осенний вечер в алтайской глуши и эстетика удалённой жизни среди гор»"
+  },
   {
    "at": "2026-10-10T16:02:24+03:00",
    "who": "poster",
