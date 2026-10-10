@@ -411,7 +411,7 @@ html[data-size="m"] .floor{max-width:1000px}
 <g class="bubble b-zz" transform="translate(124 56)"><text font-family="Unbounded,sans-serif" font-size="12" fill="var(--muted)">z<tspan dx="2" dy="-6" font-size="9">z</tspan></text></g>
 </g></svg>
 <div class="plate">
-<div class="plate-top"><p class="who">Борис · охрана</p><span class="chip" data-chip="guard" data-s="idle">Отдыхает</span></div>
+<div class="plate-top"><p class="who">Славик · охрана</p><span class="chip" data-chip="guard" data-s="idle">Отдыхает</span></div>
 <p class="role">Безопасность · каждые 2 часа</p>
 <p class="task" data-task="guard">—</p>
 <span class="more">Подробнее →</span>
@@ -437,7 +437,7 @@ html[data-size="m"] .floor{max-width:1000px}
 <h2><i></i>Переговорная — команда отвечает</h2>
 <ul class="say" id="say"></ul>
 <div class="ask">
-<select id="askTo" aria-label="Кому вопрос"><option value="Всем">Всем</option><option value="Макс">Макс · контент</option><option value="Артём">Артём · монтаж</option><option value="Вера">Вера · аналитик</option><option value="Тимур">Тимур · тренды</option><option value="Борис">Борис · охрана</option></select>
+<select id="askTo" aria-label="Кому вопрос"><option value="Всем">Всем</option><option value="Макс">Макс · контент</option><option value="Артём">Артём · монтаж</option><option value="Вера">Вера · аналитик</option><option value="Тимур">Тимур · тренды</option><option value="Славик">Славик · охрана</option></select>
 <input id="askQ" type="text" placeholder="Например: Макс, пост уже вышел?" aria-label="Вопрос">
 <a class="btn ok" id="askBtn" target="_blank" rel="noopener" aria-disabled="true">Спросить</a>
 </div>
@@ -503,11 +503,11 @@ owner:{name:"Мой кабинет",role:"Руководитель",about:"Зд�
 analyst:{name:"Вера · аналитик",role:"Каждый день в 8:15",about:"Смотрит, как сработали посты: лайки, комментарии, сохранения, рост подписчиков. Пишет рекомендации, что публиковать сегодня. Подробная статистика по каждому посту откроется после 1000 подписчиков."},
 poster:{name:"Макс · контент-менеджер",role:"В 9:00 и 14:00 и по кнопке в Telegram",about:"Выбирает фото и видео в папке «Очередь» на Google Диске с учётом рекомендаций Веры и идей Тимура, ставит задачу Артёму, пишет подписи, хэштеги и тексты для Threads. Черновики присылает в Telegram-бот офиса с кнопками «Одобрить» и «Переделать». Публикуете вы."},
 editor:{name:"Артём · монтажёр",role:"Работает вместе с Максом",about:"Смотрит исходники (видит фото и видео через Gemini), выбирает лучшие моменты и монтирует: рилсы 9:16 с музыкой и текстом на экране, истории 9:16 и посты-карусели 4:5. Работает на сервере офиса."},
-guard:{name:"Борис · охранник",role:"Каждые 2 часа",about:"Следит, чтобы всё работало и было безопасно: проверяет подключения Instagram, Google Диска и GitHub, ищет спам и мошенников в комментариях (явных — скрывает, о спорных сообщает), проверяет, что в открытый офис не попало ничего личного. Если что-то не так — загорается красная лампа, и вам приходит уведомление."},
+guard:{name:"Славик · охранник",role:"Каждые 2 часа",about:"Следит, чтобы всё работало и было безопасно: проверяет подключения Instagram, Google Диска и GitHub, ищет спам и мошенников в комментариях (явных — скрывает, о спорных сообщает), проверяет, что в открытый офис не попало ничего личного. Если что-то не так — загорается красная лампа, и вам приходит уведомление."},
 scout:{name:"Тимур · разведчик трендов",role:"По понедельникам в 10:00",about:"Изучает, что сейчас заходит у инди-разработчиков игр и тревел-блогеров: форматы рилсов, звуки, темы, хэштеги. Кладёт 5–7 идей в план на неделю."}
 };
 var LABEL = {working:"Работает",waiting:"Ждёт вас",idle:"Отдыхает",error:"Нужна помощь",calm:"Всё спокойно"};
-var NAMES = {guard:"Борис",analyst:"Вера",poster:"Макс",editor:"Артём",scout:"Тимур",owner:"Вы"};
+var NAMES = {guard:"Славик",analyst:"Вера",poster:"Макс",editor:"Артём",scout:"Тимур",owner:"Вы"};
 var state = SEED;
 function $(s,r){return (r||document).querySelector(s)}
 function fmt(iso,opts){ if(!iso) return "—"; var d=new Date(iso); if(isNaN(d)) return String(iso);
@@ -596,7 +596,7 @@ function upd(){ var t=fix.value.trim();
 }
 fix.oninput=upd; upd();
 }
-var TEAM=[["poster","Макс","контент","#B0507A"],["editor","Артём","монтаж","#7A5AB0"],["analyst","Вера","аналитик","#3C6FB0"],["scout","Тимур","тренды","#5E8C4A"],["guard","Борис","охрана","#2B3A52"]];
+var TEAM=[["poster","Макс","контент","#B0507A"],["editor","Артём","монтаж","#7A5AB0"],["analyst","Вера","аналитик","#3C6FB0"],["scout","Тимур","тренды","#5E8C4A"],["guard","Славик","охрана","#2B3A52"]];
 function sayLine(k){ var a=(state.agents||{})[k]||{}, d=state.draft, acc=state.account||{}, s=a.status;
  if(k==="poster"){
   if(d && d.status==="waiting") return "Черновик "+d.id+" ждёт вашего «Одобрить». Пост пока не выложен.";
