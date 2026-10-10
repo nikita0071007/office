@@ -17,7 +17,7 @@
 :root{
 --bg:#E9EDF1; --ink:#1B2530; --muted:#5B6878; --line:#C9D1DA; --wall:#F7F9FB; --card:#FFFFFF;
 --accent:#1F6F78; --accent-soft:#D6EBEC; --part:#2A3542;
---floor-me:#DCE8DA; --floor-an:#D9E4F2; --floor-po:#EFE0E6; --floor-ed:#E7E0F2; --floor-sc:#E6EED5;
+--floor-me:#DCE8DA; --floor-an:#D9E4F2; --floor-po:#EFE0E6; --floor-ed:#E7E0F2; --floor-sc:#E6EED5; --floor-vi:#F1DFE4;
 --wood:#B98A5E; --wood-dark:#8C6440; --chair:#3D4A5A; --sky:#BFDDF0; --mtn:#7FA3B8; --mtn2:#5E8299;
 --ok:#2E8B57; --warn:#C9831A; --bad:#C2413B; --idle:#7D8896;
 --t-an:#3C6FB0; --t-po:#B0507A; --t-sc:#5E8C4A;
@@ -29,7 +29,7 @@ color-scheme:light;
 @media (prefers-color-scheme:dark){:root{
 --bg:#12171D; --ink:#E6ECF2; --muted:#98A5B4; --line:#2C3743; --wall:#1A2129; --card:#1E262F;
 --accent:#5FC2CB; --accent-soft:#1D3A3E; --part:#3A4756;
---floor-me:#22302A; --floor-an:#1F2A38; --floor-po:#30242B; --floor-ed:#2A2436; --floor-sc:#28301F;
+--floor-me:#22302A; --floor-an:#1F2A38; --floor-po:#30242B; --floor-ed:#2A2436; --floor-sc:#28301F; --floor-vi:#33232A;
 --wood:#8C6A4B; --wood-dark:#6A4E35; --chair:#4A5868; --sky:#2B4A63; --mtn:#4E6D82; --mtn2:#3B566A;
 --ok:#53C287; --warn:#E3A341; --bad:#E2675F; --idle:#8995A3;
 --t-an:#8DB4EA; --t-po:#E79BBE; --t-sc:#A7CF8C; color-scheme:dark}}
@@ -76,7 +76,7 @@ h1{font-family:var(--display);font-weight:700;font-size:clamp(22px,3.4vw,32px);m
 .log li:last-child{border-bottom:none}
 .log time{font-family:var(--mono);font-size:12px;color:var(--muted);padding-top:2px}
 .tag{font-weight:700;margin-right:6px}
-.tag.analyst{color:var(--t-an)} .tag.poster{color:var(--t-po)} .tag.scout{color:var(--t-sc)} .tag.editor{color:#7A5AB0} .tag.owner{color:var(--accent)}
+.tag.analyst{color:var(--t-an)} .tag.poster{color:var(--t-po)} .tag.scout{color:var(--t-sc)} .tag.editor{color:#7A5AB0} .tag.video{color:#8E2C48} .tag.owner{color:var(--accent)}
 .foot{font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 18px}
 dialog{border:none;border-radius:12px;padding:0;width:min(560px,calc(100vw - 32px));max-height:calc(100dvh - 48px);background:var(--card);color:var(--ink);box-shadow:0 20px 60px rgba(0,0,0,.35)}
 dialog::backdrop{background:rgba(10,15,20,.55)}
@@ -152,7 +152,7 @@ html[data-size="s"] .floor .task{-webkit-line-clamp:1;font-size:12.5px}
 html[data-size="s"] .floor .plate{padding:8px 12px 10px;gap:4px}
 html[data-size="s"] .floor .who{font-size:13px}
 html[data-size="s"] .kpi{padding:6px 12px}
-.floor{grid-template-columns:repeat(4,1fr)} .room[data-key="meet"]{grid-column:span 2} .room[data-key="meet"] .scene{aspect-ratio:640/200}
+.floor{grid-template-columns:repeat(4,1fr)} .room[data-key="meet"]{grid-column:span 1} .room[data-key="meet"] .scene{aspect-ratio:320/200}
 @media (max-width:640px){.floor{grid-template-columns:1fr 1fr}}
 html[data-size="s"] .floor{max-width:max(320px,calc((100dvh - 330px) * 2.2))}
 html[data-size="m"] .floor{max-width:1000px}
@@ -185,7 +185,7 @@ html[data-size="m"] .floor{max-width:1000px}
 <header>
 <div>
 <h1>Офис gusevmade</h1>
-<p class="sub">Пять ИИ-сотрудников ведут Instagram, пока вы занимаетесь своими делами</p>
+<p class="sub">Шесть ИИ-сотрудников ведут Instagram и видео, пока вы занимаетесь своими делами</p>
 </div>
 <div class="clock"><a href="3d.html" style="display:inline-block;margin-top:6px;font-family:var(--body);font-weight:800;font-size:13px;color:#fff;background:var(--accent);padding:6px 12px;border-radius:999px;text-decoration:none">🧊 3D-офис</a><b id="clock">--:--</b>Москва · <span class="live" id="live">загрузка…</span></div>
 </header>
@@ -343,6 +343,48 @@ html[data-size="m"] .floor{max-width:1000px}
 <span class="more">Подробнее →</span>
 </div>
 </button>
+<button class="room" data-key="video" type="button">
+<svg class="scene" viewBox="0 0 320 200" role="img" aria-label="Кабинет Анжелики — видеохостинги"><rect width="320" height="200" fill="var(--floor-vi)"/><rect width="320" height="92" fill="var(--wall)"/><rect y="90" width="320" height="3" fill="var(--line)"/>
+<g transform="translate(14 12)"><rect width="58" height="80" rx="2" fill="#6B3446"/><rect x="5" y="5" width="48" height="70" rx="1" fill="none" stroke="#C9A35A" stroke-width="1.5"/><circle cx="48" cy="44" r="2.6" fill="#C9A35A"/>
+<rect x="6" y="12" width="46" height="22" rx="2" fill="#2A1620" stroke="#C9A35A" stroke-width="1"/><text x="29" y="21.5" text-anchor="middle" font-family="Manrope,sans-serif" font-weight="800" font-size="7.4" fill="#F3D27A">Анжелика</text><text x="29" y="27.5" text-anchor="middle" font-family="Manrope,sans-serif" font-weight="600" font-size="3.6" fill="#E8D9C0">генеральный директор</text><text x="29" y="31.5" text-anchor="middle" font-family="Manrope,sans-serif" font-weight="600" font-size="3.6" fill="#E8D9C0">по видеохостингу</text></g>
+<g transform="translate(176 12)"><rect width="128" height="66" rx="3" fill="#1B2530"/>
+<rect x="6" y="6" width="36" height="22" rx="2" fill="#F2C46B"/><rect x="46" y="6" width="36" height="22" rx="2" fill="#8CC7A1"/><rect x="86" y="6" width="36" height="22" rx="2" fill="#7FB6D6"/>
+<rect x="6" y="32" width="36" height="22" rx="2" fill="#E07B4F"/><rect x="46" y="32" width="36" height="22" rx="2" fill="#B08CE0"/><rect x="86" y="32" width="36" height="22" rx="2" fill="#E2675F"/>
+<g fill="#FFFFFF" opacity=".92"><path d="M21 13 L29 17 L21 21Z"/><path d="M61 13 L69 17 L61 21Z"/><path d="M101 13 L109 17 L101 21Z"/><path d="M21 39 L29 43 L21 47Z"/><path d="M61 39 L69 43 L61 47Z"/><path d="M101 39 L109 43 L101 47Z"/></g>
+<rect x="6" y="58" width="80" height="3" rx="1.5" fill="#E2675F"/><text x="122" y="62" text-anchor="end" font-family="Manrope,sans-serif" font-weight="700" font-size="6" fill="#53C287">12 480 ▲</text></g>
+<g transform="translate(272 96)"><rect x="-1.5" y="0" width="3" height="80" fill="#1B2530"/><circle cx="0" cy="-2" r="13" fill="none" stroke="#FFF6E0" stroke-width="4"/><circle cx="0" cy="-2" r="13" fill="none" stroke="#F2C46B" stroke-width="1" opacity=".6"/></g>
+<g id="p-video">
+<rect x="134" y="78" width="52" height="58" rx="10" fill="var(--chair)"/>
+<g class="head">
+<path d="M141 84 Q138 57 160 57 Q182 57 179 84 L183 114 Q171 108 167 98 L153 98 Q149 108 137 114 Z" fill="#1C1210"/>
+<rect x="155" y="92" width="10" height="10" fill="#F0C8A6"/>
+<circle cx="160" cy="82" r="15" fill="#F0C8A6"/>
+<path d="M144.5 81 Q145 65 160 65 Q174 65 176 79 Q168 70 156 73 Q149 75 144.5 81Z" fill="#1C1210"/>
+<circle class="eye" cx="154.5" cy="83" r="1.8" fill="#1B2530"/><circle class="eye" cx="165.5" cy="83" r="1.8" fill="#1B2530"/>
+<path d="M155 90 Q160 93.5 165 90" fill="none" stroke="#B0454F" stroke-width="1.8" stroke-linecap="round"/>
+<circle cx="145" cy="90" r="1.6" fill="#C9A35A"/><circle cx="175" cy="90" r="1.6" fill="#C9A35A"/>
+</g>
+<path d="M136 132 Q136 102 160 100 Q184 102 184 132 Z" fill="#8E2C48"/>
+<path d="M153 101 L160 110 L167 101" fill="none" stroke="#F0C8A6" stroke-width="3"/>
+<rect x="84" y="128" width="152" height="10" rx="2" fill="#F4F1EA"/>
+<rect x="84" y="136" width="152" height="4" fill="#C9A35A"/>
+<rect x="92" y="140" width="5" height="40" fill="#C9A35A"/><rect x="223" y="140" width="5" height="40" fill="#C9A35A"/>
+<g class="hands"><ellipse cx="134" cy="126" rx="7" ry="4.5" fill="#F0C8A6"/><ellipse cx="186" cy="126" rx="7" ry="4.5" fill="#F0C8A6"/></g>
+<path d="M140 104 H180 L183 128 H137 Z" fill="#AEB8C4"/>
+<circle class="screen-glow" cx="160" cy="116" r="4" fill="#F2A7B8" opacity=".9"/>
+<g transform="translate(100 112)"><rect x="0" y="6" width="9" height="10" rx="2" fill="#F4F1EA"/><circle cx="2" cy="4" r="3" fill="#E2675F"/><circle cx="7" cy="3" r="3" fill="#F2C46B"/></g>
+<g transform="translate(206 114)"><rect width="9" height="12" rx="2" fill="#C2413B"/></g>
+<g class="bubble b-wait" transform="translate(186 34)"><rect width="34" height="24" rx="8" fill="#FFFFFF" stroke="var(--warn)" stroke-width="2"/><path d="M6 24 L2 32 L14 24Z" fill="#FFFFFF" stroke="var(--warn)" stroke-width="2" stroke-linejoin="round"/><rect x="9" y="7" width="16" height="11" rx="1.5" fill="none" stroke="var(--warn)" stroke-width="2"/><path d="M9 8 L17 14 L25 8" fill="none" stroke="var(--warn)" stroke-width="2"/></g>
+<g class="bubble b-err" transform="translate(186 34)"><rect width="28" height="24" rx="8" fill="#FFFFFF" stroke="var(--bad)" stroke-width="2"/><text x="14" y="18" text-anchor="middle" font-family="Manrope,sans-serif" font-weight="700" font-size="16" fill="var(--bad)">!</text></g>
+<g class="bubble b-zz" transform="translate(124 56)"><text font-family="Unbounded,sans-serif" font-size="12" fill="var(--muted)">z<tspan dx="2" dy="-6" font-size="9">z</tspan></text></g>
+</g></svg>
+<div class="plate">
+<div class="plate-top"><p class="who">Анжелика · видео</p><span class="chip" data-chip="video" data-s="idle">Отдыхает</span></div>
+<p class="role">YouTube, VK Видео, RuTube, RuStore</p>
+<p class="task" data-task="video">—</p>
+<span class="more">Подробнее →</span>
+</div>
+</button>
 <button class="room" data-key="scout" type="button">
 <svg class="scene" viewBox="0 0 320 200" role="img" aria-label="Кабинет разведчика трендов"><rect width="320" height="200" fill="var(--floor-sc)"/><rect width="320" height="92" fill="var(--wall)"/><rect y="90" width="320" height="3" fill="var(--line)"/>
 <g transform="translate(170 10)"><rect width="128" height="70" rx="3" fill="#F3EBD3" stroke="var(--line)" stroke-width="3"/>
@@ -412,7 +454,7 @@ html[data-size="m"] .floor{max-width:1000px}
 </g></svg>
 <div class="plate">
 <div class="plate-top"><p class="who">Славик · охрана</p><span class="chip" data-chip="guard" data-s="idle">Отдыхает</span></div>
-<p class="role">Безопасность · каждые 2 часа</p>
+<p class="role">Безопасность · 2 раза в день</p>
 <p class="task" data-task="guard">—</p>
 <span class="more">Подробнее →</span>
 </div>
@@ -437,7 +479,7 @@ html[data-size="m"] .floor{max-width:1000px}
 <h2><i></i>Переговорная — команда отвечает</h2>
 <ul class="say" id="say"></ul>
 <div class="ask">
-<select id="askTo" aria-label="Кому вопрос"><option value="Всем">Всем</option><option value="Макс">Макс · контент</option><option value="Артём">Артём · монтаж</option><option value="Вера">Вера · аналитик</option><option value="Тимур">Тимур · тренды</option><option value="Славик">Славик · охрана</option></select>
+<select id="askTo" aria-label="Кому вопрос"><option value="Всем">Всем</option><option value="Макс">Макс · контент</option><option value="Артём">Артём · монтаж</option><option value="Вера">Вера · аналитик</option><option value="Тимур">Тимур · тренды</option><option value="Анжелика">Анжелика · видео</option><option value="Славик">Славик · охрана</option></select>
 <input id="askQ" type="text" placeholder="Например: Макс, пост уже вышел?" aria-label="Вопрос">
 <a class="btn ok" id="askBtn" target="_blank" rel="noopener" aria-disabled="true">Спросить</a>
 </div>
@@ -502,12 +544,13 @@ var INFO = {
 owner:{name:"Мой кабинет",role:"Руководитель",about:"Здесь собирается всё, что требует вашего решения. Черновик поста приходит уведомлением: ответьте «да» — пост выйдет, или напишите правки."},
 analyst:{name:"Вера · аналитик",role:"Каждый день в 8:15",about:"Смотрит, как сработали посты: лайки, комментарии, сохранения, рост подписчиков. Пишет рекомендации, что публиковать сегодня. Подробная статистика по каждому посту откроется после 1000 подписчиков."},
 poster:{name:"Макс · контент-менеджер",role:"В 9:00 и 14:00 и по кнопке в Telegram",about:"Выбирает фото и видео в папке «Очередь» на Google Диске с учётом рекомендаций Веры и идей Тимура, ставит задачу Артёму, пишет подписи, хэштеги и тексты для Threads. Черновики присылает в Telegram-бот офиса с кнопками «Одобрить» и «Переделать». Публикуете вы."},
+video:{name:"Анжелика · генеральный директор по видеохостингу",role:"Ср и сб в 11:00, на сервере",about:"Отвечает за видеоплощадки: YouTube Shorts, VK Видео / Клипы, RuTube и страницу «Бабушкиной дачи» в RuStore. Дважды в неделю готовит план ролика: название, описание, теги и хук для каждой площадки, с прицелом на продвижение игры. Публикуете вы — по её готовому тексту."},
 editor:{name:"Артём · монтажёр",role:"Работает вместе с Максом",about:"Смотрит исходники (видит фото и видео через Gemini), выбирает лучшие моменты и монтирует: рилсы 9:16 с музыкой и текстом на экране, истории 9:16 и посты-карусели 4:5. Работает на сервере офиса."},
 guard:{name:"Славик · охранник",role:"2 раза в день, на сервере",about:"Следит, чтобы всё работало и было безопасно: проверяет подключения Instagram, Google Диска и GitHub, ищет спам и мошенников в комментариях (сам ничего не удаляет — присылает вам), проверяет, что в открытый офис не попало ничего личного. Если что-то не так — загорается красная лампа, и вам приходит уведомление."},
 scout:{name:"Тимур · разведчик трендов",role:"По понедельникам в 10:00",about:"Изучает, что сейчас заходит у инди-разработчиков игр и тревел-блогеров: форматы рилсов, звуки, темы, хэштеги. Кладёт 5–7 идей в план на неделю."}
 };
 var LABEL = {working:"Работает",waiting:"Ждёт вас",idle:"Отдыхает",error:"Нужна помощь",calm:"Всё спокойно"};
-var NAMES = {guard:"Славик",analyst:"Вера",poster:"Макс",editor:"Артём",scout:"Тимур",owner:"Вы"};
+var NAMES = {guard:"Славик",analyst:"Вера",poster:"Макс",editor:"Артём",video:"Анжелика",scout:"Тимур",owner:"Вы"};
 var state = SEED;
 function $(s,r){return (r||document).querySelector(s)}
 function fmt(iso,opts){ if(!iso) return "—"; var d=new Date(iso); if(isNaN(d)) return String(iso);
@@ -536,14 +579,14 @@ txt($("#k-followers"), a.followers!=null ? a.followers.toLocaleString("ru-RU") :
 txt($("#k-posts"), a.posts!=null ? a.posts : "—");
 txt($("#k-queue"), a.queue!=null ? a.queue : "—");
 txt($("#k-next"), a.next_post ? fmt(a.next_post,{month:"short"}) : "—");
-["analyst","poster","editor","scout","guard"].forEach(function(k){
+["analyst","poster","editor","video","scout","guard"].forEach(function(k){
 var d=(state.agents||{})[k]||{}; var s=LABEL[d.status]?d.status:"idle";
 chip($('[data-chip="'+k+'"]'), s); txt($('[data-task="'+k+'"]'), d.task||"—"); scene(k,s);
 });
 var os=ownerState(); chip($('[data-chip="owner"]'), os, os==="waiting"?"Есть черновик":"Всё спокойно");
 txt($('[data-task="owner"]'), os==="waiting" ? "Контент-менеджер ждёт вашего ответа: «да» или правки." : "Новых черновиков на подпись нет.");
 scene("owner", os==="waiting"?"waiting":"calm");
-var anyErr=["analyst","poster","editor","scout","guard"].some(function(k){return ((state.agents||{})[k]||{}).status==="error"});
+var anyErr=["analyst","poster","editor","video","scout","guard"].some(function(k){return ((state.agents||{})[k]||{}).status==="error"});
 document.querySelectorAll("#lamp").forEach(function(l){l.classList.toggle("alarm",anyErr)});
 var md=(state.draft&&state.draft.status==="waiting"); chip($('[data-chip="meet"]'), md?"waiting":"calm", md?"Есть черновик":"Чат");
 renderChat(); renderTeam(); renderGoals();
@@ -596,7 +639,7 @@ function upd(){ var t=fix.value.trim();
 }
 fix.oninput=upd; upd();
 }
-var TEAM=[["poster","Макс","контент","#B0507A"],["editor","Артём","монтаж","#7A5AB0"],["analyst","Вера","аналитик","#3C6FB0"],["scout","Тимур","тренды","#5E8C4A"],["guard","Славик","охрана","#2B3A52"]];
+var TEAM=[["poster","Макс","контент","#B0507A"],["editor","Артём","монтаж","#7A5AB0"],["video","Анжелика","видео","#8E2C48"],["analyst","Вера","аналитик","#3C6FB0"],["scout","Тимур","тренды","#5E8C4A"],["guard","Славик","охрана","#2B3A52"]];
 function sayLine(k){ var a=(state.agents||{})[k]||{}, d=state.draft, acc=state.account||{}, s=a.status;
  if(k==="poster"){
   if(d && d.status==="waiting") return "Черновик "+d.id+" ждёт вашего «Одобрить». Пост пока не выложен.";
