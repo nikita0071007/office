@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-10T09:49:11+03:00",
+ "updated_at": "2026-10-10T13:53:57+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 1,
@@ -46,9 +46,9 @@
   },
   "poster": {
    "status": "waiting",
-   "task": "Ждёт вашего решения",
-   "last_run": "2026-10-10T09:11:21+03:00",
-   "next_run": "2026-10-10T14:00:00+03:00"
+   "task": "Одобрено — ждёт публикации владельцем",
+   "last_run": "2026-10-10T13:53:57+03:00",
+   "next_run": "2026-10-10T19:00:00+03:00"
   },
   "scout": {
    "status": "idle",
@@ -65,11 +65,16 @@
  },
  "draft": {
   "id": "20261010-0900",
-  "status": "waiting",
+  "status": "approved",
   "type": "reel",
   "issue_url": "https://github.com/nikita0071007/office-data/issues/4"
  },
  "log": [
+  {
+   "who": "poster",
+   "at": "2026-10-10T13:53:57+03:00",
+   "text": "Черновик 20261010-0900 одобрен владельцем — ждёт ручной публикации"
+  },
   {
    "who": "guard",
    "at": "2026-10-10T09:49:11+03:00",
