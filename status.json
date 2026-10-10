@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-10T16:18:03+03:00",
+ "updated_at": "2026-10-10T16:19:28+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 1,
@@ -46,7 +46,7 @@
   },
   "poster": {
    "status": "waiting",
-   "task": "Ждёт вашего решения",
+   "task": "Одобрено — ждёт публикации",
    "last_run": "2026-10-10T16:13:52+03:00",
    "next_run": "2026-10-10T19:00:00+03:00"
   },
@@ -71,11 +71,16 @@
  },
  "draft": {
   "id": "20261010-161352",
-  "status": "waiting",
+  "status": "approved",
   "type": "reel",
   "issue_url": null
  },
  "log": [
+  {
+   "at": "2026-10-10T16:19:28+03:00",
+   "who": "poster",
+   "text": "Одобрен черновик (рилс)"
+  },
   {
    "at": "2026-10-10T16:18:03+03:00",
    "who": "poster",
