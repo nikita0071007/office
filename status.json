@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-10T13:53:57+03:00",
+ "updated_at": "2026-10-10T15:21:42+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 1,
@@ -45,9 +45,9 @@
    "next_run": "2026-10-11T08:15:00+03:00"
   },
   "poster": {
-   "status": "waiting",
-   "task": "Одобрено — ждёт публикации владельцем",
-   "last_run": "2026-10-10T13:53:57+03:00",
+   "status": "working",
+   "task": "Выбираю материал на пост…",
+   "last_run": "2026-10-10T15:21:42+03:00",
    "next_run": "2026-10-10T19:00:00+03:00"
   },
   "scout": {
@@ -61,13 +61,19 @@
    "task": "Всё спокойно",
    "last_run": "2026-10-10T09:49:11+03:00",
    "next_run": "2026-10-10T11:49:11+03:00"
+  },
+  "editor": {
+   "status": "idle",
+   "task": "Готов монтировать",
+   "last_run": null,
+   "next_run": null
   }
  },
  "draft": {
   "id": "20261010-0900",
   "status": "approved",
   "type": "reel",
-  "issue_url": "https://github.com/nikita0071007/office-data/issues/4"
+  "issue_url": null
  },
  "log": [
   {
