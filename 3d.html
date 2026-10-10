@@ -298,10 +298,10 @@ aRug.rotation.x=-Math.PI/2;aRug.position.set(AX,.006,6.9);aRug.receiveShadow=tru
 // белый стол и кресло руководителя
 const ADZ=6.2;
 box(2.4,.06,1.1,MAT.white,AX,.76,ADZ);box(.07,.73,1.0,MAT.brass,AX-1.12,.37,ADZ);box(.07,.73,1.0,MAT.brass,AX+1.12,.37,ADZ);
-const angS1=monitor(AX-.42,.79,ADZ-.25,.1,'tube',scene,true), angS2=monitor(AX+.48,.79,ADZ-.25,-.18,'video');
+const angS1=monitor(AX-.72,.79,ADZ-.05,.5,'tube',scene,true), angS2=monitor(AX+.72,.79,ADZ-.05,-.5,'video');
 keyboard(AX,.8,ADZ+.12,0);
 cyl(.045,.04,.1,M(0xc2413b,.5),AX+.95,.84,ADZ+.1);                 // кружка
-const vase=cyl(.07,.05,.24,MAT.white,AX-1.0,.91,ADZ-.25);[0,1,2].forEach(i=>{const f=new THREE.Mesh(new THREE.SphereGeometry(.05,10,8),M([0xe2675f,0xf2c46b,0xf4f1ea][i],.6));f.position.set(AX-1.0+(i-1)*.05,1.1+i*.03,ADZ-.25);scene.add(f);});
+const vase=cyl(.07,.05,.24,MAT.white,AX-1.0,.91,ADZ+.3);[0,1,2].forEach(i=>{const f=new THREE.Mesh(new THREE.SphereGeometry(.05,10,8),M([0xe2675f,0xf2c46b,0xf4f1ea][i],.6));f.position.set(AX-1.0+(i-1)*.05,1.1+i*.03,ADZ+.3);scene.add(f);});
 chair(AX,ADZ+.95,Math.PI,true);
 // кольцевая лампа и камера для съёмки
 const rl=new THREE.Group();rl.position.set(AX+1.9,0,ADZ+.4);scene.add(rl);cyl(.012,.012,1.6,MAT.black,0,.8,0,rl,8);
@@ -420,7 +420,7 @@ function load(){if(location.protocol==='file:')return;fetch('status.json?t='+Dat
 setInterval(load,60000);load();
 
 // ---------- камера ----------
-const VIEWS={all:[[-9,14,-19],[0,.5,1.8]],boss:[[0,2.1,-1.6],[0,1.4,8.5]],team:[[0,9.5,4.8],[0,.4,-6.4]],guard:[[GX-2.2,2.4,GZ-2.2],[GX+.7,1.2,GZ+2.6]],video:[[AXR-1.0,2.3,AZ0-1.6],[AX-.6,1.2,AZ1-1.2]]};
+const VIEWS={all:[[-9,14,-19],[0,.5,1.8]],boss:[[0,2.1,-1.6],[0,1.4,8.5]],team:[[0,9.5,4.8],[0,.4,-6.4]],guard:[[GX-2.2,2.4,GZ-2.2],[GX+.7,1.2,GZ+2.6]],video:[[AX+1.7,1.95,AZ0+.4],[AX-.2,1.15,ADZ+.9]]};
 let fly=null;function go(v){const [p,tg]=VIEWS[v];fly={p:V(...p),t:V(...tg)};document.querySelectorAll('.views button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.v===v)));}
 document.querySelectorAll('.views button').forEach(b=>b.onclick=()=>go(b.dataset.v));
 camera.position.set(...VIEWS.all[0]);controls.target.set(...VIEWS.all[1]);
