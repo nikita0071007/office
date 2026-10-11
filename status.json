@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-11T09:40:08+03:00",
+ "updated_at": "2026-10-11T10:15:27+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 1,
@@ -46,8 +46,8 @@
    "next_run": "завтра 08:15"
   },
   "poster": {
-   "status": "waiting",
-   "task": "Ждёт вашего решения",
+   "status": "idle",
+   "task": "Черновик отменён (рилс)",
    "last_run": "2026-10-11T09:00:00+03:00",
    "next_run": "2026-10-10T19:00:00+03:00"
   },
@@ -78,11 +78,16 @@
  },
  "draft": {
   "id": "20261011-090000",
-  "status": "waiting",
+  "status": "cancelled",
   "type": "reel",
   "issue_url": null
  },
  "log": [
+  {
+   "at": "2026-10-11T10:15:27+03:00",
+   "who": "poster",
+   "text": "Владелец отменил черновик (рилс)"
+  },
   {
    "at": "2026-10-11T09:40:08+03:00",
    "who": "guard",
