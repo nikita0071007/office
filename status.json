@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-11T09:00:00+03:00",
+ "updated_at": "2026-10-11T09:00:12+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 1,
@@ -64,9 +64,9 @@
    "next_run": "через 12 часов"
   },
   "editor": {
-   "status": "idle",
-   "task": "Сделал рилс: «Будни инди-разработчика на осеннем Алтае»",
-   "last_run": "2026-10-10T16:14:11+03:00",
+   "status": "working",
+   "task": "Монтирую рилс…",
+   "last_run": "2026-10-11T09:00:12+03:00",
    "next_run": null
   },
   "video": {
