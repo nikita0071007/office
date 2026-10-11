@@ -1,9 +1,9 @@
 {
- "updated_at": "2026-10-11T21:14:49+03:00",
+ "updated_at": "2026-10-11T21:15:33+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 1,
-  "posts": 6,
+  "posts": 7,
   "queue": 9,
   "next_post": "2026-10-10T09:00:00+03:00",
   "goals": [
@@ -18,7 +18,7 @@
     "key": "reels_week",
     "name": "Рилсы на этой неделе",
     "target": 3,
-    "current": 3
+    "current": 4
    },
    {
     "key": "link_taps_week",
@@ -27,7 +27,7 @@
     "current": 0
    }
   ],
-  "last_post_url": "https://www.instagram.com/p/DeWRrd8DDM1/",
+  "last_post_url": "https://www.instagram.com/reel/DeXR2b-CjK1/",
   "facebook": {
    "page": "Gusevmade",
    "page_id": "1435004723022101",
@@ -36,7 +36,7 @@
    "views_7d": 0,
    "engagements_7d": 0
   },
-  "last_published_at": "2026-10-10T16:20:21+03:00",
+  "last_published_at": "2026-10-11T21:15:33+03:00",
   "audit": {
    "at": "2026-10-11T11:37:45+03:00",
    "score": 76
@@ -50,8 +50,8 @@
    "next_run": "завтра 08:15"
   },
   "poster": {
-   "status": "waiting",
-   "task": "Одобрено — ждёт публикации",
+   "status": "idle",
+   "task": "Вышел рилс — работаем дальше",
    "last_run": "2026-10-11T21:08:22+03:00",
    "next_run": "2026-10-10T19:00:00+03:00"
   },
@@ -82,11 +82,16 @@
  },
  "draft": {
   "id": "20261011-210822",
-  "status": "approved",
+  "status": "published",
   "type": "reel",
   "issue_url": null
  },
  "log": [
+  {
+   "at": "2026-10-11T21:15:33+03:00",
+   "who": "poster",
+   "text": "Опубликовано: рилс «Рабочее место мечты с видом на горы и реку»"
+  },
   {
    "at": "2026-10-11T21:14:49+03:00",
    "who": "poster",
@@ -281,11 +286,6 @@
    "at": "2026-10-09T20:30:23+03:00",
    "who": "poster",
    "text": "Ответил на ваш вопрос"
-  },
-  {
-   "at": "2026-10-09T15:45:00+03:00",
-   "who": "poster",
-   "text": "Опубликован рилс «Процесс»"
   }
  ]
 }
