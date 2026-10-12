@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-12T21:40:10+03:00",
+ "updated_at": "2026-10-12T22:01:06+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 2,
@@ -89,6 +89,30 @@
    "status": "idle",
    "task": "Вычитал подпись к посту: поправил 2 — Убрал лишний призыв к сохранению; Сделал фразу про код точнее к исходнику",
    "last_run": "2026-10-12T20:46:26+03:00",
+   "next_run": null
+  },
+  "coach": {
+   "status": "idle",
+   "task": "Первый разбор дня — сегодня в 22:30",
+   "last_run": null,
+   "next_run": null
+  },
+  "community": {
+   "status": "working",
+   "task": "Читаю комментарии…",
+   "last_run": "2026-10-12T22:01:06+03:00",
+   "next_run": null
+  },
+  "archivist": {
+   "status": "idle",
+   "task": "Опишу «Очередь» завтра в 7:30",
+   "last_run": null,
+   "next_run": null
+  },
+  "producer": {
+   "status": "idle",
+   "task": "Первый отчёт — в воскресенье в 19:00",
+   "last_run": null,
    "next_run": null
   }
  },
