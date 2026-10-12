@@ -113,6 +113,25 @@ dialog::backdrop{background:rgba(10,15,20,.55)}
 .chip{font-size:10.5px;padding:2px 7px}
 .log li{grid-template-columns:1fr;gap:0}
 }
+.floor{position:relative}
+.patrol{position:absolute;left:0;top:0;width:var(--pw,44px);z-index:3;pointer-events:none;transition-property:transform;transition-timing-function:linear;will-change:transform}
+.patrol svg{display:block;width:100%;height:auto;overflow:visible;filter:drop-shadow(0 2px 2px rgba(0,0,0,.25))}
+.patrol .fig{transform-origin:50% 100%}
+.patrol.left .fig{transform:scaleX(-1)}
+.patrol.walk .legl{animation:legl .45s ease-in-out infinite;transform-origin:50% 0;transform-box:fill-box}
+.patrol.walk .legr{animation:legl .45s ease-in-out infinite reverse;transform-origin:50% 0;transform-box:fill-box}
+.patrol.walk .bob{animation:bob .45s ease-in-out infinite}
+.patrol.hidden{opacity:0}
+.patrol .say{position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-30%);width:max-content;max-width:min(200px,42vw);background:var(--card);color:var(--ink);border:2px solid var(--part);border-radius:10px;padding:5px 9px;font:600 12px/1.3 var(--body);opacity:0;transition:opacity .25s;text-wrap:balance}
+.patrol .say::after{content:"";position:absolute;top:100%;left:24%;border:6px solid transparent;border-top-color:var(--part)}
+.patrol .say.show{opacity:1}
+.patrol.edge-r .say{left:auto;right:0;transform:none}
+.patrol.edge-r .say::after{left:auto;right:12px}
+.patrol .say.angry{border-color:var(--bad)} .patrol .say.angry::after{border-top-color:var(--bad)}
+.floor.patrolling #p-guard .head,.floor.patrolling #p-guard .hands,.floor.patrolling #p-guard>path:nth-of-type(1){opacity:0}
+@keyframes legl{50%{transform:rotate(22deg)}}
+@keyframes bob{50%{transform:translateY(-1.5px)}}
+@media (max-width:560px){.patrol .say{font-size:10.5px;padding:3px 7px}}
 .chat{display:flex;flex-direction:column;gap:12px}
 .chat h2 i{background:var(--t-po)}
 .chat-grid{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:18px;align-items:start}
@@ -495,7 +514,7 @@ html[data-size="m"] .floor{max-width:1000px}
 </g></svg>
 <div class="plate">
 <div class="plate-top"><p class="who">Славик · охрана</p><span class="chip" data-chip="guard" data-s="idle">Отдыхает</span></div>
-<p class="role">Безопасность · 2 раза в день</p>
+<p class="role">Охрана и порядок · обход каждые 15 минут</p>
 <p class="task" data-task="guard">—</p>
 <span class="more">Подробнее →</span>
 </div>
@@ -588,7 +607,7 @@ poster:{name:"Макс · контент-менеджер",role:"В 9:00 и 14:0
 critic:{name:"Юрий · редактор-критик",role:"Вычитывает каждый текст Макса",about:"Бывший священник, ходит в мантии; кабинет посвящён церкви и её служению. Ценит честное слово и простую речь: перед тем как черновик придёт вам, вычитывает подпись и пост для Threads — убирает ИИ-штампы и пафос, вычёркивает выдуманные факты и следит за вашими постоянными правилами. Что поправил — видно в черновике строкой «Юрий поправил»."},
 video:{name:"Анжелика · генеральный директор по видеохостингу",role:"Ср и сб в 11:00, на сервере",about:"Отвечает за видеоплощадки: YouTube Shorts, VK Видео / Клипы, RuTube и страницу «Бабушкиной дачи» в RuStore. Дважды в неделю готовит план ролика: название, описание, теги и хук для каждой площадки, с прицелом на продвижение игры. Публикуете вы — по её готовому тексту."},
 editor:{name:"Артём · монтажёр",role:"Работает вместе с Максом",about:"Смотрит исходники (видит фото и видео через Gemini), выбирает лучшие моменты и монтирует: рилсы 9:16 с музыкой и текстом на экране, истории 9:16 и посты-карусели 4:5. Работает на сервере офиса."},
-guard:{name:"Славик · охранник",role:"2 раза в день, на сервере",about:"Следит, чтобы всё работало и было безопасно: проверяет подключения Instagram, Google Диска и GitHub, ищет спам и мошенников в комментариях (сам ничего не удаляет — присылает вам), проверяет, что в открытый офис не попало ничего личного. Если что-то не так — загорается красная лампа, и вам приходит уведомление."},
+guard:{name:"Славик · охранник",role:"обход каждые 15 минут, проверка 2 раза в день",about:"Следит, чтобы всё работало и было безопасно: проверяет подключения Instagram, Google Диска и GitHub, ищет спам и мошенников в комментариях (сам ничего не удаляет — присылает вам), проверяет, что в открытый офис не попало ничего личного. Если что-то не так — загорается красная лампа, и вам приходит уведомление. Каждые 15 минут ходит по офису: кто завис или споткнулся — подгоняет («давай-давай, начальник ждёт!»), а если не помогает — пишет вам."},
 scout:{name:"Тимур · разведчик трендов",role:"По понедельникам в 10:00",about:"Изучает, что сейчас заходит у инди-разработчиков игр и тревел-блогеров: форматы рилсов, звуки, темы, хэштеги. Кладёт 5–7 идей в план на неделю."}
 };
 var LABEL = {working:"Работает",waiting:"Ждёт вас",idle:"Отдыхает",error:"Нужна помощь",calm:"Всё спокойно"};
@@ -743,6 +762,76 @@ fetch("status.json?t="+Date.now(),{cache:"no-store"}).then(function(r){ if(!r.ok
 $("#askQ").addEventListener("input",askUpd); $("#askTo").addEventListener("change",askUpd); askUpd();
 render(); load(); setInterval(load, 60000);
 document.addEventListener("visibilitychange", function(){ if(!document.hidden) load(); });
+
+/* ---- Славик ходит по офису и подгоняет тех, кто завис ---- */
+(function(){
+var floor=document.querySelector(".floor"); if(!floor) return;
+var SVG='<svg viewBox="0 0 40 64" aria-hidden="true"><g class="fig">'+
+'<g class="legl"><rect x="13" y="44" width="6" height="16" rx="2" fill="#1E2A3C"/><rect x="11" y="58" width="9" height="4" rx="2" fill="#11161D"/></g>'+
+'<g class="legr"><rect x="21" y="44" width="6" height="16" rx="2" fill="#1E2A3C"/><rect x="20" y="58" width="9" height="4" rx="2" fill="#11161D"/></g>'+
+'<g class="bob"><path d="M9 46 Q9 26 20 25 Q31 26 31 46Z" fill="#2B3A52"/><rect x="13" y="30" width="5" height="3" rx="1" fill="#E0B341"/>'+
+'<rect x="27" y="30" width="5" height="13" rx="2.5" fill="#2B3A52"/><circle cx="29.5" cy="44" r="2.6" fill="#D9A47E"/><rect x="28" y="40" width="11" height="3" rx="1.5" fill="#11161D"/>'+
+'<rect x="8" y="30" width="5" height="13" rx="2.5" fill="#2B3A52"/><circle cx="10.5" cy="44" r="2.6" fill="#D9A47E"/>'+
+'<rect x="17" y="20" width="6" height="6" fill="#D9A47E"/><circle cx="20" cy="15" r="9" fill="#D9A47E"/>'+
+'<path d="M10 12 Q10 3 20 3 Q30 3 30 12 L33 13 H8Z" fill="#2B3A52"/><rect x="17" y="5" width="6" height="3" rx="1" fill="#E0B341"/>'+
+'<circle cx="23.5" cy="16" r="1.2" fill="#1B2530"/><path d="M19 20 Q22 21.5 25 20" fill="none" stroke="#1B2530" stroke-width="1.2" stroke-linecap="round"/></g>'+
+'</g></svg><div class="say" role="status" aria-live="polite"></div>';
+var el=document.createElement("div"); el.className="patrol hidden"; el.innerHTML=SVG; floor.appendChild(el);
+var say=el.querySelector(".say");
+var RM=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+var PUSH=["{n}, давай-давай, начальник ждёт!","{n}, не тупи — хозяин ждёт!","{n}, подъём! Работа сама себя не сделает","{n}, ты чего завис? Никита ждёт!","{n}, шевелись, начальник уже спрашивал","{n}, давай, давай, давай!"];
+var ERR=["{n}, что сломалось? Начальник ждёт — разберись","{n}, опять ошибка? Давай чини!","{n}, стоп-машина! Зову начальника"];
+var WORK=["{n}, молодец, так держать","{n}, работаем, работаем!","{n}, давай-давай, не сбавляй"];
+var CALM=["Обход. Всё тихо","Так, тут порядок","Проверка. Всё на месте","Охрана на посту"];
+var BOSS=["Начальник, всё под контролем","Шеф, обход идёт, все работают"];
+var cur="guard", x=0, y=0, visits=0;
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
+function nm(k){return NAMES[k]||k}
+function room(k){return floor.querySelector('.room[data-key="'+k+'"]')}
+function size(){ var r=room("guard"); var w=r?r.getBoundingClientRect().width:200; var pw=Math.max(26,Math.min(56,w*0.13)); el.style.setProperty("--pw",pw+"px"); return pw; }
+function spot(k){ var r=room(k), f=floor.getBoundingClientRect(); if(!r) return [x,y];
+ var b=r.getBoundingClientRect(), sc=r.querySelector(".scene"), sh=sc?sc.getBoundingClientRect().height:b.height*.6, pw=size();
+ return [b.left-f.left+b.width*(0.06+Math.random()*0.2), b.top-f.top+sh*0.92-pw*1.6]; }
+function place(nx,ny,dur){ el.style.transitionDuration=(dur||0)+"ms"; el.classList.toggle("left",nx<x); x=nx; y=ny;
+ el.style.transform="translate("+nx+"px,"+ny+"px)"; el.classList.toggle("edge-r", nx>floor.clientWidth-200); }
+function walk(k,done){
+ var p=spot(k), d=Math.hypot(p[0]-x,p[1]-y), dur=RM?0:Math.max(600,d/0.09);
+ floor.classList.add("patrolling"); el.classList.remove("hidden"); el.classList.add("walk");
+ place(p[0],p[1],dur); cur=k;
+ setTimeout(function(){ el.classList.remove("walk"); done(); }, dur+60);
+}
+function talk(text,angry,ms,done){ say.textContent=text; say.classList.toggle("angry",!!angry); say.classList.add("show");
+ setTimeout(function(){ say.classList.remove("show"); setTimeout(done,300); }, ms); }
+function sit(ms,done){ floor.classList.remove("patrolling"); el.classList.add("hidden"); setTimeout(done,ms); }
+function trouble(){ var ag=state.agents||{}, out=[];
+ Object.keys(ag).forEach(function(k){ if(k==="guard"||!room(k)) return; var a=ag[k]||{};
+  if(a.status==="error") out.push([k,"err"]);
+  else if(a.status==="working" && a.last_run && Date.now()-new Date(a.last_run)>20*60000) out.push([k,"stuck"]); });
+ var n=(ag.guard||{}).nudge;
+ if(n&&n.to&&room(n.to)&&Date.now()-new Date(n.at)<2*3600e3&&!out.some(function(t){return t[0]===n.to})) out.push([n.to,"nudge",n.text]);
+ return out; }
+function step(){
+ if(document.hidden){ setTimeout(step,5000); return; }
+ var t=trouble(), ag=state.agents||{};
+ if(t.length && visits%2===0){ var a=t[(visits/2)%t.length];
+  walk(a[0],function(){ talk(a[2]||pick(a[1]==="err"?ERR:PUSH).replace("{n}",nm(a[0])), a[1]!=="nudge", 5500, step); });
+ } else if(!t.length && cur!=="guard" && visits%7===6){
+  walk("guard",function(){ sit(15000,step); });
+ } else {
+  var keys=[].slice.call(floor.querySelectorAll(".room[data-key]")).map(function(r){return r.dataset.key}).filter(function(k){return k!==cur&&k!=="guard"});
+  var k=pick(keys);
+  walk(k,function(){ var s=(ag[k]||{}).status, r=Math.random(), line=null;
+   if(k==="owner") line=r<.5?pick(BOSS):null;
+   else if(s==="working") line=r<.6?pick(WORK).replace("{n}",nm(k)):null;
+   else if(r<.3) line=pick(CALM);
+   if(line) talk(line,false,3200,step); else setTimeout(step,1600); });
+ }
+ visits++;
+}
+var p0=spot("guard"); place(p0[0],p0[1],0);
+window.addEventListener("resize",function(){ var p=spot(cur); place(p[0],p[1],0); });
+setTimeout(step, 2500);
+})();
 })();
 </script>
 </body>
