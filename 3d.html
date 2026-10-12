@@ -41,6 +41,7 @@ html,body{margin:0;height:100%;background:#14181d;color:var(--ink);font-family:M
   <button data-v="team">Команда</button>
   <button data-v="video">Кабинет Анжелики</button>
   <button data-v="videowall">Её постеры</button>
+  <button data-v="yuri">Кабинет Юрия</button>
   <button data-v="guard">Охрана</button>
   <a href="./">2D-офис</a>
  </div>
@@ -347,6 +348,49 @@ frame(1.5,.95,-14.91,2.0,8.4,Math.PI/2,null,posterPlatforms);
 const aPlate=new THREE.Mesh(new THREE.PlaneGeometry(.6,.12),new THREE.MeshBasicMaterial({map:canvasTex(512,102,(g,w,h)=>{g.fillStyle='#c9a35a';g.fillRect(0,0,w,h);text(g,'Анжелика · CEO видео',w/2,h/2,40,'#2a1620',800,'center');})}));
 aPlate.position.set(AX,.84,ADZ-.56);aPlate.rotation.set(-.35,Math.PI,0);scene.add(aPlate);
 
+
+// ---------- кабинет Юрия: редактор-критик (бывший священник) ----------
+const YX0=9.4,YX1=15,YZ0=-4.4,YZ1=1.6,YCX=(YX0+YX1)/2,YCZ=(YZ0+YZ1)/2;
+const creamM=M(0xe9dcc3,.9),woodY=M(0x6b3f22,.6),goldM=M(0xd4a84b,.35,.8),redV=M(0x7a1f2b,.9);
+box(.15,3.3,YZ1-YZ0,creamM,YX1-.08,1.65,YCZ);                                   // стена с иконами
+box(YX1-YX0,3.3,.15,creamM,YCX,1.65,YZ0); box(YX1-YX0,3.3,.15,creamM,YCX,1.65,YZ1);
+box(.06,3.0,2.2,glassM,YX0,1.5,YZ0+1.1); box(.06,3.0,2.6,glassM,YX0,1.5,YZ1-1.3);   // фасад со входом
+[[YX0,YZ0],[YX0,YZ0+2.2],[YX0,YZ1-2.6],[YX0,YZ1]].forEach(([x,z])=>box(.07,3.0,.07,MAT.black,x,1.5,z));
+box(.07,.06,YZ1-YZ0,MAT.black,YX0,3.0,YCZ);
+const ySign=new THREE.Mesh(new THREE.PlaneGeometry(1.9,.48),new THREE.MeshBasicMaterial({map:canvasTex(640,160,(g,w,h)=>{g.fillStyle='#3a1f14';g.fillRect(0,0,w,h);g.strokeStyle='#d4a84b';g.lineWidth=5;g.strokeRect(8,8,w-16,h-16);text(g,'Юрий',w/2,h*.38,56,'#f3d27a',800,'center');text(g,'редактор-критик',w/2,h*.74,30,'#efe2c8',600,'center');}),toneMapped:false}));
+ySign.position.set(YX0-.05,2.62,YZ0+2.8);ySign.rotation.y=-Math.PI/2;scene.add(ySign);
+const yRug=new THREE.Mesh(new THREE.PlaneGeometry(4.6,4.8),new THREE.MeshStandardMaterial({map:canvasTex(480,500,(g,w,h)=>{g.fillStyle='#7a1f2b';g.fillRect(0,0,w,h);g.strokeStyle='#d4a84b';g.lineWidth=8;g.strokeRect(18,18,w-36,h-36);g.lineWidth=3;g.strokeRect(34,34,w-68,h-68);g.globalAlpha=.35;g.fillStyle='#d4a84b';for(let i=0;i<5;i++)for(let j=0;j<5;j++){g.beginPath();g.arc(70+i*85,72+j*88,6,0,7);g.fill();}}),roughness:1}));
+yRug.rotation.x=-Math.PI/2;yRug.position.set(YCX+.3,.006,YCZ);yRug.receiveShadow=true;scene.add(yRug);
+// иконы на стене (условные лики в золотых окладах)
+function iconDraw(robe,bg){return (g,w,h)=>{g.fillStyle='#d4a84b';g.fillRect(0,0,w,h);g.fillStyle=bg;g.beginPath();g.moveTo(w*.1,h*.95);g.lineTo(w*.1,h*.3);g.quadraticCurveTo(w*.1,h*.06,w*.5,h*.06);g.quadraticCurveTo(w*.9,h*.06,w*.9,h*.3);g.lineTo(w*.9,h*.95);g.closePath();g.fill();
+ g.fillStyle='#f3d27a';g.beginPath();g.arc(w/2,h*.3,w*.2,0,7);g.fill();g.strokeStyle='#b8862e';g.lineWidth=3;g.stroke();g.fillStyle='#e6c29c';g.beginPath();g.ellipse(w/2,h*.31,w*.11,h*.09,0,0,7);g.fill();
+ g.fillStyle=robe;g.beginPath();g.moveTo(w*.22,h*.95);g.quadraticCurveTo(w*.24,h*.48,w/2,h*.44);g.quadraticCurveTo(w*.76,h*.48,w*.78,h*.95);g.closePath();g.fill();g.strokeStyle='#d4a84b';g.lineWidth=2;g.beginPath();g.moveTo(w/2,h*.5);g.lineTo(w/2,h*.92);g.stroke();};}
+frame(.62,.86,YX1-.18,1.95,YCZ,-Math.PI/2,null,iconDraw('#7a2e22','#2e4a6b'));
+frame(.46,.64,YX1-.18,1.85,YCZ-.85,-Math.PI/2,null,iconDraw('#2e4a6b','#7a2e22'));
+frame(.46,.64,YX1-.18,1.85,YCZ+.85,-Math.PI/2,null,iconDraw('#7a2e22','#3e5a32'));
+const lampada=new THREE.Mesh(new THREE.CylinderGeometry(.05,.035,.09,12),new THREE.MeshStandardMaterial({color:0xb0272f,emissive:0xff5a2a,emissiveIntensity:1.2,transparent:true,opacity:.9}));lampada.position.set(YX1-.3,1.36,YCZ);scene.add(lampada);
+// подсвечник с горящими свечами
+const flames=[];
+{const cx=YX1-1.0,cz=YCZ-1.9;cyl(.025,.04,1.0,goldM,cx,.5,cz);cyl(.2,.24,.04,goldM,cx,0.02,cz);cyl(.32,.3,.04,goldM,cx,1.02,cz);
+ for(let i=0;i<7;i++){const a=i/7*Math.PI*2,r=i?0.2:0,x=cx+Math.cos(a)*r,z=cz+Math.sin(a)*r,hh=.12+((i*37)%5)*.02;cyl(.012,.012,hh,M(0xf4ecd8,.8),x,1.04+hh/2,z,scene,8);
+  const f=new THREE.Mesh(new THREE.SphereGeometry(.016,8,6),new THREE.MeshBasicMaterial({color:0xffb43a}));f.scale.y=1.8;f.position.set(x,1.06+hh+.02,z);scene.add(f);flames.push(f);}}
+// аналой с раскрытой книгой
+{const lx=YX1-1.3,lz=YCZ+1.9;cyl(.05,.07,1.0,woodY,lx,.5,lz);const top=box(.55,.04,.45,redV,lx,1.08,lz);top.rotation.z=.35;
+ const pg=box(.44,.012,.32,M(0xf7f1e3,.9),lx-.01,1.115,lz);pg.rotation.z=.35;}
+// книжный шкаф и модель храма
+box(2.4,2.2,.4,woodY,YCX,1.1,YZ0+.28);
+[.4,.95,1.5,2.05].forEach(y=>box(2.36,.04,.38,M(0x4a2a18,.6),YCX,y,YZ0+.3));
+for(let s=0;s<3;s++)for(let i=0;i<16;i++){const c=[0x7a1f2b,0x2e4a6b,0x3e5a32,0xd4a84b,0x5a3a26][(i*3+s)%5];box(.1,.42,.26,M(c,.7),YCX-1.05+i*.14,.64+s*.55,YZ0+.33);}
+{const ch=new THREE.Group();ch.position.set(YCX+.6,2.2,YZ0+.3);scene.add(ch);box(.34,.26,.3,M(0xf4f1ea,.6),0,.13,0,ch);cyl(.09,.09,.16,M(0xf4f1ea,.6),0,.34,0,ch,16);
+ const dome=new THREE.Mesh(new THREE.SphereGeometry(.1,16,12,0,Math.PI*2,0,Math.PI/2),goldM);dome.position.set(0,.42,0);ch.add(dome);box(.012,.1,.012,goldM,0,.56,0,ch);box(.06,.012,.012,goldM,0,.58,0,ch);}
+// письменный стол с рукописями, красной ручкой и пером
+const YDX=11.45,YDZ=YCZ;
+box(.9,.06,1.8,woodY,YDX,.76,YDZ);[[-.38,-.82],[.38,-.82],[-.38,.82],[.38,.82]].forEach(([dx,dz])=>box(.06,.73,.06,M(0x4a2a18,.6),YDX+dx,.37,YDZ+dz));
+[[-.05,-.3,.2],[.05,.15,-.15],[0,.5,.1]].forEach(([dx,dz,r])=>{const p=box(.3,.012,.42,M(0xf7f1e3,.9),YDX+dx,.8,YDZ+dz);p.rotation.y=r;});
+const pen=cyl(.008,.008,.16,M(0xc2413b,.4),YDX+.05,.81,YDZ+.18,scene,8);pen.rotation.x=Math.PI/2;pen.rotation.z=.6;
+cyl(.035,.04,.06,MAT.black,YDX+.25,.82,YDZ-.6);const quill=new THREE.Mesh(new THREE.ConeGeometry(.02,.28,6),M(0xf4ecd8,.8));quill.position.set(YDX+.25,.95,YDZ-.6);quill.rotation.z=-.4;scene.add(quill);
+chair(YDX-.95,YDZ,Math.PI/2,true);
+
 // ---------- люди ----------
 const Y=new THREE.Vector3(0,1,0), tv=new THREE.Vector3();
 function limb(r,mat,parent){const m=new THREE.Mesh(new THREE.CapsuleGeometry(r,1,4,10),mat);m.castShadow=true;parent.add(m);return m;}
@@ -410,6 +454,7 @@ seat('analyst',{name:'Вера',role:'аналитик',skin:0xf0c8a6,shirt:0x3c
 seat('scout',{name:'Тимур',role:'тренды',skin:0xe3b08a,shirt:0x5e8c4a,hair:0x5a3b22,style:'cap',capColor:0xe0a23a},7.2,DZ+.9,Math.PI);
 seat('video',{name:'Анжелика',role:'видеохостинги',skin:0xf0c8a6,shirt:0x8e2c48,pants:0x1b1f24,hair:0x1c1210,style:'long'},AX,ADZ+.9,Math.PI);
 seat('guard',{name:'Славик',role:'охрана',skin:0xd9a47e,shirt:0x2b3a52,hair:0x111111,style:'cap',capColor:0x2b3a52,sleeves:true},GX+.6,GZ+1.0,0);
+seat('critic',{name:'Юрий',role:'редактор-критик',skin:0xe8bf9c,shirt:0x141414,pants:0x141414,hair:0x9a9a9a,beard:true,sleeves:true},YDX-.95,YDZ,Math.PI/2);
 document.getElementById('load').remove();
 
 // ---------- поведение ----------
@@ -448,7 +493,7 @@ function load(){if(location.protocol==='file:')return;fetch('status.json?t='+Dat
 setInterval(load,60000);load();
 
 // ---------- камера ----------
-const VIEWS={all:[[-9,14,-19],[0,.5,1.8]],boss:[[0,2.1,-1.6],[0,1.4,8.5]],team:[[0,9.5,4.8],[0,.4,-6.4]],guard:[[GX-2.2,2.4,GZ-2.2],[GX+.7,1.2,GZ+2.6]],video:[[AX+2.6,2.1,AZ0+.45],[AX-.3,1.4,AZ1-.6]],videowall:[[AX,2.55,ADZ-.6],[AX,1.75,AZ1]]};
+const VIEWS={all:[[-9,14,-19],[0,.5,1.8]],boss:[[0,2.1,-1.6],[0,1.4,8.5]],team:[[0,9.5,4.8],[0,.4,-6.4]],guard:[[GX-2.2,2.4,GZ-2.2],[GX+.7,1.2,GZ+2.6]],video:[[AX+2.6,2.1,AZ0+.45],[AX-.3,1.4,AZ1-.6]],videowall:[[AX,2.55,ADZ-.6],[AX,1.75,AZ1]],yuri:[[YX0+.5,2.2,YZ1-.5],[YX1-.2,1.5,YCZ-.6]]};
 let fly=null;function go(v){const [p,tg]=VIEWS[v];fly={p:V(...p),t:V(...tg)};document.querySelectorAll('.views button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.v===v)));}
 document.querySelectorAll('.views button').forEach(b=>b.onclick=()=>go(b.dataset.v));
 camera.position.set(...VIEWS.all[0]);controls.target.set(...VIEWS.all[1]);
@@ -458,6 +503,7 @@ addEventListener('resize',resize);resize();
 const clock=new THREE.Clock();let scrT=0,scrI=0,fpsN=0,fpsT=0,lowQ=false;
 function render(){const dt=Math.min(clock.getDelta(),.05),t=clock.elapsedTime;
  update(dt,t);
+ flames.forEach((f,i)=>{f.scale.y=1.6+.35*Math.sin(t*9+i*1.7);});
  scrT+=dt;if(scrT>.06){scrT=0;for(let k=0;k<3&&screens.length;k++){const s=screens[scrI++%screens.length];drawScreen(s,t+s.t);}}
  fpsN++;fpsT+=dt;if(fpsT>3){if(!lowQ&&fpsN/fpsT<28){lowQ=true;renderer.setPixelRatio(1);renderer.shadowMap.enabled=false;scene.traverse(o=>{if(o.material)o.material.needsUpdate=true;});resize();}fpsN=0;fpsT=0;}
  lamp.scale.setScalar(1+.08*Math.sin(t*(Object.values(state.agents||{}).some(a=>a.status==='error')?10:2)));
