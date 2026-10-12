@@ -42,6 +42,7 @@ html,body{margin:0;height:100%;background:#14181d;color:var(--ink);font-family:M
   <button data-v="video">Кабинет Анжелики</button>
   <button data-v="videowall">Её постеры</button>
   <button data-v="yuri">Кабинет Юрия</button>
+  <button data-v="newbies">Новенькие</button>
   <button data-v="guard">Охрана</button>
   <a href="./">2D-офис</a>
  </div>
@@ -145,9 +146,10 @@ function drawScreen(s,t){const g=s.g,W=s.c.width,H=s.c.height;const k=s.kind;con
  g.globalAlpha=1;s.tex.needsUpdate=true;}
 
 // ---------- открытое пространство: команда ----------
-const TEAM=[{k:'poster',name:'Макс',role:'контент',x:-7.2,screen:'code',screen2:'insta'},{k:'editor',name:'Артём',role:'монтаж',x:-2.4,screen:'video',screen2:'video'},{k:'analyst',name:'Вера',role:'аналитик',x:2.4,screen:'chart'},{k:'scout',name:'Тимур',role:'тренды',x:7.2,screen:'map'}];
-const DZ=-6.2; const teamScreens={};
-TEAM.forEach(t=>{
+const TEAM=[{k:'poster',name:'Макс',role:'контент',x:-7.2,screen:'code',screen2:'insta'},{k:'editor',name:'Артём',role:'монтаж',x:-2.4,screen:'video',screen2:'video'},{k:'analyst',name:'Вера',role:'аналитик',x:2.4,screen:'chart'},{k:'scout',name:'Тимур',role:'тренды',x:7.2,screen:'map'},
+ {k:'coach',name:'Игорь Петрович',role:'коуч',x:-8.4,z:-2.8,screen:'dash'},{k:'community',name:'Лиза',role:'комментарии',x:-3.0,z:-2.8,screen:'insta'},{k:'archivist',name:'Михалыч',role:'архив',x:3.0,z:-2.8,screen:'video',screen2:'code'},{k:'producer',name:'Олег',role:'продюсер игры',x:8.4,z:-2.8,screen:'chart',screen2:'insta'}];
+const DZ=-6.2, DZ0=DZ, DZ2=-2.8; const teamScreens={};
+TEAM.forEach(t=>{const DZ=t.z??DZ0;
  box(1.9,.05,.95,MAT.oak,t.x,.75,DZ); [[-.88,-.42],[.88,-.42],[-.88,.42],[.88,.42]].forEach(([dx,dz])=>box(.05,.73,.05,MAT.metal,t.x+dx,.365,DZ+dz));
  box(1.85,.4,.03,MAT.white,t.x,.5,DZ-.45);
  const s1=monitor(t.screen2?t.x-.36:t.x,.775,DZ-.22,0,t.screen); const list=[s1];
@@ -268,6 +270,7 @@ for(let i=0;i<4;i++){const a=i/4*Math.PI*2+.4;chair(MX+Math.sin(a)*1.35,MZ+Math.
 const tv2=new THREE.Group();tv2.position.set(-14.85,1.7,5.2);tv2.rotation.y=Math.PI/2;scene.add(tv2);box(2.2,1.25,.05,MAT.black,0,0,0,tv2);
 const tvs=screen('tube',2.1,1.15);const tvp=new THREE.Mesh(new THREE.PlaneGeometry(2.1,1.15),tvs.mat);tvp.position.z=.03;tv2.add(tvp);
 const teamRug=new THREE.Mesh(new THREE.PlaneGeometry(18,3.6),new THREE.MeshStandardMaterial({color:0x56626b,roughness:1}));teamRug.rotation.x=-Math.PI/2;teamRug.position.set(0,.005,-5.6);teamRug.receiveShadow=true;scene.add(teamRug);
+const teamRug2=teamRug.clone();teamRug2.position.set(0,.005,-2.3);teamRug2.scale.set(1.12,.8,1);scene.add(teamRug2);
 plant(-9.6,-7.2,.9);plant(9.6,-7.2,.9);plant(4.8,-3.6,.7);plant(-4.8,-3.6,.7);
 
 // ---------- пост охраны ----------
@@ -455,6 +458,10 @@ seat('scout',{name:'Тимур',role:'тренды',skin:0xe3b08a,shirt:0x5e8c4a
 seat('video',{name:'Анжелика',role:'видеохостинги',skin:0xf0c8a6,shirt:0x8e2c48,pants:0x1b1f24,hair:0x1c1210,style:'long'},AX,ADZ+.9,Math.PI);
 seat('guard',{name:'Славик',role:'охрана',skin:0xd9a47e,shirt:0x2b3a52,hair:0x111111,style:'cap',capColor:0x2b3a52,sleeves:true},GX+.6,GZ+1.0,0);
 seat('critic',{name:'Юрий',role:'редактор-критик',skin:0xe8bf9c,shirt:0x141414,pants:0x141414,hair:0x9a9a9a,beard:true,sleeves:true},YDX-.95,YDZ,Math.PI/2);
+seat('coach',{name:'Игорь Петрович',role:'коуч',skin:0xe8bf9c,shirt:0x1f6f78,hair:0x9aa3ad,glasses:true,sleeves:true},-8.4,DZ2+.9,Math.PI);
+seat('community',{name:'Лиза',role:'комментарии',skin:0xf0c8a8,shirt:0xe07a5f,pants:0x1b1f24,hair:0x7a4a2a,style:'long'},-3.0,DZ2+.9,Math.PI);
+seat('archivist',{name:'Михалыч',role:'архив',skin:0xe3b08a,shirt:0x8c6440,hair:0xd2d2d2,beard:true,glasses:true,sleeves:true},3.0,DZ2+.9,Math.PI);
+seat('producer',{name:'Олег',role:'продюсер игры',skin:0xd9a47e,shirt:0x7a5ab0,hair:0x2b2b2b,headphones:true},8.4,DZ2+.9,Math.PI);
 document.getElementById('load').remove();
 
 // ---------- поведение ----------
@@ -493,7 +500,7 @@ function load(){if(location.protocol==='file:')return;fetch('status.json?t='+Dat
 setInterval(load,60000);load();
 
 // ---------- камера ----------
-const VIEWS={all:[[-9,14,-19],[0,.5,1.8]],boss:[[0,2.1,-1.6],[0,1.4,8.5]],team:[[0,9.5,4.8],[0,.4,-6.4]],guard:[[GX-2.2,2.4,GZ-2.2],[GX+.7,1.2,GZ+2.6]],video:[[AX+2.6,2.1,AZ0+.45],[AX-.3,1.4,AZ1-.6]],videowall:[[AX,2.55,ADZ-.6],[AX,1.75,AZ1]],yuri:[[YX0+.5,2.2,YZ1-.5],[YX1-.2,1.5,YCZ-.6]]};
+const VIEWS={all:[[-9,14,-19],[0,.5,1.8]],boss:[[0,2.1,-1.6],[0,1.4,8.5]],team:[[0,9.5,4.8],[0,.4,-6.4]],guard:[[GX-2.2,2.4,GZ-2.2],[GX+.7,1.2,GZ+2.6]],video:[[AX+2.6,2.1,AZ0+.45],[AX-.3,1.4,AZ1-.6]],videowall:[[AX,2.55,ADZ-.6],[AX,1.75,AZ1]],yuri:[[YX0+.5,2.2,YZ1-.5],[YX1-.2,1.5,YCZ-.6]],newbies:[[0,7.8,4.6],[0,.4,-3.4]]};
 let fly=null;function go(v){const [p,tg]=VIEWS[v];fly={p:V(...p),t:V(...tg)};document.querySelectorAll('.views button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.v===v)));}
 document.querySelectorAll('.views button').forEach(b=>b.onclick=()=>go(b.dataset.v));
 camera.position.set(...VIEWS.all[0]);controls.target.set(...VIEWS.all[1]);
