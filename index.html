@@ -76,7 +76,7 @@ h1{font-family:var(--display);font-weight:700;font-size:clamp(22px,3.4vw,32px);m
 .log li:last-child{border-bottom:none}
 .log time{font-family:var(--mono);font-size:12px;color:var(--muted);padding-top:2px}
 .tag{font-weight:700;margin-right:6px}
-.tag.analyst{color:var(--t-an)} .tag.poster{color:var(--t-po)} .tag.scout{color:var(--t-sc)} .tag.editor{color:#7A5AB0} .tag.video{color:#8E2C48} .tag.owner{color:var(--accent)}
+.tag.analyst{color:var(--t-an)} .tag.poster{color:var(--t-po)} .tag.scout{color:var(--t-sc)} .tag.editor{color:#7A5AB0} .tag.video{color:#8E2C48} .tag.owner{color:var(--accent)} .tag.coach{color:#1F6F78} .tag.community{color:#C25E44} .tag.archivist{color:#8C6440} .tag.producer{color:#7A5AB0}
 .foot{font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 18px}
 dialog{border:none;border-radius:12px;padding:0;width:min(560px,calc(100vw - 32px));max-height:calc(100dvh - 48px);background:var(--card);color:var(--ink);box-shadow:0 20px 60px rgba(0,0,0,.35)}
 dialog::backdrop{background:rgba(10,15,20,.55)}
@@ -175,8 +175,8 @@ html[data-size="s"] .kpi{padding:6px 12px}
 @media (max-width:640px){.floor{grid-template-columns:1fr 1fr}}
 html[data-size="s"] .floor{max-width:max(320px,calc((100dvh - 330px) * 2.2))}
 html[data-size="m"] .floor{max-width:1000px}
-:root{--floor-gu:#E3E6EE;--floor-mt:#EEE7DA}
-@media (prefers-color-scheme:dark){:root{--floor-gu:#232934;--floor-mt:#2C2820}}
+:root{--floor-gu:#E3E6EE;--floor-mt:#EEE7DA;--floor-co:#DDEBEA;--floor-cm:#F4E3DD;--floor-ar:#ECE4D6;--floor-pr:#E6E0F0}
+@media (prefers-color-scheme:dark){:root{--floor-gu:#232934;--floor-mt:#2C2820;--floor-co:#1E2E2D;--floor-cm:#33262A;--floor-ar:#2E2820;--floor-pr:#28243A}}
 .alarm .lampglass{fill:#E2675F}.alarm .lamphalo{fill:#E2675F;opacity:.35;animation:glow .8s ease-in-out infinite}
 .team{display:flex;flex-direction:column;gap:14px}
 .team h2 i{background:var(--accent)}
@@ -519,6 +519,134 @@ html[data-size="m"] .floor{max-width:1000px}
 <span class="more">Подробнее →</span>
 </div>
 </button>
+<button class="room" data-key="coach" type="button">
+<svg class="scene" viewBox="0 0 320 200" role="img" aria-label="Кабинет коуча"><rect width="320" height="200" fill="var(--floor-co)"/><rect width="320" height="92" fill="var(--wall)"/><rect y="90" width="320" height="3" fill="var(--line)"/>
+<g transform="translate(176 10)"><rect width="122" height="72" rx="3" fill="#FFFFFF" stroke="var(--line)" stroke-width="3"/><text x="10" y="17" font-family="Manrope,sans-serif" font-weight="700" font-size="10" fill="#2A3542">ПЛАН ОБУЧЕНИЯ</text><text x="24" y="33" font-family="Manrope,sans-serif" font-weight="400" font-size="8.5" fill="#5B6878">Макс — новые темы</text><text x="24" y="47" font-family="Manrope,sans-serif" font-weight="400" font-size="8.5" fill="#5B6878">Лиза — тон ответов</text><text x="24" y="61" font-family="Manrope,sans-serif" font-weight="400" font-size="8.5" fill="#5B6878">Вера — цифры</text><g stroke="#2E8B57" stroke-width="2" fill="none" stroke-linecap="round"><path d="M10 29 l3 3 l6 -6"/><path d="M10 43 l3 3 l6 -6"/></g><rect x="10" y="54" width="8" height="8" rx="1.5" fill="none" stroke="#C9831A" stroke-width="1.6"/></g><g transform="translate(40 30)"><path d="M-12 0 H12 V8 Q12 22 0 24 Q-12 22 -12 8Z" fill="#E0B341"/><path d="M-12 3 Q-20 3 -18 10 Q-16 15 -11 14 M12 3 Q20 3 18 10 Q16 15 11 14" fill="none" stroke="#E0B341" stroke-width="2.5"/><rect x="-3" y="24" width="6" height="8" fill="#C99A2E"/><rect x="-10" y="32" width="20" height="5" rx="1" fill="#8C6440"/></g><g transform="translate(270 128)"><rect x="4" y="34" width="22" height="22" rx="3" fill="#8A6F5A"/><path d="M15 36 L6 6 L15 14 L24 4Z" fill="#5E9C6E"/></g>
+<g id="p-coach">
+<rect x="134" y="78" width="52" height="58" rx="10" fill="var(--chair)"/>
+<g class="head">
+<rect x="155" y="92" width="10" height="10" fill="#E8BF9C"/>
+<circle cx="160" cy="82" r="15" fill="#E8BF9C"/>
+<path d="M145 80 Q144 64 160 64 Q176 64 175 80 Q170 71 160 71 Q150 71 145 80Z" fill="#9AA3AD"/><g fill="none" stroke="#1B2530" stroke-width="1.4"><circle cx="154.5" cy="83" r="4.2"/><circle cx="165.5" cy="83" r="4.2"/><path d="M158.7 83 H161.3"/></g>
+<circle class="eye" cx="154.5" cy="83" r="1.8" fill="#1B2530"/><circle class="eye" cx="165.5" cy="83" r="1.8" fill="#1B2530"/>
+<path d="M155 90 Q160 93.5 165 90" fill="none" stroke="#1B2530" stroke-width="1.6" stroke-linecap="round"/>
+
+</g>
+<path d="M136 132 Q136 102 160 100 Q184 102 184 132 Z" fill="#1F6F78"/>
+<rect x="84" y="128" width="152" height="10" rx="2" fill="var(--wood)"/>
+<rect x="84" y="136" width="152" height="4" fill="var(--wood-dark)"/>
+<rect x="92" y="140" width="6" height="40" fill="var(--wood-dark)"/><rect x="222" y="140" width="6" height="40" fill="var(--wood-dark)"/>
+<g class="hands"><ellipse cx="134" cy="126" rx="7" ry="4.5" fill="#E8BF9C"/><ellipse cx="186" cy="126" rx="7" ry="4.5" fill="#E8BF9C"/></g>
+<path d="M140 104 H180 L183 128 H137 Z" fill="#AEB8C4"/>
+<circle class="screen-glow" cx="160" cy="116" r="4" fill="#CDE7A8" opacity=".9"/>
+<g transform="translate(98 112)"><rect width="12" height="14" rx="2" fill="#F7F9FB" stroke="#AEB8C4" stroke-width="1.5"/><path d="M12 4 Q17 4 17 8 Q17 12 12 12" fill="none" stroke="#AEB8C4" stroke-width="1.5"/></g>
+<g class="bubble b-wait" transform="translate(186 34)"><rect width="34" height="24" rx="8" fill="#FFFFFF" stroke="var(--warn)" stroke-width="2"/><path d="M6 24 L2 32 L14 24Z" fill="#FFFFFF" stroke="var(--warn)" stroke-width="2" stroke-linejoin="round"/><rect x="9" y="7" width="16" height="11" rx="1.5" fill="none" stroke="var(--warn)" stroke-width="2"/><path d="M9 8 L17 14 L25 8" fill="none" stroke="var(--warn)" stroke-width="2"/></g>
+<g class="bubble b-err" transform="translate(186 34)"><rect width="28" height="24" rx="8" fill="#FFFFFF" stroke="var(--bad)" stroke-width="2"/><text x="14" y="18" text-anchor="middle" font-family="Manrope,sans-serif" font-weight="700" font-size="16" fill="var(--bad)">!</text></g>
+<g class="bubble b-zz" transform="translate(124 56)"><text font-family="Unbounded,sans-serif" font-size="12" fill="var(--muted)">z<tspan dx="2" dy="-6" font-size="9">z</tspan></text></g>
+</g></svg>
+<div class="plate">
+<div class="plate-top"><p class="who">Игорь Петрович · коуч</p><span class="chip" data-chip="coach" data-s="idle">Отдыхает</span></div>
+<p class="role">Учит команду · разбор в 22:30</p>
+<p class="task" data-task="coach">—</p>
+<span class="more">Подробнее →</span>
+</div>
+</button>
+<button class="room" data-key="community" type="button">
+<svg class="scene" viewBox="0 0 320 200" role="img" aria-label="Кабинет комьюнити-менеджера"><rect width="320" height="200" fill="var(--floor-cm)"/><rect width="320" height="92" fill="var(--wall)"/><rect y="90" width="320" height="3" fill="var(--line)"/>
+<g transform="translate(176 12)"><rect width="76" height="22" rx="8" fill="#FFFFFF" stroke="var(--line)" stroke-width="2"/><path d="M12 21 L8 30 L22 21Z" fill="#FFFFFF"/><rect x="10" y="7" width="50" height="3" rx="1.5" fill="#B0507A"/><rect x="10" y="13" width="34" height="3" rx="1.5" fill="#D9A7BC"/><rect x="42" y="38" width="80" height="22" rx="8" fill="#DCEBF7" stroke="var(--line)" stroke-width="2"/><path d="M106 59 L114 68 L98 59Z" fill="#DCEBF7"/><rect x="52" y="45" width="56" height="3" rx="1.5" fill="#3C6FB0"/><rect x="52" y="51" width="38" height="3" rx="1.5" fill="#8DB4EA"/></g><g transform="translate(30 30)"><path d="M0 7 C0 -2 11 -2 11 5 C11 -2 22 -2 22 7 C22 15 11 19 11 24 C11 19 0 15 0 7Z" fill="#E2675F"/></g><g transform="translate(62 50)"><circle r="9" fill="#E0B341"/><circle cx="-3" cy="-2" r="1.3" fill="#1B2530"/><circle cx="3" cy="-2" r="1.3" fill="#1B2530"/><path d="M-4 3 Q0 6 4 3" fill="none" stroke="#1B2530" stroke-width="1.3"/></g><g transform="translate(270 128)"><rect x="4" y="34" width="22" height="22" rx="3" fill="#8A6F5A"/><path d="M15 36 L6 6 L15 14 L24 4Z" fill="#5E9C6E"/></g>
+<g id="p-community">
+<rect x="134" y="78" width="52" height="58" rx="10" fill="var(--chair)"/>
+<g class="head">
+<path d="M143 82 Q142 62 160 62 Q178 62 177 82 L179 106 Q160 110 141 106Z" fill="#7A4A2A"/><rect x="155" y="92" width="10" height="10" fill="#F0C8A8"/>
+<circle cx="160" cy="82" r="15" fill="#F0C8A8"/>
+<path d="M145 79 Q146 64 160 64 Q174 64 175 79 Q168 70 156 72 Q150 74 145 79Z" fill="#7A4A2A"/>
+<circle class="eye" cx="154.5" cy="83" r="1.8" fill="#1B2530"/><circle class="eye" cx="165.5" cy="83" r="1.8" fill="#1B2530"/>
+<path d="M155 90 Q160 93.5 165 90" fill="none" stroke="#1B2530" stroke-width="1.6" stroke-linecap="round"/>
+
+</g>
+<path d="M136 132 Q136 102 160 100 Q184 102 184 132 Z" fill="#E07A5F"/>
+<rect x="84" y="128" width="152" height="10" rx="2" fill="var(--wood)"/>
+<rect x="84" y="136" width="152" height="4" fill="var(--wood-dark)"/>
+<rect x="92" y="140" width="6" height="40" fill="var(--wood-dark)"/><rect x="222" y="140" width="6" height="40" fill="var(--wood-dark)"/>
+<g class="hands"><ellipse cx="134" cy="126" rx="7" ry="4.5" fill="#F0C8A8"/><ellipse cx="186" cy="126" rx="7" ry="4.5" fill="#F0C8A8"/></g>
+<path d="M140 104 H180 L183 128 H137 Z" fill="#AEB8C4"/>
+<circle class="screen-glow" cx="160" cy="116" r="4" fill="#CDE7A8" opacity=".9"/>
+<g transform="translate(98 112)"><rect width="12" height="14" rx="2" fill="#F7F9FB" stroke="#AEB8C4" stroke-width="1.5"/><path d="M12 4 Q17 4 17 8 Q17 12 12 12" fill="none" stroke="#AEB8C4" stroke-width="1.5"/></g>
+<g class="bubble b-wait" transform="translate(186 34)"><rect width="34" height="24" rx="8" fill="#FFFFFF" stroke="var(--warn)" stroke-width="2"/><path d="M6 24 L2 32 L14 24Z" fill="#FFFFFF" stroke="var(--warn)" stroke-width="2" stroke-linejoin="round"/><rect x="9" y="7" width="16" height="11" rx="1.5" fill="none" stroke="var(--warn)" stroke-width="2"/><path d="M9 8 L17 14 L25 8" fill="none" stroke="var(--warn)" stroke-width="2"/></g>
+<g class="bubble b-err" transform="translate(186 34)"><rect width="28" height="24" rx="8" fill="#FFFFFF" stroke="var(--bad)" stroke-width="2"/><text x="14" y="18" text-anchor="middle" font-family="Manrope,sans-serif" font-weight="700" font-size="16" fill="var(--bad)">!</text></g>
+<g class="bubble b-zz" transform="translate(124 56)"><text font-family="Unbounded,sans-serif" font-size="12" fill="var(--muted)">z<tspan dx="2" dy="-6" font-size="9">z</tspan></text></g>
+</g></svg>
+<div class="plate">
+<div class="plate-top"><p class="who">Лиза · комментарии</p><span class="chip" data-chip="community" data-s="idle">Отдыхает</span></div>
+<p class="role">Ответы подписчикам · каждые 2 часа</p>
+<p class="task" data-task="community">—</p>
+<span class="more">Подробнее →</span>
+</div>
+</button>
+<button class="room" data-key="archivist" type="button">
+<svg class="scene" viewBox="0 0 320 200" role="img" aria-label="Архив кадров"><rect width="320" height="200" fill="var(--floor-ar)"/><rect width="320" height="92" fill="var(--wall)"/><rect y="90" width="320" height="3" fill="var(--line)"/>
+<g transform="translate(176 8)"><rect width="122" height="76" rx="2" fill="#8C6440"/><rect x="4" y="4" width="114" height="32" fill="#5E4330"/><rect x="4" y="40" width="114" height="32" fill="#5E4330"/><rect x="8" y="10" width="10" height="26" fill="#3C6FB0"/><rect x="20" y="8" width="10" height="28" fill="#C2413B"/><rect x="32" y="12" width="10" height="24" fill="#5E8C4A"/><rect x="46" y="16" width="30" height="20" rx="1" fill="#D9C3A0"/><rect x="80" y="14" width="34" height="22" rx="1" fill="#C8AE84"/><rect x="8" y="48" width="28" height="24" rx="1" fill="#D9C3A0"/><rect x="40" y="46" width="10" height="26" fill="#E0B341"/><rect x="52" y="50" width="10" height="22" fill="#7A5AB0"/><rect x="66" y="48" width="48" height="24" rx="1" fill="#C8AE84"/><g fill="#5E4330"><rect x="56" y="24" width="10" height="3"/><rect x="92" y="23" width="10" height="3"/><rect x="17" y="58" width="10" height="3"/><rect x="85" y="58" width="10" height="3"/></g></g><g transform="translate(34 42)"><rect width="32" height="22" rx="3" fill="#2A3542"/><rect x="20" y="-5" width="8" height="5" rx="1" fill="#2A3542"/><circle cx="16" cy="11" r="7.5" fill="#7FA3B8"/><circle cx="16" cy="11" r="3.5" fill="#1B2530"/></g><g transform="translate(270 128)"><rect x="4" y="34" width="22" height="22" rx="3" fill="#8A6F5A"/><path d="M15 36 L6 6 L15 14 L24 4Z" fill="#5E9C6E"/></g>
+<g id="p-archivist">
+<rect x="134" y="78" width="52" height="58" rx="10" fill="var(--chair)"/>
+<g class="head">
+<rect x="155" y="92" width="10" height="10" fill="#E3B08A"/>
+<circle cx="160" cy="82" r="15" fill="#E3B08A"/>
+<path d="M145 84 Q144 74 147 71 V86Z M175 84 Q176 74 173 71 V86Z" fill="#D2D2D2"/><path d="M147 87 Q148 101 160 102 Q172 101 173 87 Q166 93 160 93 Q154 93 147 87Z" fill="#D2D2D2"/><g fill="none" stroke="#1B2530" stroke-width="1.4"><circle cx="154.5" cy="83" r="4.2"/><circle cx="165.5" cy="83" r="4.2"/><path d="M158.7 83 H161.3"/></g>
+<circle class="eye" cx="154.5" cy="83" r="1.8" fill="#1B2530"/><circle class="eye" cx="165.5" cy="83" r="1.8" fill="#1B2530"/>
+<path d="M155 90 Q160 93.5 165 90" fill="none" stroke="#1B2530" stroke-width="1.6" stroke-linecap="round"/>
+
+</g>
+<path d="M136 132 Q136 102 160 100 Q184 102 184 132 Z" fill="#8C6440"/>
+<rect x="84" y="128" width="152" height="10" rx="2" fill="var(--wood)"/>
+<rect x="84" y="136" width="152" height="4" fill="var(--wood-dark)"/>
+<rect x="92" y="140" width="6" height="40" fill="var(--wood-dark)"/><rect x="222" y="140" width="6" height="40" fill="var(--wood-dark)"/>
+<g class="hands"><ellipse cx="134" cy="126" rx="7" ry="4.5" fill="#E3B08A"/><ellipse cx="186" cy="126" rx="7" ry="4.5" fill="#E3B08A"/></g>
+<path d="M140 104 H180 L183 128 H137 Z" fill="#AEB8C4"/>
+<circle class="screen-glow" cx="160" cy="116" r="4" fill="#CDE7A8" opacity=".9"/>
+<g transform="translate(98 112)"><rect width="12" height="14" rx="2" fill="#F7F9FB" stroke="#AEB8C4" stroke-width="1.5"/><path d="M12 4 Q17 4 17 8 Q17 12 12 12" fill="none" stroke="#AEB8C4" stroke-width="1.5"/></g>
+<g class="bubble b-wait" transform="translate(186 34)"><rect width="34" height="24" rx="8" fill="#FFFFFF" stroke="var(--warn)" stroke-width="2"/><path d="M6 24 L2 32 L14 24Z" fill="#FFFFFF" stroke="var(--warn)" stroke-width="2" stroke-linejoin="round"/><rect x="9" y="7" width="16" height="11" rx="1.5" fill="none" stroke="var(--warn)" stroke-width="2"/><path d="M9 8 L17 14 L25 8" fill="none" stroke="var(--warn)" stroke-width="2"/></g>
+<g class="bubble b-err" transform="translate(186 34)"><rect width="28" height="24" rx="8" fill="#FFFFFF" stroke="var(--bad)" stroke-width="2"/><text x="14" y="18" text-anchor="middle" font-family="Manrope,sans-serif" font-weight="700" font-size="16" fill="var(--bad)">!</text></g>
+<g class="bubble b-zz" transform="translate(124 56)"><text font-family="Unbounded,sans-serif" font-size="12" fill="var(--muted)">z<tspan dx="2" dy="-6" font-size="9">z</tspan></text></g>
+</g></svg>
+<div class="plate">
+<div class="plate-top"><p class="who">Михалыч · архив</p><span class="chip" data-chip="archivist" data-s="idle">Отдыхает</span></div>
+<p class="role">Описывает кадры · каждое утро</p>
+<p class="task" data-task="archivist">—</p>
+<span class="more">Подробнее →</span>
+</div>
+</button>
+<button class="room" data-key="producer" type="button">
+<svg class="scene" viewBox="0 0 320 200" role="img" aria-label="Кабинет продюсера игры"><rect width="320" height="200" fill="var(--floor-pr)"/><rect width="320" height="92" fill="var(--wall)"/><rect y="90" width="320" height="3" fill="var(--line)"/>
+<g transform="translate(176 10)"><rect width="78" height="72" rx="3" fill="#FFF6E5" stroke="var(--line)" stroke-width="3"/><text x="39" y="13" text-anchor="middle" font-family="Manrope,sans-serif" font-weight="700" font-size="7.5" fill="#8C6440">БАБУШКИНА ДАЧА</text><rect x="14" y="20" width="14" height="13" rx="3" fill="#C2413B"/><rect x="31" y="20" width="14" height="13" rx="3" fill="#E0B341"/><rect x="48" y="20" width="14" height="13" rx="3" fill="#5E8C4A"/><rect x="14" y="36" width="14" height="13" rx="3" fill="#3C6FB0"/><rect x="31" y="36" width="14" height="13" rx="3" fill="#E0B341"/><rect x="48" y="36" width="14" height="13" rx="3" fill="#E0B341"/><rect x="14" y="52" width="14" height="13" rx="3" fill="#5E8C4A"/><rect x="31" y="52" width="14" height="13" rx="3" fill="#7A5AB0"/><rect x="48" y="52" width="14" height="13" rx="3" fill="#C2413B"/></g><g transform="translate(260 16)"><rect width="40" height="58" rx="3" fill="#FFFFFF" stroke="var(--line)" stroke-width="2"/><g fill="#7A5AB0"><rect x="7" y="40" width="6" height="12"/><rect x="17" y="32" width="6" height="20"/><rect x="27" y="20" width="6" height="32"/></g><path d="M6 30 L16 22 L24 24 L34 10" fill="none" stroke="#2E8B57" stroke-width="2"/></g><g transform="translate(34 30)"><rect width="26" height="40" rx="4" fill="#2A3542"/><rect x="3" y="4" width="20" height="30" rx="2" fill="#7FB6D6"/><circle cx="13" cy="37" r="1.6" fill="#AEB8C4"/></g><g transform="translate(270 128)"><rect x="4" y="34" width="22" height="22" rx="3" fill="#8A6F5A"/><path d="M15 36 L6 6 L15 14 L24 4Z" fill="#5E9C6E"/></g>
+<g id="p-producer">
+<rect x="134" y="78" width="52" height="58" rx="10" fill="var(--chair)"/>
+<g class="head">
+<rect x="155" y="92" width="10" height="10" fill="#D9A47E"/>
+<circle cx="160" cy="82" r="15" fill="#D9A47E"/>
+<path d="M145 80 Q143 62 160 62 Q177 62 175 80 Q172 68 160 68 Q148 68 145 80Z" fill="#2B2B2B"/>
+<circle class="eye" cx="154.5" cy="83" r="1.8" fill="#1B2530"/><circle class="eye" cx="165.5" cy="83" r="1.8" fill="#1B2530"/>
+<path d="M155 90 Q160 93.5 165 90" fill="none" stroke="#1B2530" stroke-width="1.6" stroke-linecap="round"/>
+
+</g>
+<path d="M136 132 Q136 102 160 100 Q184 102 184 132 Z" fill="#7A5AB0"/>
+<rect x="84" y="128" width="152" height="10" rx="2" fill="var(--wood)"/>
+<rect x="84" y="136" width="152" height="4" fill="var(--wood-dark)"/>
+<rect x="92" y="140" width="6" height="40" fill="var(--wood-dark)"/><rect x="222" y="140" width="6" height="40" fill="var(--wood-dark)"/>
+<g class="hands"><ellipse cx="134" cy="126" rx="7" ry="4.5" fill="#D9A47E"/><ellipse cx="186" cy="126" rx="7" ry="4.5" fill="#D9A47E"/></g>
+<path d="M140 104 H180 L183 128 H137 Z" fill="#AEB8C4"/>
+<circle class="screen-glow" cx="160" cy="116" r="4" fill="#CDE7A8" opacity=".9"/>
+<g transform="translate(98 112)"><rect width="12" height="14" rx="2" fill="#F7F9FB" stroke="#AEB8C4" stroke-width="1.5"/><path d="M12 4 Q17 4 17 8 Q17 12 12 12" fill="none" stroke="#AEB8C4" stroke-width="1.5"/></g>
+<g class="bubble b-wait" transform="translate(186 34)"><rect width="34" height="24" rx="8" fill="#FFFFFF" stroke="var(--warn)" stroke-width="2"/><path d="M6 24 L2 32 L14 24Z" fill="#FFFFFF" stroke="var(--warn)" stroke-width="2" stroke-linejoin="round"/><rect x="9" y="7" width="16" height="11" rx="1.5" fill="none" stroke="var(--warn)" stroke-width="2"/><path d="M9 8 L17 14 L25 8" fill="none" stroke="var(--warn)" stroke-width="2"/></g>
+<g class="bubble b-err" transform="translate(186 34)"><rect width="28" height="24" rx="8" fill="#FFFFFF" stroke="var(--bad)" stroke-width="2"/><text x="14" y="18" text-anchor="middle" font-family="Manrope,sans-serif" font-weight="700" font-size="16" fill="var(--bad)">!</text></g>
+<g class="bubble b-zz" transform="translate(124 56)"><text font-family="Unbounded,sans-serif" font-size="12" fill="var(--muted)">z<tspan dx="2" dy="-6" font-size="9">z</tspan></text></g>
+</g></svg>
+<div class="plate">
+<div class="plate-top"><p class="who">Олег · продюсер игры</p><span class="chip" data-chip="producer" data-s="idle">Отдыхает</span></div>
+<p class="role">Путь людей в игру · по воскресеньям</p>
+<p class="task" data-task="producer">—</p>
+<span class="more">Подробнее →</span>
+</div>
+</button>
 <button class="room" data-key="meet" type="button">
 <svg class="scene" viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Переговорная"><rect width="320" height="200" fill="var(--floor-mt)"/><rect width="320" height="92" fill="var(--wall)"/><rect y="90" width="320" height="3" fill="var(--line)"/>
 <g transform="translate(40 14)"><rect width="150" height="66" rx="3" fill="#FFFFFF" stroke="var(--line)" stroke-width="3"/>
@@ -601,6 +729,10 @@ set(sz);document.querySelectorAll(".zoom button").forEach(function(b){b.addEvent
 var SEED = {"updated_at": "2026-10-09T15:25:00+03:00", "account": {"username": "gusevmade", "followers": 1, "posts": 2, "queue": 0, "next_post": "2026-10-10T09:00:00+03:00", "goals": [{"key": "followers", "name": "Подписчики к 31 октября", "target": 100, "current": 1, "deadline": "2026-10-31"}, {"key": "reels_week", "name": "Рилсы на этой неделе", "target": 3, "current": 0}, {"key": "link_taps_week", "name": "Переходы по ссылке в профиле за неделю", "target": 20, "current": null}]}, "agents": {"analyst": {"status": "idle", "task": "Готов к работе. Первый разбор статистики — завтра в 8:15.", "last_run": null, "next_run": "2026-10-10T08:15:00+03:00"}, "poster": {"status": "waiting", "task": "Рилс «Процесс» готов — выложите вручную из Instagram (видео и подпись у вас в чате Claude).", "last_run": "2026-10-09T15:01:26+03:00", "next_run": "2026-10-10T09:00:00+03:00"}, "scout": {"status": "idle", "task": "Тренд недели — «Процесс»: сырое закулисье работы от инструментов до результата.", "last_run": "2026-10-09T14:09:50+03:00", "next_run": "2026-10-12T10:00:00+03:00"}, "guard": {"status": "idle", "task": "Первая проверка — в ближайшие 2 часа.", "last_run": null, "next_run": null}}, "draft": {"id": "20261009-1430", "status": "approved", "type": "reel", "issue_url": "https://github.com/nikita0071007/office-data/issues/1"}, "log": [{"at": "2026-10-09T15:25:00+03:00", "who": "owner", "text": "Цели: 100 подписчиков к 31 октября, 3 рилса в неделю, 20 переходов в игру в неделю."}, {"at": "2026-10-09T15:12:00+03:00", "who": "poster", "text": "Автопубликация недоступна — рилс передан владельцу для ручной публикации"}, {"at": "2026-10-09T15:03:57+03:00", "who": "poster", "text": "Ошибка: публикация рилса 20261009-1430 заблокирована разрешениями"}, {"at": "2026-10-09T15:01:26+03:00", "who": "poster", "text": "Черновик 20261009-1430 одобрен — публикую"}, {"at": "2026-10-09T15:00:00+03:00", "who": "owner", "text": "В офис пришёл четвёртый сотрудник — охранник. Появилась переговорная."}, {"at": "2026-10-09T14:55:00+03:00", "who": "owner", "text": "Офис под защитой: черновики, подписи и переписка — в закрытом репозитории."}, {"at": "2026-10-09T14:30:00+03:00", "who": "poster", "text": "Черновик готов: рилс «Процесс» по идее разведчика"}, {"at": "2026-10-09T14:10:05+03:00", "who": "scout", "text": "Новая подборка: 7 идей на неделю"}, {"at": "2026-10-09T14:09:24+03:00", "who": "scout", "text": "Новая подборка: 7 идей на неделю"}, {"at": "2026-10-09T14:05:00+03:00", "who": "owner", "text": "В офисе появился чат с контент-менеджером: черновики, кнопки «Одобрить» и «Переделать»."}, {"at": "2026-10-09T13:55:00+03:00", "who": "owner", "text": "Подключены Google Диск и GitHub. Офис переехал на GitHub Pages."}, {"at": "2026-10-09T13:20:00+03:00", "who": "owner", "text": "В офис пришёл третий сотрудник — разведчик трендов."}, {"at": "2026-10-09T12:50:00+03:00", "who": "owner", "text": "Офис открыт. Instagram gusevmade подключён к агентам."}]};
 var TZ = "Europe/Moscow";
 var INFO = {
+coach:{name:"Игорь Петрович · коуч",role:"Каждый вечер в 22:30",about:"Разбирает день команды: ошибки, ваши отмены и правки, замечания Юрия. Каждому, кто промахнулся, выдаёт урок — конкретное рабочее правило, и сотрудник начинает работать по нему со следующего запуска. Пишет вам отчёт: кого чему научил. Уроки можно отменить кнопкой под отчётом."},
+community:{name:"Лиза · комьюнити-менеджер",role:"Каждые 2 часа с 9 до 22",about:"Находит новые комментарии под постами Instagram и пишет ответ от вашего лица. В Telegram приходит карточка: комментарий, её вариант ответа и кнопки «Ответить», «Свой вариант», «Пропустить». Без вашей кнопки ничего не отправляет. Спам не трогает — это работа Славика."},
+archivist:{name:"Михалыч · архивариус",role:"Каждое утро, отчёт по воскресеньям",about:"Смотрит каждый кадр в «Очереди» на Google Диске и записывает, что на нём, — по этим описаниям Макс выбирает материал, а не по названиям файлов. По воскресеньям говорит, на сколько дней хватит материала и что стоит доснять."},
+producer:{name:"Олег · продюсер игры",role:"По воскресеньям в 19:00",about:"Смотрит, что приводит людей в «Бабушкину дачу»: переходы по ссылке в профиле, посты про игру, ролики Анжелики на YouTube, открывается ли сама игра. Даёт Максу и Анжелике советы, как звать в игру без навязчивости."},
 owner:{name:"Мой кабинет",role:"Руководитель",about:"Здесь собирается всё, что требует вашего решения. Черновик поста приходит уведомлением: ответьте «да» — пост выйдет, или напишите правки."},
 analyst:{name:"Вера · аналитик",role:"Каждый день в 8:15",about:"Смотрит, как сработали посты: лайки, комментарии, сохранения, рост подписчиков. Пишет рекомендации, что публиковать сегодня. Подробная статистика по каждому посту откроется после 1000 подписчиков."},
 poster:{name:"Макс · контент-менеджер",role:"В 9:00 и 14:00 и по кнопке в Telegram",about:"Выбирает фото и видео в папке «Очередь» на Google Диске с учётом рекомендаций Веры и идей Тимура, ставит задачу Артёму, пишет подписи, хэштеги и тексты для Threads. Черновики присылает в Telegram-бот офиса с кнопками «Одобрить» и «Переделать». Публикуете вы."},
@@ -611,7 +743,7 @@ guard:{name:"Славик · охранник",role:"обход каждые 15 
 scout:{name:"Тимур · разведчик трендов",role:"По понедельникам в 10:00",about:"Изучает, что сейчас заходит у инди-разработчиков игр и тревел-блогеров: форматы рилсов, звуки, темы, хэштеги. Кладёт 5–7 идей в план на неделю."}
 };
 var LABEL = {working:"Работает",waiting:"Ждёт вас",idle:"Отдыхает",error:"Нужна помощь",calm:"Всё спокойно"};
-var NAMES = {critic:"Юрий",guard:"Славик",analyst:"Вера",poster:"Макс",editor:"Артём",video:"Анжелика",scout:"Тимур",owner:"Вы"};
+var NAMES = {critic:"Юрий",guard:"Славик",coach:"Игорь Петрович",community:"Лиза",archivist:"Михалыч",producer:"Олег",analyst:"Вера",poster:"Макс",editor:"Артём",video:"Анжелика",scout:"Тимур",owner:"Вы"};
 var state = SEED;
 function $(s,r){return (r||document).querySelector(s)}
 function fmt(iso,opts){ if(!iso) return "—"; var d=new Date(iso); if(isNaN(d)) return String(iso);
@@ -640,25 +772,25 @@ txt($("#k-followers"), a.followers!=null ? a.followers.toLocaleString("ru-RU") :
 txt($("#k-posts"), a.posts!=null ? a.posts : "—");
 txt($("#k-queue"), a.queue!=null ? a.queue : "—");
 txt($("#k-next"), a.next_post ? fmt(a.next_post,{month:"short"}) : "—");
-["analyst","poster","editor","video","critic","scout","guard"].forEach(function(k){
+["analyst","poster","editor","video","critic","scout","guard","coach","community","archivist","producer"].forEach(function(k){
 var d=(state.agents||{})[k]||{}; var s=LABEL[d.status]?d.status:"idle";
 chip($('[data-chip="'+k+'"]'), s); txt($('[data-task="'+k+'"]'), d.task||"—"); scene(k,s);
 });
 var os=ownerState(); chip($('[data-chip="owner"]'), os, os==="waiting"?"Есть черновик":"Всё спокойно");
 txt($('[data-task="owner"]'), os==="waiting" ? "Контент-менеджер ждёт вашего ответа: «да» или правки." : "Новых черновиков на подпись нет.");
 scene("owner", os==="waiting"?"waiting":"calm");
-var anyErr=["analyst","poster","editor","video","critic","scout","guard"].some(function(k){return ((state.agents||{})[k]||{}).status==="error"});
+var anyErr=["analyst","poster","editor","video","critic","scout","guard","coach","community","archivist","producer"].some(function(k){return ((state.agents||{})[k]||{}).status==="error"});
 document.querySelectorAll("#lamp").forEach(function(l){l.classList.toggle("alarm",anyErr)});
 var md=(state.draft&&state.draft.status==="waiting"); chip($('[data-chip="meet"]'), md?"waiting":"calm", md?"Есть черновик":"Чат");
 renderChat(); renderTeam(); renderGoals();
-list($("#recs"), state.recommendations, "🔒 Видны только вам — в закрытых заметках."); addNotes($("#recs"));
-list($("#ideas"), state.ideas, "🔒 Видны только вам — в закрытых заметках."); addNotes($("#ideas"));
+list($("#recs"), state.recommendations, "🔒 Видны только вам — в Telegram-боте офиса."); addNotes($("#recs"));
+list($("#ideas"), state.ideas, "🔒 Видны только вам — в Telegram-боте офиса."); addNotes($("#ideas"));
 var ul=$("#log"); ul.innerHTML="";
 (state.log||[]).slice(0,30).forEach(function(e){ ul.appendChild(logItem(e)); });
 if(!(state.log||[]).length){ ul.innerHTML='<li style="display:block"><span class="empty">Пока тихо.</span></li>'; }
 txt($("#updated"), state.updated_at ? "Данные обновлены: "+fmt(state.updated_at) : "—");
 }
-function addNotes(box){ var a=document.createElement("a"); a.href=NOTES; a.target="_blank"; a.rel="noopener"; a.className="hint"; a.style.display="inline-block"; a.style.marginTop="8px"; a.textContent="Открыть закрытые заметки →"; box.appendChild(a); }
+function addNotes(box){ return;  var a=document.createElement("a"); a.href=NOTES; a.target="_blank"; a.rel="noopener"; a.className="hint"; a.style.display="inline-block"; a.style.marginTop="8px"; a.textContent="Открыть закрытые заметки →"; box.appendChild(a); }
 function list(box,items,empty){
 box.innerHTML="";
 if(!items||!items.length){ var e=document.createElement("p"); e.className="empty"; e.textContent=empty; box.appendChild(e); return; }
@@ -689,7 +821,7 @@ var ul=$("#msgs"); ul.innerHTML="";
 var li=document.createElement("li"); li.className="msg";
 li.textContent= waiting ? "Видео, подпись и хэштеги — по кнопке «Открыть черновик». Ответить можно прямо там комментарием («Одобрить» или «Переделать: …») или кнопками ниже." : "Переписка и черновики хранятся в закрытом разделе.";
 ul.appendChild(li);
-var li2=document.createElement("li"); li2.className="msg"; var a2=document.createElement("a"); a2.href=NOTES; a2.target="_blank"; a2.rel="noopener"; a2.textContent="Закрытые заметки: переписка, рекомендации, идеи →"; li2.appendChild(a2); ul.appendChild(li2);
+var li2=document.createElement("li"); li2.className="msg"; var a2=document.createElement("span"); a2.target="_blank"; a2.rel="noopener"; a2.textContent="Переписка, советы Веры и идеи Тимура — в Telegram-боте офиса"; li2.appendChild(a2); ul.appendChild(li2);
 var ok=$("#b-ok"), redo=$("#b-redo"), fix=$("#fix");
 function upd(){ var t=fix.value.trim();
  if(waiting){ ok.setAttribute("aria-disabled","false"); ok.href=issueUrl("Одобрить",dr.id,t||"Одобряю"); }
@@ -700,7 +832,7 @@ function upd(){ var t=fix.value.trim();
 }
 fix.oninput=upd; upd();
 }
-var TEAM=[["poster","Макс","контент","#B0507A"],["editor","Артём","монтаж","#7A5AB0"],["video","Анжелика","видео","#8E2C48"],["analyst","Вера","аналитик","#3C6FB0"],["scout","Тимур","тренды","#5E8C4A"],["guard","Славик","охрана","#2B3A52"],["critic","Юрий","редактор","#5B3A1E"]];
+var TEAM=[["poster","Макс","контент","#B0507A"],["editor","Артём","монтаж","#7A5AB0"],["video","Анжелика","видео","#8E2C48"],["analyst","Вера","аналитик","#3C6FB0"],["scout","Тимур","тренды","#5E8C4A"],["guard","Славик","охрана","#2B3A52"],["critic","Юрий","редактор","#5B3A1E"],["coach","Игорь Петрович","коуч","#1F6F78"],["community","Лиза","комментарии","#E07A5F"],["archivist","Михалыч","архив","#8C6440"],["producer","Олег","игра","#7A5AB0"]];
 function sayLine(k){ var a=(state.agents||{})[k]||{}, d=state.draft, acc=state.account||{}, s=a.status;
  if(k==="poster"){
   if(d && d.status==="waiting") return "Черновик "+d.id+" ждёт вашего «Одобрить». Пост пока не выложен.";
