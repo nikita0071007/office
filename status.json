@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-13T09:02:57+03:00",
+ "updated_at": "2026-10-13T09:40:00+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 2,
@@ -63,9 +63,9 @@
    "next_run": "понедельник 10:00"
   },
   "guard": {
-   "status": "idle",
-   "task": "Всё спокойно",
-   "last_run": "2026-10-12T21:40:00+03:00",
+   "status": "working",
+   "task": "Обхожу офис…",
+   "last_run": "2026-10-13T09:40:00+03:00",
    "next_run": "через 12 часов",
    "nudge": {
     "to": "poster",
