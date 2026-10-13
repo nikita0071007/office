@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-13T13:14:10+03:00",
+ "updated_at": "2026-10-13T13:17:13+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 2,
@@ -80,9 +80,9 @@
    "next_run": null
   },
   "video": {
-   "status": "idle",
-   "task": "Ролик одобрен — выкладываю",
-   "last_run": "2026-10-11T11:00:00+03:00",
+   "status": "working",
+   "task": "Снимаю ролик «Пройдёшь уровень?»…",
+   "last_run": "2026-10-13T13:17:13+03:00",
    "next_run": null
   },
   "critic": {
