@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-13T15:32:12+03:00",
+ "updated_at": "2026-10-13T15:32:15+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 2,
@@ -74,9 +74,9 @@
    }
   },
   "editor": {
-   "status": "idle",
-   "task": "Сделал рилс: «Презентация мобильной игры Бабушкина дача»",
-   "last_run": "2026-10-13T15:18:16+03:00",
+   "status": "working",
+   "task": "Монтирую рилс…",
+   "last_run": "2026-10-13T15:32:15+03:00",
    "next_run": null
   },
   "video": {
