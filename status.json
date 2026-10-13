@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-13T15:26:58+03:00",
+ "updated_at": "2026-10-13T15:32:12+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 2,
@@ -51,9 +51,9 @@
    "next_run": "завтра 08:15"
   },
   "poster": {
-   "status": "waiting",
-   "task": "Ждёт вашего решения",
-   "last_run": "2026-10-13T15:18:12+03:00",
+   "status": "working",
+   "task": "Выбираю материал на рилс…",
+   "last_run": "2026-10-13T15:32:12+03:00",
    "next_run": "2026-10-10T19:00:00+03:00"
   },
   "scout": {
