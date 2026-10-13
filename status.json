@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-13T15:56:12+03:00",
+ "updated_at": "2026-10-13T15:56:57+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 2,
@@ -80,9 +80,9 @@
    "next_run": null
   },
   "video": {
-   "status": "idle",
-   "task": "Ролик вышел — следующий через 3 дня",
-   "last_run": "2026-10-13T13:17:13+03:00",
+   "status": "working",
+   "task": "Снимаю ролик «Бабушка Марина ждёт»…",
+   "last_run": "2026-10-13T15:56:57+03:00",
    "next_run": null
   },
   "critic": {
