@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-12T22:30:29+03:00",
+ "updated_at": "2026-10-13T07:30:00+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 2,
@@ -104,9 +104,9 @@
    "next_run": "через 2 часа"
   },
   "archivist": {
-   "status": "idle",
-   "task": "Опишу «Очередь» завтра в 7:30",
-   "last_run": null,
+   "status": "working",
+   "task": "Разбираю «Очередь»…",
+   "last_run": "2026-10-13T07:30:00+03:00",
    "next_run": null
   },
   "producer": {
