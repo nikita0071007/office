@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-14T20:59:24+03:00",
+ "updated_at": "2026-10-14T21:40:00+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 4,
@@ -63,9 +63,9 @@
    "next_run": "понедельник 10:00"
   },
   "guard": {
-   "status": "error",
-   "task": "В «Очереди» осталось файлов: 1 — подкиньте фото/видео на Google Диск",
-   "last_run": "2026-10-14T09:40:00+03:00",
+   "status": "working",
+   "task": "Обхожу офис…",
+   "last_run": "2026-10-14T21:40:00+03:00",
    "next_run": "через 12 часов",
    "nudge": {
     "to": "editor",
