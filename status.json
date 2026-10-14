@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-14T19:49:47+03:00",
+ "updated_at": "2026-10-14T19:49:50+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 4,
@@ -74,9 +74,9 @@
    }
   },
   "editor": {
-   "status": "idle",
-   "task": "Сделал историю: «пасмурная погода на алтайской трассе»",
-   "last_run": "2026-10-14T19:48:43+03:00",
+   "status": "working",
+   "task": "Монтирую историю…",
+   "last_run": "2026-10-14T19:49:50+03:00",
    "next_run": null
   },
   "video": {
