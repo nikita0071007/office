@@ -1,9 +1,9 @@
 {
- "updated_at": "2026-10-15T02:47:32+03:00",
+ "updated_at": "2026-10-15T02:52:19+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 4,
-  "posts": 11,
+  "posts": 12,
   "queue": 0,
   "next_post": "2026-10-10T09:00:00+03:00",
   "goals": [
@@ -18,7 +18,7 @@
     "key": "reels_week",
     "name": "Рилсы на этой неделе",
     "target": 3,
-    "current": 2
+    "current": 3
    },
    {
     "key": "link_taps_week",
@@ -27,7 +27,7 @@
     "current": 0
    }
   ],
-  "last_post_url": "https://www.instagram.com/reel/Deb2_fwis0Z/",
+  "last_post_url": "https://www.instagram.com/reel/DefmwVhCrpA/",
   "facebook": {
    "page": "Gusevmade",
    "page_id": "1435004723022101",
@@ -36,7 +36,7 @@
    "views_7d": 0,
    "engagements_7d": 0
   },
-  "last_published_at": "2026-10-13T15:57:04+03:00",
+  "last_published_at": "2026-10-15T02:52:19+03:00",
   "audit": {
    "at": "2026-10-11T11:37:45+03:00",
    "score": 76
@@ -51,8 +51,8 @@
    "next_run": "завтра 08:15"
   },
   "poster": {
-   "status": "waiting",
-   "task": "Одобрено — ждёт публикации",
+   "status": "idle",
+   "task": "Вышел рилс — работаем дальше",
    "last_run": "2026-10-15T02:41:41+03:00",
    "next_run": "2026-10-10T19:00:00+03:00"
   },
@@ -118,11 +118,16 @@
  },
  "draft": {
   "id": "20261015-014339",
-  "status": "approved",
+  "status": "published",
   "type": "reel",
   "issue_url": null
  },
  "log": [
+  {
+   "at": "2026-10-15T02:52:19+03:00",
+   "who": "poster",
+   "text": "Опубликовано: рилс «Видеоигра в реальной жизни на Алтае на бабушкиной даче с квестами»"
+  },
   {
    "at": "2026-10-15T02:47:32+03:00",
    "who": "poster",
@@ -317,11 +322,6 @@
    "at": "2026-10-13T22:03:23+03:00",
    "who": "poster",
    "text": "Владелец отменил черновик (рилс)"
-  },
-  {
-   "at": "2026-10-13T21:40:12+03:00",
-   "who": "guard",
-   "text": "Обход: всё спокойно"
   }
  ]
 }
