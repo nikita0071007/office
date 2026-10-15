@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-15T22:36:00+03:00",
+ "updated_at": "2026-10-15T22:36:08+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 4,
@@ -98,8 +98,8 @@
    "next_run": "завтра 22:30"
   },
   "community": {
-   "status": "working",
-   "task": "Читаю комментарии…",
+   "status": "idle",
+   "task": "Новых комментариев нет",
    "last_run": "2026-10-15T22:36:00+03:00",
    "next_run": "через 2 часа"
   },
