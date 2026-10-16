@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-16T09:00:00+03:00",
+ "updated_at": "2026-10-16T09:00:20+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 4,
@@ -74,9 +74,9 @@
    }
   },
   "editor": {
-   "status": "error",
-   "task": "Ошибка: ffmpeg: 5ef15bf098c0] mb B  I16..4:  0.3%  0.0%  0.0%  B16..8:  6.7%  0.9%  0.0%  direct: 1.8%  skip:90.2%  L0:42.8% L1:",
-   "last_run": "2026-10-15T02:22:39+03:00",
+   "status": "working",
+   "task": "Монтирую рилс…",
+   "last_run": "2026-10-16T09:00:20+03:00",
    "next_run": null
   },
   "video": {
