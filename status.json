@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-16T21:06:26+03:00",
+ "updated_at": "2026-10-16T21:06:47+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 4,
@@ -92,9 +92,9 @@
    "next_run": null
   },
   "coach": {
-   "status": "working",
-   "task": "Разбираюсь: игорь скинь файл",
-   "last_run": "2026-10-16T21:06:26+03:00",
+   "status": "idle",
+   "task": "Разобрал: Ошибка сериализации данных в JSON в коде отправки сообщения.",
+   "last_run": "2026-10-16T21:06:47+03:00",
    "next_run": "завтра 22:30"
   },
   "community": {
