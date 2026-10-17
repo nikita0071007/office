@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-17T13:41:47+03:00",
+ "updated_at": "2026-10-17T13:41:52+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 4,
@@ -74,9 +74,9 @@
    }
   },
   "editor": {
-   "status": "idle",
-   "task": "Сделал рилс: «момент уединения и перезагрузки на осеннем Алтае»",
-   "last_run": "2026-10-17T09:00:17+03:00",
+   "status": "working",
+   "task": "Монтирую рилс…",
+   "last_run": "2026-10-17T13:41:52+03:00",
    "next_run": null
   },
   "video": {
