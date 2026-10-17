@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-17T13:32:15+03:00",
+ "updated_at": "2026-10-17T13:32:20+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 4,
@@ -92,9 +92,9 @@
    "next_run": null
   },
   "coach": {
-   "status": "idle",
-   "task": "Проверил reel: 5/10 — отправил на переделку",
-   "last_run": "2026-10-17T09:56:15+03:00",
+   "status": "working",
+   "task": "Разбираюсь: Коуч разберись",
+   "last_run": "2026-10-17T13:32:20+03:00",
    "next_run": "завтра 22:30"
   },
   "community": {
