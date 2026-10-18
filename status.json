@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-18T11:30:16+03:00",
+ "updated_at": "2026-10-18T11:30:37+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 7,
@@ -69,8 +69,8 @@
   },
   "editor": {
    "status": "working",
-   "task": "Монтирую рилс…",
-   "last_run": "2026-10-18T11:12:37+03:00",
+   "task": "Монтирую пост…",
+   "last_run": "2026-10-18T11:30:37+03:00",
    "next_run": null
   },
   "video": {
