@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-18T17:05:19+03:00",
+ "updated_at": "2026-10-18T18:00:00+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 7,
@@ -98,9 +98,9 @@
    "next_run": "через 2 часа"
   },
   "archivist": {
-   "status": "idle",
-   "task": "На паузе до 09:00 — Славик выключил компьютер",
-   "last_run": "2026-10-13T07:30:00+03:00",
+   "status": "working",
+   "task": "Разбираю «Очередь»…",
+   "last_run": "2026-10-18T18:00:00+03:00",
    "next_run": "завтра 07:30"
   },
   "producer": {
