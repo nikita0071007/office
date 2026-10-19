@@ -1,9 +1,9 @@
 {
- "updated_at": "2026-10-19T10:43:44+03:00",
+ "updated_at": "2026-10-19T10:45:10+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 12,
-  "posts": 16,
+  "posts": 17,
   "queue": 35,
   "next_post": "2026-10-10T09:00:00+03:00",
   "goals": [
@@ -18,7 +18,7 @@
     "key": "reels_week",
     "name": "Рилсы на этой неделе",
     "target": 3,
-    "current": 0
+    "current": 1
    },
    {
     "key": "link_taps_week",
@@ -27,7 +27,7 @@
     "current": 0
    }
   ],
-  "last_post_url": "https://www.instagram.com/p/DeoUKX-HcM8/",
+  "last_post_url": "https://www.instagram.com/reel/DeqwDqlivRd/",
   "facebook": {
    "page": "Gusevmade",
    "page_id": "1435004723022101",
@@ -36,7 +36,7 @@
    "views_7d": 0,
    "engagements_7d": 0
   },
-  "last_published_at": "2026-10-15T02:52:19+03:00",
+  "last_published_at": "2026-10-19T10:45:10+03:00",
   "audit": {
    "at": "2026-10-11T11:37:45+03:00",
    "score": 76
@@ -51,8 +51,8 @@
    "next_run": "завтра 08:15"
   },
   "poster": {
-   "status": "waiting",
-   "task": "Одобрено — ждёт публикации",
+   "status": "idle",
+   "task": "Вышел рилс — работаем дальше",
    "last_run": "2026-10-19T09:01:25+03:00",
    "next_run": "2026-10-10T19:00:00+03:00"
   },
@@ -112,11 +112,16 @@
  },
  "draft": {
   "id": "20261019-090125",
-  "status": "approved",
+  "status": "published",
   "type": "reel",
   "issue_url": null
  },
  "log": [
+  {
+   "at": "2026-10-19T10:45:10+03:00",
+   "who": "poster",
+   "text": "Опубликовано: рилс «Создание инди-игры на фоне заснеженных вершин Алтая»"
+  },
   {
    "at": "2026-10-19T10:43:44+03:00",
    "who": "poster",
@@ -311,11 +316,6 @@
    "at": "2026-10-16T21:40:09+03:00",
    "who": "guard",
    "text": "Обход: всё спокойно"
-  },
-  {
-   "at": "2026-10-16T15:03:00+03:00",
-   "who": "guard",
-   "text": "→ Артём: «Артём, не тупи — хозяин ждёт!»"
   }
  ]
 }
