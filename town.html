@@ -127,6 +127,7 @@ const BEDS = Object.fromEntries(Object.keys(APTS).map(k => { const [x, y, p] = A
 const MEET = []; for (let i = 0; i < 4; i++) MEET.push([1, 22 + i, 7, "front"], [1, 22 + i, 9, "back"]);
 const MEET_HOST = [1, 26, 8];
 const SESSION = [[3, 24, 1, "front"], [3, 25, 1, "front"], [3, 24, 3, "back"], [3, 25, 3, "back"]], SESSION_HOST = [3, 26, 2, "front"];
+const DOOR_KEYS = new Set(["poster", "editor", "video", "producer"]); // у двери Никиты ждут только с черновиком или планом
 const DOOR_WAIT = [[3, 3, 6], [3, 4, 6], [3, 2, 6], [3, 4, 7], [3, 2, 7]];
 const COFFEE = [[1, 9, 2], [1, 10, 2], [1, 11, 3]];
 const IDLE = [[1, 6, 6], [1, 16, 7], [1, 18, 9], [1, 5, 13], [1, 9, 13], [1, 22, 13], [1, 16, 14], [2, 17, 11], [2, 20, 13], [2, 24, 12], [2, 18, 13], [3, 6, 7], [3, 10, 7], [3, 19, 7], [3, 24, 7], [3, 15, 7]];
@@ -404,11 +405,13 @@ const DEMO_DATA = {account: {followers: 7, posts: 14, week_posts: 8, goals: [{cu
   log: [{who: "poster", at: new Date(Date.now() - 6e5).toISOString(), text: "Опубликовано: пост «Туман над Алтаем»"}, {who: "guard", text: "→ Михалыч: «Что сломалось? Разберись»"}, {who: "critic", text: "Убрал слово «невероятно»"}]};
 let DATA = DEMO_DATA, lastFetch = 0, logPtr = 0, PARTY = null, CONF = [];
 const PUB_RX = /Опубликовано|Ролик опубликован|Выложил пост в Threads|Ролик вышел|Выложила/i;
-async function load() { if (DEMO) return apply(DEMO_DATA); try { const r = await fetch("status.json?t=" + Date.now(), {cache: "no-store"}); if (!r.ok) throw 0; apply(await r.json()); } catch (e) { apply(DEMO_DATA); } }
+let LOADED = false;
+async function load() { if (DEMO) return apply(DEMO_DATA); try { const r = await fetch("status.json?t=" + Date.now(), {cache: "no-store"}); if (!r.ok) throw 0; apply(await r.json()); LOADED = true; }
+  catch (e) { if (!LOADED) apply(DEMO_DATA); else lastFetch = Date.now(); } } // нет связи — оставляем последние настоящие данные, а не демо
 function apply(d) { DATA = d; lastFetch = Date.now();
-  for (const k in agents) { const v = (d.agents || {})[k] || {}, a = agents[k], st = /пауз|выключил комп/i.test(v.task || "") ? "sleep" : ({working: "work", waiting: "wait", error: "err"}[v.status] || "idle");
+  for (const k in agents) { const v = (d.agents || {})[k] || {}, a = agents[k], st = k !== "guard" && /пауз|выключил комп|перерыв|отдыха/i.test(v.task || "") ? "sleep" : ({working: "work", waiting: "wait", error: "err"}[v.status] || "idle");
     if (st !== a.status) a.think = 0; a.status = st; a.task = v.task || ""; a.last = v.last_run || null;
-    const hrs = a.last ? (Date.now() - new Date(a.last)) / 3600e3 : 0; a.papers = st === "wait" ? (hrs < 1 ? 1 : hrs < 6 ? 2 : hrs < 24 ? 3 : 4) : 0; }
+    const hrs = a.last ? (Date.now() - new Date(a.last)) / 3600e3 : 0; a.papers = st === "wait" && DOOR_KEYS.has(k) ? (hrs < 1 ? 1 : hrs < 6 ? 2 : hrs < 24 ? 3 : 4) : 0; }
   const ac = d.account || {}, fo = ac.followers, g = (ac.goals || [])[0];
   document.getElementById("sub").textContent = (DEMO ? "демо · " : "") + (fo != null ? `подписчиков: ${fo}` : "") + (g ? ` · цель ${g.current}/${g.target}` : "");
   const errs = Object.values(agents).filter(a => a.status === "err" && a.k !== "guard"), al = document.getElementById("alarm");
@@ -456,7 +459,8 @@ function brain(a, dt, ph, now) {
     return;
   }
   if (a.status === "work" || a.status === "err") { goTo(a, seat, "seat"); if (Math.random() < .35 && a.task) say(a, (a.status === "err" ? "⚠ " : "") + a.task); return; }
-  if (a.status === "wait") { const i = Object.values(agents).filter(o => o.status === "wait").indexOf(a); goTo(a, DOOR_WAIT[i % DOOR_WAIT.length], "wait");
+  if (a.status === "wait" && !DOOR_KEYS.has(a.k)) { goTo(a, seat, "seat"); if (Math.random() < .3 && a.task) say(a, a.task); return; } // ждёт не черновика — работает у себя
+  if (a.status === "wait") { const i = Object.values(agents).filter(o => o.status === "wait" && DOOR_KEYS.has(o.k)).indexOf(a); goTo(a, DOOR_WAIT[i % DOOR_WAIT.length], "wait");
     const hrs = a.last ? Math.floor((Date.now() - new Date(a.last)) / 3600e3) : 0;
     if (Math.random() < .5) say(a, (a.task || "Жду вашего решения") + (hrs ? ` · жду ${hrs} ч` : "")); return; }
   // коуч свободен — ведёт сессию у себя
