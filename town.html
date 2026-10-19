@@ -470,7 +470,8 @@ async function load() { if (DEMO) return apply(DEMO_DATA); try { const r = await
 function apply(d) { DATA = d; lastFetch = Date.now();
   for (const k in agents) { const v = (d.agents || {})[k] || {}, a = agents[k], st = k !== "guard" && (/пауз|выключил комп|перерыв|отдыха/i.test(v.task || "") || (/ушёл спать|ушел спать/i.test(v.task || "") && v.last_run && Date.now() - new Date(v.last_run) < 11 * 3600e3)) ? "sleep" : ({working: "work", waiting: "wait", error: "err"}[v.status] || "idle");
     if (st !== a.status) a.think = 0; a.status = st; a.task = v.task || ""; a.last = v.last_run || null;
-    const hrs = a.last ? (Date.now() - new Date(a.last)) / 3600e3 : 0; a.papers = st === "wait" && DOOR_KEYS.has(k) ? (hrs < 1 ? 1 : hrs < 6 ? 2 : hrs < 24 ? 3 : 4) : 0; }
+    a.heard = v.heard && (!a.last || new Date(v.heard) >= new Date(a.last)); // Никита уже выслушал — у двери не стоит
+    const hrs = a.last ? (Date.now() - new Date(a.last)) / 3600e3 : 0; a.papers = st === "wait" && DOOR_KEYS.has(k) && !a.heard ? (hrs < 1 ? 1 : hrs < 6 ? 2 : hrs < 24 ? 3 : 4) : 0; }
   const ac = d.account || {}, fo = ac.followers, g = (ac.goals || [])[0];
   document.getElementById("sub").textContent = (DEMO ? "демо · " : "") + (fo != null ? `подписчиков: ${fo}` : "") + (g ? ` · цель ${g.current}/${g.target}` : "");
   const errs = Object.values(agents).filter(a => a.status === "err" && a.k !== "guard"), al = document.getElementById("alarm");
@@ -522,7 +523,7 @@ function brain(a, dt, ph, now) {
     return;
   }
   if (a.status === "work" || a.status === "err") { goTo(a, seat, "seat"); if (Math.random() < .35 && a.task) say(a, (a.status === "err" ? "⚠ " : "") + a.task); return; }
-  if (a.status === "wait" && !DOOR_KEYS.has(a.k)) { goTo(a, seat, "seat"); if (Math.random() < .3 && a.task) say(a, a.task); return; } // ждёт не черновика — работает у себя
+  if (a.status === "wait" && (!DOOR_KEYS.has(a.k) || a.heard)) { goTo(a, seat, "seat"); if (Math.random() < .3 && a.task) say(a, a.task); return; } // ждёт не черновика — работает у себя
   if (a.status === "wait") { const i = Object.values(agents).filter(o => o.status === "wait" && DOOR_KEYS.has(o.k)).indexOf(a); goTo(a, DOOR_WAIT[i % DOOR_WAIT.length], "wait");
     const hrs = a.last ? Math.floor((Date.now() - new Date(a.last)) / 3600e3) : 0;
     if (Math.random() < .5) say(a, (a.task || "Жду вашего решения") + (hrs ? ` · жду ${hrs} ч` : "")); return; }
