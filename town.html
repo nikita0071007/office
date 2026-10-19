@@ -70,13 +70,14 @@ const APTS = {poster: [1, 1, "top"], editor: [5, 1, "top"], analyst: [9, 1, "top
 { const g = FL[1].g;
   fill(g, 1, 1, 11, 10, ":"); g[7][12] = g[8][12] = "d";
   fill(g, 16, 1, 26, 4, "q"); g[5][20] = "d";
+  fill(g, 23, 1, 23, 4, "#"); g[3][23] = "d"; // каморка Славика с кроватью
   fill(g, 13, 6, 20, 10, "l");
   fill(g, 21, 6, 21, 10, "W"); g[10][21] = "d";
   fill(g, 22, 6, 26, 10, "k");
   shaft(g);
   g[11][19] = g[11][20] = "p";
   fill(g, 0, 12, 27, 15, "G"); fill(g, 19, 12, 20, 15, "p"); fill(g, 17, 14, 22, 14, "p");
-  FL[1].labels = [[6, .55, "Столовая"], [9.9, .55, "☕ Кофе"], [20, 5.25, "ОХРАНА", "guard"], [16.5, 11.35, "Холл"], [24, 11.35, "Переговорная"], [13.95, .55, "Лифт"]];
+  FL[1].labels = [[6, .55, "Столовая"], [9.9, .55, "☕ Кофе"], [20, 5.25, "ОХРАНА", "guard"], [25, .55, "Каморка"], [16.5, 11.35, "Холл"], [24, 11.35, "Переговорная"], [13.95, .55, "Лифт"]];
 }
 FL[2].labels = Object.keys(APTS).map(k => [APTS[k][0] + 1.5, APTS[k][2] === "top" ? 5.25 : 9.35, null, k]).concat([[20.5, 9.35, "Комната отдыха"], [13.95, .55, "Лифт"]]);
 
@@ -109,7 +110,8 @@ const CANTEEN = [];
 for (const [x, y] of [[2, 4], [7, 4], [2, 8], [7, 8]]) { F(1, x, y, 3, 1, "longtable");
   for (let i = 0; i < 3; i++) { CH(1, x + i, y - 1, "woodchair", "front"); CH(1, x + i, y + 1, "woodchair", "back"); CANTEEN.push([1, x + i, y - 1, "front"], [1, x + i, y + 1, "back"]); } }
 // охрана
-F(1, 18, 2, 4, 1, "monitors"); CH(1, 19, 1, "chair", "front", {col: "#2a3550"}); F(1, 25, 1, 1, 1, "locker"); F(1, 26, 1, 1, 1, "locker"); F(1, 16, 4, 1, 1, "plant"); F(1, 24, 3, 2, 1, "sofa", {col: "#4a5a7a"});
+F(1, 18, 2, 4, 1, "monitors"); CH(1, 19, 1, "chair", "front", {col: "#2a3550"}); F(1, 16, 1, 1, 1, "locker"); F(1, 17, 1, 1, 1, "locker"); F(1, 16, 4, 1, 1, "plant");
+F(1, 25, 1, 1, 2, "bed", {who: "guard"}); F(1, 26, 1, 1, 1, "lamp2"); F(1, 26, 4, 1, 1, "plant");
 // холл
 F(1, 15, 8, 3, 1, "reception"); F(1, 13, 10, 2, 1, "sofa"); F(1, 13, 9, 1, 1, "plant"); F(1, 20, 7, 1, 1, "plant"); F(1, 18, 10, 1, 1, "plant");
 // переговорная: стол на 8, экран на стене справа
@@ -124,6 +126,7 @@ F(1, 14, 13, 2, 1, "bench"); F(1, 23, 12, 2, 1, "bench"); F(1, 9, 15, 3, 1, "flo
 const SEATS = {video: [3, 8, 1, "front"], critic: [3, 17, 2, "front"], coach: [3, 21, 1, "front"], producer: [3, 2, 11, "front"], editor: [3, 7, 11, "front"],
                poster: [3, 13, 11, "front"], analyst: [3, 16, 11, "front"], community: [3, 19, 11, "front"], archivist: [3, 23, 12, "front"], guard: [1, 19, 1, "front"]};
 const BEDS = Object.fromEntries(Object.keys(APTS).map(k => { const [x, y, p] = APTS[k]; return [k, [2, x, p === "top" ? y : y + 3]]; }));
+BEDS.guard = [1, 25, 1]; // Славик спит у себя в каморке при охране — чтобы сразу выбежать по тревоге
 const MEET = []; for (let i = 0; i < 4; i++) MEET.push([1, 22 + i, 7, "front"], [1, 22 + i, 9, "back"]);
 const MEET_HOST = [1, 26, 8];
 const SESSION = [[3, 24, 1, "front"], [3, 25, 1, "front"], [3, 24, 3, "back"], [3, 25, 3, "back"]], SESSION_HOST = [3, 26, 2, "front"];
@@ -437,9 +440,12 @@ function brain(a, dt, ph, now) {
   const seat = SEATS[a.k], errs = Object.values(agents).filter(o => o.status === "err" && o.k !== "guard" && o.k !== a.k);
   const party = PARTY && now < PARTY.until && ph !== "night" && a.status !== "err" && a.status !== "wait" && a.status !== "sleep";
   if (a.k === "guard") {
-    if (errs.length && ph !== "night") { goTo(a, near(SEATS[errs[0].k], 1), "help"); say(a, `${nm(errs[0])}, что сломалось?`); return; }
+    if (errs.length) { if (a.mode === "sleep") say(a, "🚨 Тревога! Бегу!", 3); goTo(a, near(SEATS[errs[0].k], 1), "help"); say(a, `${nm(errs[0])}, что сломалось?`); a.think = 3; return; }
+    const allAsleep = Object.values(agents).every(o => o.k === "guard" || o.status === "sleep" || o.mode === "sleep");
+    if (ph === "night" || allAsleep) { // все спят — Славик тоже отдыхает в каморке, но по тревоге встаёт
+      if (!at(a, BEDS.guard)) goTo(a, BEDS.guard, "sleep"); else a.mode = "sleep"; a.think = 3; return; }
     if (party) { goTo(a, RING[RING.length - 1], "walk"); say(a, "👏 Молодцы!", 3); return; }
-    if (ph === "night" || Math.random() < .35) { goTo(a, pick(PATROL), "walk"); if (ph === "night" && Math.random() < .3) say(a, "Всё спокойно 🔦", 3); return; }
+    if (Math.random() < .6) { goTo(a, pick(PATROL), "walk"); if (Math.random() < .2) say(a, "Обход: всё спокойно 🔦", 3); return; }
     goTo(a, seat, "seat"); if (Math.random() < .3) say(a, "Смотрю камеры 📹", 3); return;
   }
   if (ph === "night" || a.status === "sleep") { goTo(a, BEDS[a.k], "sleep"); return; }
