@@ -59,11 +59,12 @@ function shaft(g) { fill(g, 13, 1, 14, 4, "S"); g[5][13] = g[5][14] = "E"; }
 }
 // --- 2 этаж: квартиры
 const APTS = {poster: [1, 1, "top"], editor: [5, 1, "top"], analyst: [9, 1, "top"], video: [16, 1, "top"], critic: [20, 1, "top"], coach: [24, 1, "top"],
-              community: [1, 10, "bot"], archivist: [5, 10, "bot"], producer: [9, 10, "bot"]};
+              community: [1, 10, "bot"], archivist: [5, 10, "bot"], producer: [9, 10, "bot"], orders: [24, 10, "bot"]};
 { const g = FL[2].g;
   fill(g, 1, 6, 26, 8, "h");
   for (const k in APTS) { const [x, y, p] = APTS[k]; fill(g, x, y, x + 2, y + (p === "top" ? 3 : 4), "a"); g[p === "top" ? 5 : 9][x + 1] = "d"; }
-  fill(g, 13, 10, 26, 14, "r"); g[9][18] = g[9][19] = "d";
+  fill(g, 13, 10, 22, 14, "r"); g[9][18] = g[9][19] = "d"; fill(g, 23, 10, 23, 14, "#");
+  fill(g, 24, 10, 26, 14, "a"); // квартира Марины (с котом и собакой)
   shaft(g);
 }
 // --- 1 этаж: столовая, охрана, холл, переговорная (за стеклом), двор
@@ -77,7 +78,7 @@ const APTS = {poster: [1, 1, "top"], editor: [5, 1, "top"], analyst: [9, 1, "top
   shaft(g);
   g[11][19] = g[11][20] = "p";
   fill(g, 0, 12, 27, 15, "G"); fill(g, 19, 12, 20, 15, "p"); fill(g, 17, 14, 22, 14, "p");
-  FL[1].labels = [[6, .55, "Столовая"], [9.9, .55, "☕ Кофе"], [20, 5.25, "ОХРАНА", "guard"], [25, .55, "Каморка"], [16.5, 11.35, "Холл"], [24, 11.35, "Переговорная"], [13.95, .55, "Лифт"]];
+  FL[1].labels = [[6, .55, "Столовая"], [9.9, .55, "☕ Кофе"], [20, 5.25, "ОХРАНА", "guard"], [25, .55, "Каморка"], [16.5, 9.6, "Ресепшен · бабушка Марина"], [24, 11.35, "Переговорная"], [13.95, .55, "Лифт"]];
 }
 FL[2].labels = Object.keys(APTS).map(k => [APTS[k][0] + 1.5, APTS[k][2] === "top" ? 5.25 : 9.35, null, k]).concat([[20.5, 9.35, "Комната отдыха"], [13.95, .55, "Лифт"]]);
 
@@ -102,7 +103,7 @@ F(3, 1, 7, 1, 1, "plant"); F(3, 26, 6, 1, 1, "cooler"); F(3, 11, 6, 1, 1, "plant
 for (const k in APTS) { const [x, y, p] = APTS[k];
   if (p === "top") { F(2, x, y, 1, 2, "bed", {who: k}); F(2, x + 2, y, 1, 1, "toilet"); F(2, x + 2, y + 3, 1, 1, "lamp2"); F(2, x + 1, y + 2, 1, 1, "rug", {solid: false}); }
   else { F(2, x, y + 3, 1, 2, "bed", {who: k}); F(2, x + 2, y + 4, 1, 1, "toilet"); F(2, x + 2, y, 1, 1, "lamp2"); F(2, x + 1, y + 2, 1, 1, "rug", {solid: false}); } }
-F(2, 15, 10, 3, 1, "tv"); F(2, 15, 12, 3, 1, "sofa3"); F(2, 21, 11, 2, 1, "pingpong"); F(2, 25, 10, 2, 1, "shelf2"); F(2, 26, 14, 1, 1, "plant"); F(2, 13, 14, 1, 1, "plant");
+F(2, 15, 10, 3, 1, "tv"); F(2, 15, 12, 3, 1, "sofa3"); F(2, 21, 11, 2, 1, "pingpong"); F(2, 21, 13, 2, 1, "shelf2"); F(2, 26, 12, 1, 1, "petbed", {solid: false}); F(2, 13, 14, 1, 1, "plant");
 F(2, 1, 7, 1, 1, "plant"); F(2, 26, 7, 1, 1, "plant");
 // 1 этаж: столовая со стульями, кофемашина
 F(1, 1, 1, 7, 1, "counter"); F(1, 8, 1, 1, 1, "fridge"); F(1, 9, 1, 2, 1, "coffee"); F(1, 11, 1, 1, 1, "plant");
@@ -113,7 +114,7 @@ for (const [x, y] of [[2, 4], [7, 4], [2, 8], [7, 8]]) { F(1, x, y, 3, 1, "longt
 F(1, 18, 2, 4, 1, "monitors"); CH(1, 19, 1, "chair", "front", {col: "#2a3550"}); F(1, 16, 1, 1, 1, "locker"); F(1, 17, 1, 1, 1, "locker"); F(1, 16, 4, 1, 1, "plant");
 F(1, 25, 1, 1, 2, "bed", {who: "guard"}); F(1, 26, 1, 1, 1, "lamp2"); F(1, 26, 4, 1, 1, "plant");
 // холл
-F(1, 15, 8, 3, 1, "reception"); F(1, 13, 10, 2, 1, "sofa"); F(1, 13, 9, 1, 1, "plant"); F(1, 20, 7, 1, 1, "plant"); F(1, 18, 10, 1, 1, "plant");
+F(1, 15, 8, 3, 1, "reception"); CH(1, 16, 7, "chair", "front", {col: "#8a5a8a"}); F(1, 13, 10, 2, 1, "sofa"); F(1, 13, 9, 1, 1, "plant"); F(1, 20, 7, 1, 1, "plant"); F(1, 18, 10, 1, 1, "plant");
 // переговорная: стол на 8, экран на стене справа
 F(1, 22, 8, 4, 1, "mtable");
 for (let i = 0; i < 4; i++) { CH(1, 22 + i, 7, "mchair", "front"); CH(1, 22 + i, 9, "mchair", "back"); }
@@ -124,7 +125,8 @@ F(1, 14, 13, 2, 1, "bench"); F(1, 23, 12, 2, 1, "bench"); F(1, 9, 15, 3, 1, "flo
 
 // места: [этаж, x, y, как сидит]
 const SEATS = {video: [3, 8, 1, "front"], critic: [3, 17, 2, "front"], coach: [3, 21, 1, "front"], producer: [3, 2, 11, "front"], editor: [3, 7, 11, "front"],
-               poster: [3, 13, 11, "front"], analyst: [3, 16, 11, "front"], community: [3, 19, 11, "front"], archivist: [3, 23, 12, "front"], guard: [1, 19, 1, "front"]};
+               poster: [3, 13, 11, "front"], analyst: [3, 16, 11, "front"], community: [3, 19, 11, "front"], archivist: [3, 23, 12, "front"], guard: [1, 19, 1, "front"],
+               orders: [1, 16, 7, "front"]};
 const BEDS = Object.fromEntries(Object.keys(APTS).map(k => { const [x, y, p] = APTS[k]; return [k, [2, x, p === "top" ? y : y + 3]]; }));
 BEDS.guard = [1, 25, 1]; // Славик спит у себя в каморке при охране — чтобы сразу выбежать по тревоге
 const MEET = []; for (let i = 0; i < 4; i++) MEET.push([1, 22 + i, 7, "front"], [1, 22 + i, 9, "back"]);
@@ -151,6 +153,7 @@ const TEAM = {
   community: {name: "Лиза", role: "комьюнити и тех-разведка", room: "опенспейс, 3 этаж"},
   archivist: {name: "Михалыч", role: "архивариус: описывает кадры", room: "архив, 3 этаж"},
   producer: {name: "Олег", role: "продюсер игры и тренды недели", room: "свой кабинет, 3 этаж"},
+  orders: {name: "Бабушка Марина", short: "Марина", role: "менеджер заказов: отвечает клиентам в чате на сайте gusevmade.ru. Та самая бабушка Марина из «Бабушкиной дачи» — Никита построил ей дачу в игре, там она и живёт", room: "ресепшен в холле, 1 этаж"},
 };
 const LOOK = {
   poster: {skin: 0, hair: "#4a2f1c", hs: "short", top: "#3d7be0", bot: "#2b3550", hood: 1},
@@ -163,6 +166,7 @@ const LOOK = {
   community: {skin: 2, hair: "#d0782c", hs: "pony", top: "#e5609b", bot: "#3a2f45"},
   archivist: {skin: 1, hair: "#e2e2e2", hs: "bald", top: "#efe9dc", bot: "#3a3127", vest: "#7a5a3a", beard: "#e2e2e2"},
   producer: {skin: 0, hair: "#2b1d14", hs: "short", top: "#2fa36b", bot: "#24323a", hood: 1},
+  orders: {skin: 2, hair: "#dcdce2", hs: "bun", top: "#c46a48", bot: "#5a4668", dress: 1, glasses: 1, shawl: "#e9d7b0"},
 };
 const SKIN = ["#f2c08f", "#e2a878", "#f6cfa8"];
 const SMALL = ["Кофе будешь?", "Как рилс?", "Видел статистику?", "Ещё чуть-чуть…", "Алтай опять в кадре", "Норм идея!", "Бабушка Марина 💪", "Что на обед?", "Лифт опять занят", "Как выходные?"];
@@ -213,12 +217,15 @@ function makeSprite(L) {
       if (hs === "bald") { P(3, 4, 1, 3, h); P(12, 4, 1, 3, h); P(5, 2, 2, 1, "#fff2df"); }
       else { P(4, 1, 8, 2, h); P(3, 2, 1, 3, h); P(12, 2, 1, 3, h); P(4, 3, 3, 1, h); P(4, 1, 8, 1, shade(h, 1.25));
         if (hs === "long") { P(3, 2, 1, 10, h); P(12, 2, 1, 10, h); P(4, 3, 1, 3, h); P(11, 3, 1, 3, h); }
-        if (hs === "bob") { P(3, 2, 1, 6, h); P(12, 2, 1, 6, h); P(9, 3, 3, 1, h); } }
+        if (hs === "bob") { P(3, 2, 1, 6, h); P(12, 2, 1, 6, h); P(9, 3, 3, 1, h); }
+        if (hs === "bun") { P(4, 3, 8, 1, shade(skin, 1)); P(3, 2, 1, 4, h); P(12, 2, 1, 4, h); } }
     } else {
       if (hs === "bald") { P(10, 4, 2, 3, h); P(6, 2, 2, 1, "#fff2df"); }
       else { P(4, 1, 8, 2, h); P(8, 2, 4, 4, h); P(11, 2, 1, 5, h); P(4, 1, 8, 1, shade(h, 1.25));
         if (hs === "long") P(9, 2, 4, 10, h); if (hs === "bob") P(9, 2, 3, 7, h); if (hs === "pony") P(12, 4, 2, 6, h); }
     }
+    if (hs === "bun") { if (d === 2) P(9, 0, 3, 2, h); else P(6, 0, 4, 2, h); P(6, 0, 4, 1, shade(h, 1.2)); }
+    if (L.shawl && d !== 1) { P(4, 9, 8, 2, L.shawl); P(5, 11, 6, 1, L.shawl); }
     if (hs === "cap") { const c = "#1b2638"; P(3, 0, 10, 3, c); P(4, 0, 8, 1, shade(c, 1.4));
       if (d === 0) { P(3, 3, 10, 1, "#0f1622"); P(7, 1, 2, 1, "#f2c14e"); } else if (d === 2) P(1, 3, 5, 1, "#0f1622"); }
     if (L.phones) { P(4, 0, 8, 1, "#26262c"); if (d === 0) { P(2, 4, 2, 3, "#d64545"); P(12, 4, 2, 3, "#d64545"); } else if (d === 2) P(9, 4, 3, 3, "#d64545"); else { P(2, 4, 2, 3, "#d64545"); P(12, 4, 2, 3, "#d64545"); } }
@@ -328,6 +335,7 @@ function drawFurn(g, f, night, time, X = f.x * T, Y = f.y * T) {
     case "toilet": r(4, 0, 8, 5, "#e9eef2"); r(3, 5, 10, 8, "#f6f9fb"); r(5, 6, 6, 5, "#bfd6e2"); r(3, 13, 10, 1, "#c5ced6"); break;
     case "lamp2": r(4, 6, 8, 8, "#8a5a34"); r(6, 0, 4, 6, night ? "#ffe58a" : "#f2d27a"); break;
     case "rug": r(1, 3, 14, 10, "#c9a46a"); r(2, 4, 12, 8, "#d9b77d"); break;
+    case "petbed": r(1, 6, 14, 9, "#7a4d8a"); r(3, 8, 10, 5, "#c79bd6"); break;
     case "tv": r(4, -8, 40, 14, "#1d1f27"); r(6, -6, 36, 10, night ? "#4a6fff" : "#3a5ad8"); r(10 + Math.floor(time * 3) % 20, -4, 10, 3, "#ff6b9a"); break;
     case "sofa3": r(0, 0, 48, 6, "#c94f5d"); r(0, 5, 48, 9, "#e05d6b"); r(16, 6, 1, 7, "#c94f5d"); r(32, 6, 1, 7, "#c94f5d"); break;
     case "sofa": { const c = f.col || "#5a7fc9"; r(0, 0, W, 6, c); r(0, 5, W, 9, shade(c, 1.15)); r(0, 2, 3, 12, c); r(W - 3, 2, 3, 12, c); break; }
@@ -356,7 +364,7 @@ function furnImg(f, night) {
 }
 const CHAIRS = new Set(["chair", "bosschair", "mchair", "woodchair", "stool"]);
 function sortKey(f) { if (f.kind === "bed") return f.y - .5; if (CHAIRS.has(f.kind)) return f.face === "back" ? f.y + .3 : f.y - .3;
-  if (f.kind === "rug" || f.kind === "flowers") return -99; return f.y + f.h - .01; }
+  if (f.kind === "rug" || f.kind === "flowers" || f.kind === "petbed") return -99; return f.y + f.h - .01; }
 
 // ================= путь по клеткам =================
 const walk = (f, x, y) => { const c = FL[f].g[y]?.[x]; return c && !["#", "#F", "S", "W"].includes(c); };
@@ -389,6 +397,54 @@ const pick = arr => arr[Math.floor(Math.random() * arr.length)];
 function near(s, n = 0) { const c = [[1, 0], [-1, 0], [0, -1], [0, 1], [2, 0], [-2, 0], [1, 1], [-1, 1]].map(([dx, dy]) => [s[0], s[1] + dx, s[2] + dy]).filter(q => walk(q[0], q[1], q[2]) && !FL[q[0]].furn.some(f => f.solid === false && f.face && f.x === q[1] && f.y === q[2]));
   return c[Math.min(n, c.length - 1)] || [s[0], s[1], s[2]]; }
 
+// ================= кот и собака бабушки Марины =================
+function makePet(kind) {
+  const cv = document.createElement("canvas"); cv.width = 80; cv.height = 16; const g = cv.getContext("2d");
+  const cat = kind === "cat", c = cat ? "#e8913a" : "#a0683c", dk = cat ? "#b8661f" : "#6e4526", lt = cat ? "#f7c58a" : "#d9b083";
+  for (let f = 0; f < 5; f++) { const ox = f * 16, P = (x, y, w, h, col) => { g.fillStyle = col; g.fillRect(ox + x, y, w, h); }, lo = f === 1 ? 1 : f === 2 ? -1 : 0;
+    if (f === 4) { // лежит, спит
+      if (cat) { P(3, 10, 10, 4, c); P(1, 9, 5, 4, c); P(1, 8, 1, 1, c); P(4, 8, 1, 1, c); P(2, 11, 3, 1, dk); P(12, 12, 3, 2, c); }
+      else { P(2, 9, 12, 5, c); P(0, 8, 5, 5, c); P(0, 8, 2, 4, dk); P(2, 10, 2, 1, "#2a1a10"); P(13, 11, 2, 2, c); P(4, 12, 7, 2, lt); }
+      continue; }
+    if (f === 3) { // сидит
+      if (cat) { P(5, 7, 6, 7, c); P(6, 10, 4, 4, lt); P(5, 2, 6, 5, c); P(5, 1, 1, 2, c); P(10, 1, 1, 2, c); P(6, 4, 1, 1, "#1b1b24"); P(9, 4, 1, 1, "#1b1b24"); P(7, 5, 2, 1, "#f08a8a"); P(11, 12, 4, 2, c); }
+      else { P(4, 6, 8, 8, c); P(5, 9, 6, 5, lt); P(4, 1, 8, 6, c); P(3, 1, 2, 5, dk); P(11, 1, 2, 5, dk); P(6, 3, 1, 1, "#1b1b24"); P(9, 3, 1, 1, "#1b1b24"); P(7, 5, 2, 1, "#2a1a10"); P(7, 6, 2, 1, "#e05d6b"); P(12, 11, 3, 2, c); }
+      continue; }
+    // идёт / стоит (вид сбоку, мордой влево)
+    if (cat) { P(4, 8, 9, 4, c); P(5, 10, 6, 2, lt); P(1, 5, 5, 5, c); P(1, 4, 1, 1, c); P(4, 4, 1, 1, c); P(2, 7, 1, 1, "#1b1b24"); P(12, 4, 1, 5, c); P(13, 3, 1, 2, dk);
+      P(5 + lo, 12, 1, 3, dk); P(11 - lo, 12, 1, 3, dk); P(6 - lo, 12, 1, 3, c); P(10 + lo, 12, 1, 3, c); }
+    else { P(3, 6, 11, 5, c); P(5, 9, 7, 2, lt); P(0, 3, 6, 6, c); P(1, 3, 2, 5, dk); P(0, 7, 2, 2, lt); P(0, 7, 1, 1, "#2a1a10"); P(3, 5, 1, 1, "#1b1b24"); P(13, 3, 2, 4, c);
+      P(4 + lo, 11, 2, 4, dk); P(11 - lo, 11, 2, 4, dk); P(5 - lo, 11, 1, 4, c); P(12 + lo, 11, 1, 4, c); } }
+  const id = g.getImageData(0, 0, 80, 16), D = id.data, op = (x, y) => x >= 0 && y >= 0 && x < 80 && y < 16 && D[(y * 80 + x) * 4 + 3] > 200, out = [];
+  for (let y = 0; y < 16; y++) for (let x = 0; x < 80; x++) if (!op(x, y) && (op(x - 1, y) && (x % 16) || op(x + 1, y) && ((x + 1) % 16) || op(x, y - 1) || op(x, y + 1))) out.push(x, y);
+  for (let i = 0; i < out.length; i += 2) { const q = (out[i + 1] * 80 + out[i]) * 4; D[q] = 28; D[q + 1] = 22; D[q + 2] = 34; D[q + 3] = 230; }
+  g.putImageData(id, 0, 0); return cv;
+}
+const PETS = {
+  cat: {k: "cat", pet: true, name: "Кот Мурзик", role: "кот бабушки Марины — гуляет по всему дому, когда она работает, сидит у её стойки", room: "с бабушкой Мариной", sound: ["Мяу", "Мррр…", "Мяу!"]},
+  dog: {k: "dog", pet: true, name: "Пёс Дружок", role: "пёс бабушки Марины — ходит за ней хвостиком, ночью спит у её кровати", room: "с бабушкой Мариной", sound: ["Гав!", "Гав-гав", "*виляет хвостом*"]},
+};
+for (const k in PETS) Object.assign(PETS[k], {sprite: makePet(k), f: 1, x: k === "cat" ? 15 : 17, y: 7, route: [], legs: [], dir: 2, step: 0, lift: 0, status: "idle", task: "", mode: "walk", place: null, think: 1 + Math.random() * 2, bubble: null, bubbleT: 0});
+const PET_DESK = {cat: [1, 15, 7], dog: [1, 17, 7]}, PET_BED = {cat: [2, 26, 12], dog: [2, 25, 12]};
+function petBrain(p, dt, ph) {
+  p.think -= dt; if (p.bubbleT > 0) p.bubbleT -= dt; else p.bubble = null;
+  if (p.route.length || p.lift || p.legs.length || p.think > 0) return;
+  p.think = 5 + Math.random() * 6;
+  const m = agents.orders, asleep = ph === "night" || m.mode === "sleep" || m.status === "sleep";
+  if (asleep) { if (at(p, PET_BED[p.k])) p.mode = "lie"; else goTo(p, PET_BED[p.k], "walk"); return; }
+  if (at(m, SEATS.orders) && m.mode === "seat") { if (at(p, PET_DESK[p.k])) { p.mode = "sit"; if (Math.random() < .15) say(p, pick(p.sound), 2); } else goTo(p, PET_DESK[p.k], "walk"); return; }
+  if (p.mode === "walk" && !p.route.length && Math.random() < .5) { p.mode = "sit"; p.think = 4 + Math.random() * 5; return; } // посидеть, где пришёл
+  const r = Math.random();
+  if (r < .4 && !m.lift) { const q = [[1, 0], [-1, 0], [0, 1], [1, 1]].map(([dx, dy]) => [m.f, Math.round(m.x) + dx, Math.round(m.y) + dy]).find(q => walk(q[0], q[1], q[2]));
+    if (q) { goTo(p, q, "walk"); return; } }  // за бабушкой хвостиком
+  goTo(p, pick(IDLE.concat(PATROL)), "walk"); if (Math.random() < .2) say(p, pick(p.sound), 2);
+}
+function drawPet(p) {
+  const X = Math.round(p.x * T), Y = Math.round(p.y * T), col = p.route.length ? 1 + (Math.floor(p.step) % 2) : p.mode === "lie" ? 4 : p.mode === "sit" ? 3 : 0;
+  vg.save(); if (p.dir === 3 && col < 3) { vg.translate(X + 16, Y); vg.scale(-1, 1); vg.drawImage(p.sprite, col * 16, 0, 16, 16, 0, 0, 16, 16); } else vg.drawImage(p.sprite, col * 16, 0, 16, 16, X, Y, 16, 16); vg.restore();
+  if (p.mode === "lie" && !p.route.length) { const z = (performance.now() / 1250 + p.x) % 1; vg.globalAlpha = 1 - z; vg.fillStyle = "#c9d0ff"; vg.font = "bold 7px monospace"; vg.fillText("z", X + 11 + z * 4, Y + 6 - z * 8); vg.globalAlpha = 1; }
+}
+
 // ================= симпатии (у зрителя в браузере) =================
 let AFF = {}; try { AFF = JSON.parse(localStorage.getItem("town_aff") || "{}"); } catch (e) {}
 if (DEMO && !Object.keys(AFF).length) AFF = {"analyst|producer": 6, "community|editor": 4, "critic|archivist": 3};
@@ -412,7 +468,7 @@ let LOADED = false;
 async function load() { if (DEMO) return apply(DEMO_DATA); try { const r = await fetch("status.json?t=" + Date.now(), {cache: "no-store"}); if (!r.ok) throw 0; apply(await r.json()); LOADED = true; }
   catch (e) { if (!LOADED) apply(DEMO_DATA); else lastFetch = Date.now(); } } // нет связи — оставляем последние настоящие данные, а не демо
 function apply(d) { DATA = d; lastFetch = Date.now();
-  for (const k in agents) { const v = (d.agents || {})[k] || {}, a = agents[k], st = k !== "guard" && /пауз|выключил комп|перерыв|отдыха/i.test(v.task || "") ? "sleep" : ({working: "work", waiting: "wait", error: "err"}[v.status] || "idle");
+  for (const k in agents) { const v = (d.agents || {})[k] || {}, a = agents[k], st = k !== "guard" && (/пауз|выключил комп|перерыв|отдыха/i.test(v.task || "") || (/ушёл спать|ушел спать/i.test(v.task || "") && v.last_run && Date.now() - new Date(v.last_run) < 11 * 3600e3)) ? "sleep" : ({working: "work", waiting: "wait", error: "err"}[v.status] || "idle");
     if (st !== a.status) a.think = 0; a.status = st; a.task = v.task || ""; a.last = v.last_run || null;
     const hrs = a.last ? (Date.now() - new Date(a.last)) / 3600e3 : 0; a.papers = st === "wait" && DOOR_KEYS.has(k) ? (hrs < 1 ? 1 : hrs < 6 ? 2 : hrs < 24 ? 3 : 4) : 0; }
   const ac = d.account || {}, fo = ac.followers, g = (ac.goals || [])[0];
@@ -455,7 +511,8 @@ function brain(a, dt, ph, now) {
   if (a.k === "coach" && errs.length && ph !== "night" && ph !== "meet") { const e = errs[0]; goTo(a, near(SEATS[e.k], 0), "help"); say(a, `${nm(e)}, разберёмся. Покажи ошибку`); return; }
   if (ph === "meet") { // планёрка в переговорной
     if (a.k === "coach") { goTo(a, MEET_HOST, "host"); const s = stats(); say(a, pick([`Постов за неделю: ${s.posts}`, `Ошибок сейчас: ${s.errs}`, `Ждут решения: ${s.waits}`, "Всем продуктивного дня!"]), 5); a.think = 5; return; }
-    const i = Object.keys(agents).filter(k => k !== "coach" && k !== "guard").indexOf(a.k); goTo(a, MEET[i % MEET.length], "meet");
+    if (a.k === "orders") { goTo(a, seat, "seat"); if (Math.random() < .2) say(a, "Я на ресепшене — клиенты не ждут 👵", 3); return; }
+    const i = Object.keys(agents).filter(k => k !== "coach" && k !== "guard" && k !== "orders").indexOf(a.k); goTo(a, MEET[i % MEET.length], "meet");
     if (Math.random() < .25) say(a, pick(["Понял", "Беру в работу", "👍", "Сделаю"]), 3); return; }
   if (ph === "meal" && a.status !== "err" && a.status !== "wait") {
     if (a.mode !== "eat") { const c = crush(a), taken = new Set(Object.values(agents).filter(o => o.mode === "eat" && o.place).map(o => o.place.slice(0, 3).join()));
@@ -519,6 +576,7 @@ function frame(t) { requestAnimationFrame(frame); if (document.hidden) { lastT =
   if (acc < (moving || PARTY ? 1 / 30 : 1 / 12)) return; const step = acc; acc = 0;
   const ph = phase(), now = t / 1000; moving = false;
   for (const k in agents) { const a = agents[k]; brain(a, step, ph, now); if (stepMove(a, step) && a.f === CAM) moving = true; }
+  for (const k in PETS) { const p = PETS[k]; petBrain(p, step, ph); if (stepMove(p, step * .85) && p.f === CAM) moving = true; }
   if (PARTY && now >= PARTY.until) { PARTY = null; document.getElementById("party").style.display = "none"; }
   if (ph === "day") { chatT -= step; if (chatT <= 0) { chatT = 8 + Math.random() * 5; logChatter(); } }
   if (ph !== "night") { socT -= step; if (socT <= 0) { socT = 3; social(); } }
@@ -539,8 +597,9 @@ function drawAgent(a, night) {
 function render(night, time, ph, step = 0) {
   vg.drawImage(BG[CAM], 0, 0);
   const here = Object.values(agents).filter(a => a.f === CAM && !a.lift);
-  const items = FL[CAM].furn.map(f => ({y: sortKey(f), f})).concat(here.map(a => ({y: a.mode === "sleep" && at(a, BEDS[a.k]) ? a.y - .4 : a.y + .02, a}))); items.sort((p, q) => p.y - q.y);
-  for (const it of items) { if (it.a) { drawAgent(it.a, night); continue; } const f = it.f;
+  const pets = Object.values(PETS).filter(p => p.f === CAM && !p.lift);
+  const items = FL[CAM].furn.map(f => ({y: sortKey(f), f})).concat(here.map(a => ({y: a.mode === "sleep" && at(a, BEDS[a.k]) ? a.y - .4 : a.y + .02, a})), pets.map(p => ({y: p.y + .01, p}))); items.sort((p, q) => p.y - q.y);
+  for (const it of items) { if (it.p) { drawPet(it.p); continue; } if (it.a) { drawAgent(it.a, night); continue; } const f = it.f;
     if (ANIM.has(f.kind)) drawFurn(vg, f, night, time); else vg.drawImage(furnImg(f, night), f.x * T - 4, f.y * T - 22); }
   // тревожные лампы: у кого-то на этаже ошибка
   const alarm = here.some(a => a.status === "err") || Object.values(agents).some(a => a.status === "err" && SEATS[a.k][0] === CAM);
@@ -565,7 +624,7 @@ function render(night, time, ph, step = 0) {
     else lab(x * T * S, y * T * S, txt, "#f3ead6", "#3b2a1a", "#8a6a44"); }
   // экран в переговорной и табло в холле
   if (CAM === 1) { const s = stats();
-    lab(16.6 * T * S, 5.8 * T * S, `🎉 Вышло постов: ${(DATA.account || {}).posts ?? s.posts}`, "#2a2140", "#ffd76a", "#ffd76a");
+    goalBoard(time, s);
     if (ph === "meet") lab(23.6 * T * S, 6.4 * T * S, `📊 постов ${s.posts} · ошибок ${s.errs} · ждут ${s.waits}`, "#13243f", "#9fe0ff", "#5aa9e6"); }
   // значок записи камеры
   { ctx.font = `bold ${fs}px monospace`; ctx.textAlign = "right"; const hh = hourMSK(), camTxt = `КАМ-${CAM} ${String(Math.floor(hh)).padStart(2, "0")}:${String(Math.floor((hh % 1) * 60)).padStart(2, "0")}`;
@@ -578,7 +637,25 @@ function render(night, time, ph, step = 0) {
     if (st === "sleep" && !a.route.length) { ctx.fillStyle = "#c9d0ff"; ctx.font = `bold ${fs}px monospace`; const z = (time * .8 + a.x) % 1; ctx.globalAlpha = 1 - z; ctx.fillText("z", cx + 6 * S + z * 8, top + 6 * S - z * 14); ctx.fillText("Z", cx + 3 * S + z * 5, top + 6 * S - 6 - z * 10); ctx.globalAlpha = 1; }
     const c = crush(a); if (c && c.f === a.f && Math.hypot(c.x - a.x, c.y - a.y) < 1.7 && st !== "sleep") { ctx.fillStyle = "#ff6b9a"; ctx.font = `${fs}px sans-serif`; ctx.fillText("❤", cx + 8 * S, top + Math.sin(time * 3 + a.x) * 2); }
     if (a.bubble && st !== "sleep") bubble(cx, top - 2, a.bubble, fs, st === "err" ? "#ffdddd" : st === "wait" ? "#fff3c4" : LOVE.includes(a.bubble) ? "#ffe0ec" : "#fff"); }
+  for (const p of pets) if (p.bubble) bubble((p.x * T + 8) * S, (p.y * T + 2) * S, p.bubble, fs, "#fff");
   updFloorsUI();
+}
+// табло целей в холле: цели меняются каждые 6 секунд, полоска — сколько пройдено
+function goalBoard(time, s) {
+  const ac = DATA.account || {}, goals = (ac.goals || []).filter(g => g && g.target);
+  const fs = Math.max(9, Math.min(12, S * 4.6)), x0 = 13.15 * T * S, x1 = 18.85 * T * S, y0 = 11.06 * T * S, h = .9 * T * S, w = x1 - x0;
+  ctx.fillStyle = "#ffd76a"; ctx.fillRect(x0 - 2, y0 - 2, w + 4, h + 4); ctx.fillStyle = "#1d1830"; ctx.fillRect(x0, y0, w, h);
+  ctx.textAlign = "left"; ctx.font = `bold ${fs - 1}px "DejaVu Sans Mono",monospace`;
+  if (!goals.length) { ctx.fillStyle = "#ffd76a"; ctx.fillText(`🎉 Вышло постов: ${ac.posts ?? s.posts}`, x0 + 6, y0 + h / 2); ctx.textAlign = "center"; return; }
+  const g = goals[Math.floor(time / 6) % goals.length], pct = Math.max(0, Math.min(1, (g.current || 0) / g.target));
+  const dl = g.deadline ? ` до ${g.deadline.slice(8, 10)}.${g.deadline.slice(5, 7)}` : "";
+  const tail = `: ${g.current || 0}/${g.target}${dl}`;
+  let name = `🎯 ${g.name || "Цель"}`; while (ctx.measureText(name + tail).width > w - 12 && name.length > 8) name = name.slice(0, -2) + "…";
+  ctx.fillStyle = "#f3efe6"; ctx.fillText(name + tail, x0 + 6, y0 + h * .3);
+  const bx = x0 + 6, by = y0 + h * .56, bw = w - 12, bh = h * .3;
+  ctx.fillStyle = "#3a3354"; ctx.fillRect(bx, by, bw, bh); ctx.fillStyle = pct >= 1 ? "#3ccf6e" : "#ffd76a"; ctx.fillRect(bx, by, Math.max(2, bw * pct), bh);
+  ctx.fillStyle = pct > .55 ? "#1d1830" : "#cfd6e4"; ctx.font = `bold ${fs - 3}px "DejaVu Sans Mono",monospace`; ctx.textAlign = "center";
+  ctx.fillText(`${Math.round(pct * 100)}% · постов вышло: ${ac.posts ?? s.posts}`, bx + bw / 2, by + bh / 2 + .5);
 }
 function bubble(x, y, text, fs, fill) { ctx.font = `${fs - 1}px "DejaVu Sans Mono",monospace`;
   const words = text.split(" "), lines = []; let cur = ""; for (const w of words) { if ((cur + " " + w).trim().length > 24) { lines.push(cur.trim()); cur = w; } else cur += " " + w; } lines.push(cur.trim());
@@ -589,13 +666,13 @@ function bubble(x, y, text, fs, fill) { ctx.font = `${fs - 1}px "DejaVu Sans Mon
 // ================= клик — карточка =================
 const card = document.getElementById("card"); let cardA = null;
 cv.addEventListener("click", e => { const r = cv.getBoundingClientRect(), mx = (e.clientX - r.left) / S / T, my = (e.clientY - r.top) / S / T;
-  let best = null, bd = 1.2; for (const a of Object.values(agents)) { if (a.f !== CAM || a.lift) continue; const d = Math.hypot(a.x + .5 - mx, a.y + .1 - my); if (d < bd) { bd = d; best = a; } }
+  let best = null, bd = 1.2; for (const a of Object.values(agents).concat(Object.values(PETS))) { if (a.f !== CAM || a.lift) continue; const d = Math.hypot(a.x + .5 - mx, a.y + .1 - my); if (d < bd) { bd = d; best = a; } }
   if (!best) { card.style.display = "none"; return; } cardA = best;
   const st = best.mode === "sleep" ? "sleep" : best.status, N = {work: "работает", wait: "ждёт вашего решения", err: "ошибка", idle: "свободен", sleep: "спит"};
-  const where = best.mode === "sleep" ? "квартира, 2 этаж" : best.mode === "eat" ? "столовая, 1 этаж" : best.mode === "coffee" ? "у кофемашины, 1 этаж" : best.mode === "meet" || best.mode === "host" ? "планёрка, переговорная" : best.mode === "session" ? "сессия у коуча" : `${FL[best.f].name.split("· ")[1]}, ${best.f} этаж`;
+  const where = best.pet ? `${FL[best.f].name.split("· ")[1]}, ${best.f} этаж` : best.mode === "sleep" ? "квартира, 2 этаж" : best.mode === "eat" ? "столовая, 1 этаж" : best.mode === "coffee" ? "у кофемашины, 1 этаж" : best.mode === "meet" || best.mode === "host" ? "планёрка, переговорная" : best.mode === "session" ? "сессия у коуча" : `${FL[best.f].name.split("· ")[1]}, ${best.f} этаж`;
   document.getElementById("cn").textContent = best.name; document.getElementById("cr").textContent = best.role + " · место: " + best.room;
   const cs = document.getElementById("cs"); cs.textContent = N[st]; cs.style.background = COL[st]; document.getElementById("cw").textContent = "📍 " + where;
-  const c = crush(best); document.getElementById("ct").textContent = (best.task || "—") + (best.papers ? ` · 📄 ждёт у вашей двери` : "") + (c ? `  · 💞 симпатия: ${nm(c)}` : "");
+  const c = best.pet ? null : crush(best); document.getElementById("ct").textContent = (best.task || "—") + (best.papers ? ` · 📄 ждёт у вашей двери` : "") + (c ? `  · 💞 симпатия: ${nm(c)}` : "");
   document.getElementById("cl").textContent = best.last ? "последнее действие: " + new Date(best.last).toLocaleString("ru-RU", {day: "numeric", month: "short", hour: "2-digit", minute: "2-digit"}) : "";
   card.style.display = "block"; });
 document.getElementById("cx").onclick = () => card.style.display = "none";
@@ -605,7 +682,7 @@ addEventListener("resize", resize);
 for (const f of [1, 2, 3]) drawFloorBG(f);
 floorsUI(); resize(); load(); drawLove(); requestAnimationFrame(frame);
 { const w = document.getElementById("wrap"); w.scrollLeft = (w.scrollWidth - w.clientWidth) * .4; }
-window.__warm = sec => { const ph = phase(); let now = performance.now() / 1000; for (let i = 0; i < sec * 30; i++) { now += 1 / 30; for (const k in agents) { brain(agents[k], 1 / 30, ph, now); stepMove(agents[k], 1 / 30); } if (i % 90 === 0 && ph !== "night") social(); } render(ph === "night", sec, ph, 1 / 30); };
+window.__warm = sec => { const ph = phase(); let now = performance.now() / 1000; for (let i = 0; i < sec * 30; i++) { now += 1 / 30; for (const k in agents) { brain(agents[k], 1 / 30, ph, now); stepMove(agents[k], 1 / 30); } for (const k in PETS) { petBrain(PETS[k], 1 / 30, ph); stepMove(PETS[k], 1 / 30 * .85); } if (i % 90 === 0 && ph !== "night") social(); } render(ph === "night", sec, ph, 1 / 30); };
 </script>
 </body>
 </html>
