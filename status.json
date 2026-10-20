@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-20T19:18:26+03:00",
+ "updated_at": "2026-10-20T19:18:29+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 12,
@@ -68,9 +68,9 @@
    }
   },
   "editor": {
-   "status": "idle",
-   "task": "Сделал рилс: «Неожиданные тайны в повседневном»",
-   "last_run": "2026-10-20T19:12:26+03:00",
+   "status": "working",
+   "task": "Монтирую рилс…",
+   "last_run": "2026-10-20T19:18:29+03:00",
    "next_run": null
   },
   "video": {
