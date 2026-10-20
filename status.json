@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-20T19:22:35+03:00",
+ "updated_at": "2026-10-20T19:22:42+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 12,
@@ -51,9 +51,9 @@
    "next_run": "завтра 08:15"
   },
   "poster": {
-   "status": "error",
-   "task": "Черновик не получился — см. Telegram",
-   "last_run": "2026-10-20T19:19:04+03:00",
+   "status": "working",
+   "task": "Выбираю материал на пост…",
+   "last_run": "2026-10-20T19:22:42+03:00",
    "next_run": "2026-10-10T19:00:00+03:00"
   },
   "guard": {
