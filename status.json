@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-20T19:09:35+03:00",
+ "updated_at": "2026-10-20T19:09:39+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 12,
@@ -68,9 +68,9 @@
    }
   },
   "editor": {
-   "status": "idle",
-   "task": "Сделал рилс: «Интерактивное приключение на Алтае»",
-   "last_run": "2026-10-20T19:03:18+03:00",
+   "status": "working",
+   "task": "Монтирую рилс…",
+   "last_run": "2026-10-20T19:09:39+03:00",
    "next_run": null
   },
   "video": {
