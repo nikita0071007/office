@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-21T21:00:00+03:00",
+ "updated_at": "2026-10-21T21:00:39+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 13,
@@ -82,8 +82,8 @@
   },
   "critic": {
    "status": "idle",
-   "task": "Вычитал подпись к посту: править нечего",
-   "last_run": "2026-10-21T13:51:21+03:00",
+   "task": "Вычитал пост в Threads: править нечего",
+   "last_run": "2026-10-21T21:00:39+03:00",
    "next_run": null
   },
   "coach": {
