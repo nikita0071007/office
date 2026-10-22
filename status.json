@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-22T09:40:14+03:00",
+ "updated_at": "2026-10-22T11:00:01+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 14,
@@ -75,9 +75,9 @@
    "next_run": null
   },
   "video": {
-   "status": "idle",
-   "task": "На паузе до 09:00 — Славик выключил компьютер",
-   "last_run": "2026-10-19T11:05:40+03:00",
+   "status": "working",
+   "task": "Снимаю ролик «Урок 2»…",
+   "last_run": "2026-10-22T11:00:01+03:00",
    "next_run": null
   },
   "critic": {
