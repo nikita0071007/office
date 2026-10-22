@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-22T13:21:20+03:00",
+ "updated_at": "2026-10-22T15:09:37+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 14,
@@ -78,7 +78,8 @@
    "status": "waiting",
    "task": "Ролик «Урок 2: Лейка и солнышко три в ряд» готов — ждёт вашего решения",
    "last_run": "2026-10-22T11:06:27+03:00",
-   "next_run": null
+   "next_run": null,
+   "heard": "2026-10-22T15:09:37+03:00"
   },
   "critic": {
    "status": "idle",
