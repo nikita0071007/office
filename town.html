@@ -533,7 +533,7 @@ function brain(a, dt, ph, now) {
   const c = crush(a), r = Math.random(), coachIn = at(agents.coach, SESSION_HOST);
   if (coachIn && r < .15 && !Object.values(agents).some(o => o.mode === "session" && o.k !== "coach")) { goTo(a, pick(SESSION), "session"); say(a, "Можно к вам на сессию?", 3); return; }
   if (a.mode === "session" && at(a, a.place) && Math.random() < .6) { say(a, pick(SESS_C), 3); return; }
-  if (c && r < .45) { const p = c.place || [c.f, Math.round(c.x), Math.round(c.y)]; const spot = [[1, 0], [-1, 0], [0, 1], [0, -1]].map(([dx, dy]) => [p[0], p[1] + dx, p[2] + dy]).find(q => walk(q[0], q[1], q[2]));
+  if (c && r < .45 && c.status !== "wait" && c.status !== "sleep" && c.mode !== "wait" && c.mode !== "sleep") { // к симпатии не идём, если она стоит у двери Никиты или спит const p = c.place || [c.f, Math.round(c.x), Math.round(c.y)]; const spot = [[1, 0], [-1, 0], [0, 1], [0, -1]].map(([dx, dy]) => [p[0], p[1] + dx, p[2] + dy]).find(q => walk(q[0], q[1], q[2]));
     if (spot) { goTo(a, spot, "walk"); return; } }
   if (r < .6) { goTo(a, pick(COFFEE), "coffee"); return; }
   if (r < .75) { goTo(a, seat, "seat"); return; }
