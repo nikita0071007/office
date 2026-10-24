@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-24T15:49:53+03:00",
+ "updated_at": "2026-10-24T17:49:47+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 19,
@@ -94,9 +94,9 @@
    "next_run": "завтра 22:30"
   },
   "community": {
-   "status": "waiting",
-   "task": "Ответов ждут: 1",
-   "last_run": "2026-10-24T15:49:47+03:00",
+   "status": "working",
+   "task": "Читаю комментарии…",
+   "last_run": "2026-10-24T17:49:47+03:00",
    "next_run": "через 2 часа"
   },
   "archivist": {
