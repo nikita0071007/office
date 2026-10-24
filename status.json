@@ -1,9 +1,9 @@
 {
- "updated_at": "2026-10-24T20:39:32+03:00",
+ "updated_at": "2026-10-24T20:41:44+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 19,
-  "posts": 19,
+  "posts": 20,
   "queue": 29,
   "next_post": "2026-10-10T09:00:00+03:00",
   "goals": [
@@ -18,7 +18,7 @@
     "key": "reels_week",
     "name": "Рилсы на этой неделе",
     "target": 3,
-    "current": 2
+    "current": 3
    },
    {
     "key": "link_taps_week",
@@ -27,7 +27,7 @@
     "current": 0
    }
   ],
-  "last_post_url": "https://www.instagram.com/reel/DewPPoZiixp/",
+  "last_post_url": "https://www.instagram.com/reel/De4sR-gCspa/",
   "facebook": {
    "page": "Gusevmade",
    "page_id": "1435004723022101",
@@ -36,7 +36,7 @@
    "views_7d": 0,
    "engagements_7d": 0
   },
-  "last_published_at": "2026-10-21T13:54:03+03:00",
+  "last_published_at": "2026-10-24T20:41:44+03:00",
   "audit": {
    "at": "2026-10-11T11:37:45+03:00",
    "score": 76
@@ -51,8 +51,8 @@
    "next_run": "завтра 08:15"
   },
   "poster": {
-   "status": "waiting",
-   "task": "Одобрено — ждёт публикации",
+   "status": "idle",
+   "task": "Вышел рилс — работаем дальше",
    "last_run": "2026-10-24T20:31:34+03:00",
    "next_run": "2026-10-10T19:00:00+03:00",
    "heard": "2026-10-24T20:39:29+03:00"
@@ -120,11 +120,16 @@
  },
  "draft": {
   "id": "20261024-203134",
-  "status": "approved",
+  "status": "published",
   "type": "reel",
   "issue_url": null
  },
  "log": [
+  {
+   "at": "2026-10-24T20:41:44+03:00",
+   "who": "poster",
+   "text": "Опубликовано: рилс «Секрет игровой текстуры снега в реальности Алтая»"
+  },
   {
    "at": "2026-10-24T20:39:32+03:00",
    "who": "poster",
@@ -319,11 +324,6 @@
    "at": "2026-10-22T21:40:18+03:00",
    "who": "guard",
    "text": "Обход: всё спокойно"
-  },
-  {
-   "at": "2026-10-22T21:31:48+03:00",
-   "who": "guard",
-   "text": "→ Олег: «Олег, шевелись, начальник уже спрашивал»"
   }
  ]
 }
