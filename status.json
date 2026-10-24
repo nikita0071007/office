@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-24T20:23:20+03:00",
+ "updated_at": "2026-10-24T20:23:24+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 19,
@@ -69,9 +69,9 @@
    }
   },
   "editor": {
-   "status": "idle",
-   "task": "Сделал рилс: «Собери урожай за минуту в игре Бабушкина дача»",
-   "last_run": "2026-10-24T20:10:58+03:00",
+   "status": "working",
+   "task": "Монтирую рилс…",
+   "last_run": "2026-10-24T20:23:24+03:00",
    "next_run": null
   },
   "video": {
