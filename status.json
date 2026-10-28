@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-28T17:07:02+03:00",
+ "updated_at": "2026-10-28T17:07:41+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 23,
@@ -88,9 +88,9 @@
    "next_run": null
   },
   "coach": {
-   "status": "working",
-   "task": "Разбираюсь: Игорь",
-   "last_run": "2026-10-28T17:07:02+03:00",
+   "status": "idle",
+   "task": "Разобрал: Отсутствуют/не переданы видеоматериалы для монтажа, из‑за чего editor.render бросает RuntimeError.",
+   "last_run": "2026-10-28T17:07:41+03:00",
    "next_run": "завтра 22:30"
   },
   "community": {
