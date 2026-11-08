@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-08T18:00:00+03:00",
+ "updated_at": "2026-11-08T18:02:14+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 24,
@@ -100,8 +100,8 @@
    "next_run": "через 2 часа"
   },
   "archivist": {
-   "status": "working",
-   "task": "Разбираю «Очередь»…",
+   "status": "error",
+   "task": "Ошибка: can only concatenate str (not \"dict\") to str",
    "last_run": "2026-11-08T18:00:00+03:00",
    "next_run": "завтра 07:30"
   },
@@ -125,6 +125,11 @@
   "issue_url": null
  },
  "log": [
+  {
+   "at": "2026-11-08T18:02:14+03:00",
+   "who": "archivist",
+   "text": "Ошибка при запуске"
+  },
   {
    "at": "2026-11-08T09:40:13+03:00",
    "who": "guard",
@@ -319,11 +324,6 @@
    "at": "2026-11-02T21:00:00+03:00",
    "who": "producer",
    "text": "Олег и Макс сели за ночную фабрику идей"
-  },
-  {
-   "at": "2026-11-02T09:40:16+03:00",
-   "who": "guard",
-   "text": "Обход: проблем 1"
   }
  ]
 }
