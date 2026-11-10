@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-10T10:24:58+03:00",
+ "updated_at": "2026-11-10T10:26:56+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 24,
@@ -88,9 +88,9 @@
    "next_run": null
   },
   "coach": {
-   "status": "working",
-   "task": "Разбираюсь: какие у нас дела",
-   "last_run": "2026-11-10T10:24:58+03:00",
+   "status": "idle",
+   "task": "Разобрал: Сбой внешних LLM‑сервисов и баг в коде конкатенации.",
+   "last_run": "2026-11-10T10:26:56+03:00",
    "next_run": "завтра 22:30"
   },
   "community": {
