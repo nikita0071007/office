@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-12T09:40:07+03:00",
+ "updated_at": "2026-11-12T09:40:13+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 24,
@@ -58,8 +58,8 @@
    "heard": "2026-11-11T09:18:20+03:00"
   },
   "guard": {
-   "status": "working",
-   "task": "Обхожу офис…",
+   "status": "error",
+   "task": "Михалыч: Ошибка: can only concatenate str (not \"dict\") to str",
    "last_run": "2026-11-12T09:40:00+03:00",
    "next_run": "через 12 часов",
    "nudge": {
@@ -126,6 +126,11 @@
   "issue_url": null
  },
  "log": [
+  {
+   "at": "2026-11-12T09:40:13+03:00",
+   "who": "guard",
+   "text": "Обход: проблем 1"
+  },
   {
    "at": "2026-11-12T09:01:00+03:00",
    "who": "guard",
@@ -320,11 +325,6 @@
    "at": "2026-11-10T14:10:03+03:00",
    "who": "critic",
    "text": "Юрий вычитал пост для Threads: удалён хэштег #Алтай; убраны лишние пустые строки"
-  },
-  {
-   "at": "2026-11-10T14:02:18+03:00",
-   "who": "community",
-   "text": "Ответила @dr.angelika_luberezkaya"
   }
  ]
 }
