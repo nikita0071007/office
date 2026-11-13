@@ -2,6 +2,8 @@ extends Node3D
 
 const AVATAR_PATH := "res://assets/lisa-cutout.webp"
 const STATUS_PATH := "res://status.json"
+const STATUS_URL := "https://raw.githubusercontent.com/nikita0071007/office/main/status.json"
+const STATUS_REFRESH_SECONDS := 60.0
 
 const CAMERA_TARGET := Vector3(0.0, 1.2, 0.0)
 const DEFAULT_YAW := 0.18
@@ -38,6 +40,7 @@ var camera: Camera3D
 var avatar: Sprite3D
 var roster_panel: PanelContainer
 var roster_list: VBoxContainer
+var connection_label: Label
 var profile_panel: PanelContainer
 var agent_name_label: Label
 var agent_role_label: Label
@@ -46,6 +49,9 @@ var task_label: Label
 var agent_data: Dictionary = {}
 var agent_buttons: Dictionary = {}
 var roster_button_group: ButtonGroup
+var status_request: HTTPRequest
+var status_timer: Timer
+var request_pending := false
 var selected_agent := "community"
 var dragging := false
 var yaw := DEFAULT_YAW
@@ -60,6 +66,7 @@ func _ready() -> void:
 	_build_lisa()
 	_build_hud()
 	_load_agent_statuses()
+	_build_status_sync()
 	_update_camera()
 	_layout_hud()
 
@@ -237,6 +244,12 @@ func _build_hud() -> void:
 	roster_count.add_theme_color_override("font_color", Color("#aab8bd"))
 	roster_header.add_child(roster_count)
 
+	connection_label = Label.new()
+	connection_label.text = "● локальная копия"
+	connection_label.add_theme_font_size_override("font_size", 10)
+	connection_label.add_theme_color_override("font_color", Color("#aab8bd"))
+	roster_content.add_child(connection_label)
+
 	var roster_scroll := ScrollContainer.new()
 	roster_scroll.custom_minimum_size = Vector2(222.0, 350.0)
 	roster_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -387,6 +400,65 @@ func _load_agent_statuses() -> void:
 
 	_populate_agent_roster()
 	_select_agent(selected_agent)
+
+
+func _build_status_sync() -> void:
+	status_request = HTTPRequest.new()
+	status_request.timeout = 8.0
+	status_request.request_completed.connect(_on_status_request_completed)
+	add_child(status_request)
+
+	status_timer = Timer.new()
+	status_timer.wait_time = STATUS_REFRESH_SECONDS
+	status_timer.timeout.connect(_request_status_update)
+	add_child(status_timer)
+	status_timer.start()
+	_request_status_update()
+
+
+func _request_status_update() -> void:
+	if request_pending or status_request == null:
+		return
+
+	request_pending = true
+	var url := STATUS_URL + "?t=" + str(Time.get_ticks_msec())
+	var error := status_request.request(url)
+	if error != OK:
+		request_pending = false
+		_set_connection_online(false)
+
+
+func _on_status_request_completed(result: int, response_code: int, _headers: PackedStringArray, body: PackedByteArray) -> void:
+	request_pending = false
+	if result != HTTPRequest.RESULT_SUCCESS or response_code != 200:
+		_set_connection_online(false)
+		return
+
+	var parsed: Variant = JSON.parse_string(body.get_string_from_utf8())
+	if not parsed is Dictionary:
+		_set_connection_online(false)
+		return
+
+	var agents: Variant = parsed.get("agents", {})
+	if not agents is Dictionary:
+		_set_connection_online(false)
+		return
+
+	agent_data = agents
+	_populate_agent_roster()
+	_select_agent(selected_agent)
+	_set_connection_online(true)
+
+
+func _set_connection_online(online: bool) -> void:
+	if connection_label == null:
+		return
+	if online:
+		connection_label.text = "● онлайн · обновлено"
+		connection_label.add_theme_color_override("font_color", Color("#9bdfc6"))
+	else:
+		connection_label.text = "● офлайн · локальная копия"
+		connection_label.add_theme_color_override("font_color", Color("#aab8bd"))
 
 
 func _populate_agent_roster() -> void:
