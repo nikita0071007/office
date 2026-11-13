@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-13T10:36:50+03:00",
+ "updated_at": "2026-11-13T11:00:01+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 24,
@@ -75,9 +75,9 @@
    "next_run": null
   },
   "video": {
-   "status": "idle",
-   "task": "Ролик вышел — следующий через 3 дня",
-   "last_run": "2026-11-10T11:10:32+03:00",
+   "status": "working",
+   "task": "Снимаю ролик «Урок 5»…",
+   "last_run": "2026-11-13T11:00:01+03:00",
    "next_run": null,
    "heard": "2026-11-10T11:54:22+03:00"
   },
