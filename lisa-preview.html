@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#17212b">
+  <title>Лиза — визуальный просмотр</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink: #eef2f4;
+      --muted: #abb6be;
+      --panel: rgba(23, 33, 43, .88);
+      --line: rgba(231, 239, 244, .16);
+      --accent: #83c6bd;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      min-height: 100vh;
+      background: #17212b;
+      color: var(--ink);
+      font: 15px/1.5 "Manrope", "Segoe UI", system-ui, sans-serif;
+    }
+
+    .page {
+      width: min(1320px, 100%);
+      margin: 0 auto;
+      padding: clamp(18px, 3vw, 38px);
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #dce5e9;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      color: var(--accent);
+      font-size: 16px;
+      letter-spacing: 0;
+    }
+
+    .back {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 13px;
+    }
+
+    .back:hover { color: var(--ink); }
+
+    .stage {
+      position: relative;
+      display: grid;
+      min-height: min(790px, calc(100vh - 112px));
+      grid-template-columns: minmax(300px, .8fr) minmax(420px, 1.2fr);
+      overflow: hidden;
+      isolation: isolate;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #24303a;
+      box-shadow: 0 28px 80px rgba(0, 0, 0, .28);
+    }
+
+    .copy {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: clamp(28px, 5vw, 68px);
+      background:
+        radial-gradient(ellipse at 0 20%, rgba(131, 198, 189, .12), transparent 42%),
+        linear-gradient(112deg, #1b2731 5%, rgba(27, 39, 49, .97) 67%, rgba(27, 39, 49, .72));
+    }
+
+    .eyebrow {
+      margin: 0 0 14px;
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(42px, 6.2vw, 76px);
+      font-weight: 600;
+      line-height: .98;
+      letter-spacing: -.055em;
+    }
+
+    .role {
+      margin: 17px 0 0;
+      color: #d2dade;
+      font-size: clamp(16px, 2vw, 20px);
+    }
+
+    .description {
+      max-width: 420px;
+      margin: 28px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.75;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin-top: 34px;
+      padding: 9px 13px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(9, 16, 22, .28);
+      color: #d9e3e4;
+      font-size: 12px;
+    }
+
+    .status::before {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      content: "";
+      box-shadow: 0 0 12px rgba(131, 198, 189, .75);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 34px;
+    }
+
+    .button {
+      display: inline-flex;
+      min-height: 46px;
+      align-items: center;
+      justify-content: center;
+      padding: 0 16px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      background: transparent;
+      color: var(--ink);
+      font: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background .2s ease, border-color .2s ease, transform .2s ease;
+    }
+
+    .button:hover { border-color: rgba(131, 198, 189, .55); background: rgba(131, 198, 189, .08); }
+    .button:active { transform: translateY(1px); }
+    .button.primary { border-color: var(--accent); background: var(--accent); color: #142328; }
+    .button.primary:hover { background: #a1d7d0; }
+
+    .portrait {
+      position: relative;
+      display: grid;
+      min-height: 650px;
+      place-items: center;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse at 50% 54%, rgba(224, 205, 182, .2), transparent 54%),
+        linear-gradient(145deg, #697a7e, #b1b6ad 45%, #46545d);
+    }
+
+    .portrait::before {
+      position: absolute;
+      z-index: 1;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(27, 39, 49, .45), transparent 24%, transparent 82%, rgba(27, 39, 49, .14));
+      content: "";
+      pointer-events: none;
+    }
+
+    .portrait img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      max-height: 790px;
+      object-fit: contain;
+      object-position: center;
+      filter: saturate(.92) contrast(1.02);
+      transform: scale(1.015);
+      transition: transform .8s cubic-bezier(.2, .7, .2, 1), filter .4s ease;
+      will-change: transform;
+    }
+
+    .portrait.focus img { filter: saturate(1.02) contrast(1.04); }
+
+    .caption {
+      position: absolute;
+      z-index: 2;
+      right: 18px;
+      bottom: 18px;
+      padding: 8px 11px;
+      border: 1px solid rgba(255, 255, 255, .24);
+      border-radius: 8px;
+      background: rgba(19, 28, 35, .48);
+      color: rgba(255, 255, 255, .82);
+      font-size: 11px;
+      backdrop-filter: blur(12px);
+    }
+
+    @media (max-width: 820px) {
+      .stage { grid-template-columns: 1fr; }
+      .copy { order: 2; padding: 30px; }
+      .portrait { order: 1; min-height: 66vh; max-height: 820px; }
+      .portrait img { width: 100%; max-height: 820px; }
+      .portrait::before { background: linear-gradient(0deg, rgba(27, 39, 49, .45), transparent 25%); }
+      .stage { min-height: 0; }
+    }
+
+    @media (max-width: 480px) {
+      .page { padding: 14px; }
+      .topbar { margin-bottom: 12px; }
+      .stage { border-radius: 13px; }
+      .portrait { min-height: 56vh; }
+      .copy { padding: 24px 21px 28px; }
+      .description { margin-top: 20px; }
+      .status, .actions { margin-top: 24px; }
+      .button { flex: 1; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark" aria-hidden="true">О</span> Офис агентов</div>
+      <a class="back" href="town.html">← Вернуться в офис</a>
+    </header>
+
+    <section class="stage" aria-labelledby="title">
+      <div class="copy">
+        <p class="eyebrow">Визуальный просмотр</p>
+        <h1 id="title">Лиза</h1>
+        <p class="role">Комьюнити-менеджер</p>
+        <p class="description">Первый цифровой образ по персонажу из офиса: медно-рыжий хвост, розовый верх и тёмные брюки.</p>
+        <div class="status">Персонаж офиса</div>
+        <div class="actions">
+          <button class="button" id="focus" type="button" aria-pressed="false">Приблизить образ</button>
+          <a class="button primary" href="town.html">Открыть офис</a>
+        </div>
+      </div>
+
+      <div class="portrait" id="portrait">
+        <img src="assets/lisa-preview.webp" alt="Реалистичный визуальный образ Лизы в офисе" fetchpriority="high">
+        <span class="caption">Лёгкий браузерный просмотр</span>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const portrait = document.querySelector("#portrait");
+    const focusButton = document.querySelector("#focus");
+
+    focusButton.addEventListener("click", () => {
+      const isFocused = portrait.classList.toggle("focus");
+      focusButton.setAttribute("aria-pressed", String(isFocused));
+      focusButton.textContent = isFocused ? "Вернуть масштаб" : "Приблизить образ";
+      portrait.querySelector("img").style.transform = isFocused ? "scale(1.075)" : "scale(1.015)";
+    });
+  </script>
+</body>
+</html>
