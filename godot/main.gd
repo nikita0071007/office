@@ -7,12 +7,46 @@ const CAMERA_TARGET := Vector3(0.0, 1.2, 0.0)
 const DEFAULT_YAW := 0.18
 const DEFAULT_PITCH := 0.14
 const DEFAULT_DISTANCE := 9.4
+const AGENT_ORDER := ["community", "analyst", "poster", "guard", "editor", "video", "critic", "coach", "archivist", "producer", "orders"]
+const AGENT_META := {
+	"community": {"name": "Лиза", "role": "Комьюнити-менеджер"},
+	"analyst": {"name": "Аналитик", "role": "Аналитик"},
+	"poster": {"name": "Публикатор", "role": "Публикация контента"},
+	"guard": {"name": "Страж", "role": "Проверка процессов"},
+	"editor": {"name": "Редактор", "role": "Редактура"},
+	"video": {"name": "Видео", "role": "Видеомонтаж"},
+	"critic": {"name": "Критик", "role": "Проверка качества"},
+	"coach": {"name": "Коуч", "role": "Обучение"},
+	"archivist": {"name": "Архивариус", "role": "Архив"},
+	"producer": {"name": "Продюсер", "role": "Продюсирование"},
+	"orders": {"name": "Заказы", "role": "Клиентские заказы"},
+}
+const STATUS_LABELS := {
+	"working": "Работает",
+	"waiting": "Ждёт ответа",
+	"idle": "Готов",
+	"error": "Нужна проверка",
+}
+const STATUS_COLORS := {
+	"working": Color("#9bdfc6"),
+	"waiting": Color("#f0d58c"),
+	"idle": Color("#c0cbd0"),
+	"error": Color("#ef9b95"),
+}
 
 var camera: Camera3D
 var avatar: Sprite3D
+var roster_panel: PanelContainer
+var roster_list: VBoxContainer
 var profile_panel: PanelContainer
+var agent_name_label: Label
+var agent_role_label: Label
 var status_label: Label
 var task_label: Label
+var agent_data: Dictionary = {}
+var agent_buttons: Dictionary = {}
+var roster_button_group: ButtonGroup
+var selected_agent := "community"
 var dragging := false
 var yaw := DEFAULT_YAW
 var pitch := DEFAULT_PITCH
@@ -25,7 +59,7 @@ func _ready() -> void:
 	_build_camera()
 	_build_lisa()
 	_build_hud()
-	_load_community_status()
+	_load_agent_statuses()
 	_update_camera()
 	_layout_hud()
 
@@ -176,6 +210,43 @@ func _build_hud() -> void:
 	title.add_theme_color_override("font_color", Color("#f1f4f3"))
 	root.add_child(title)
 
+	roster_panel = PanelContainer.new()
+	roster_panel.name = "Agent Roster"
+	roster_panel.position = Vector2(24.0, 56.0)
+	roster_panel.custom_minimum_size = Vector2(254.0, 0.0)
+	roster_panel.add_theme_stylebox_override("panel", _panel_style())
+	root.add_child(roster_panel)
+
+	var roster_content := VBoxContainer.new()
+	roster_content.add_theme_constant_override("separation", 8)
+	roster_panel.add_child(roster_content)
+
+	var roster_header := HBoxContainer.new()
+	roster_content.add_child(roster_header)
+
+	var roster_title := Label.new()
+	roster_title.text = "КОМАНДА"
+	roster_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	roster_title.add_theme_font_size_override("font_size", 11)
+	roster_title.add_theme_color_override("font_color", Color("#8ecbc1"))
+	roster_header.add_child(roster_title)
+
+	var roster_count := Label.new()
+	roster_count.text = "%d агентов" % AGENT_ORDER.size()
+	roster_count.add_theme_font_size_override("font_size", 10)
+	roster_count.add_theme_color_override("font_color", Color("#aab8bd"))
+	roster_header.add_child(roster_count)
+
+	var roster_scroll := ScrollContainer.new()
+	roster_scroll.custom_minimum_size = Vector2(222.0, 350.0)
+	roster_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	roster_content.add_child(roster_scroll)
+
+	roster_list = VBoxContainer.new()
+	roster_list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	roster_list.add_theme_constant_override("separation", 4)
+	roster_scroll.add_child(roster_list)
+
 	var hint := Label.new()
 	hint.text = "Перетаскивайте мышью, чтобы осмотреть комнату · Колесо — масштаб"
 	hint.position = Vector2(24.0, -42.0)
@@ -203,22 +274,22 @@ func _build_hud() -> void:
 	profile_panel.add_child(content)
 
 	var kicker := Label.new()
-	kicker.text = "КОМЬЮНИТИ"
+	kicker.text = "АГЕНТ"
 	kicker.add_theme_font_size_override("font_size", 10)
 	kicker.add_theme_color_override("font_color", Color("#8ecbc1"))
 	content.add_child(kicker)
 
-	var name := Label.new()
-	name.text = "Лиза"
-	name.add_theme_font_size_override("font_size", 30)
-	name.add_theme_color_override("font_color", Color("#f2f4f3"))
-	content.add_child(name)
+	agent_name_label = Label.new()
+	agent_name_label.text = "Лиза"
+	agent_name_label.add_theme_font_size_override("font_size", 30)
+	agent_name_label.add_theme_color_override("font_color", Color("#f2f4f3"))
+	content.add_child(agent_name_label)
 
-	var role := Label.new()
-	role.text = "Комьюнити-менеджер"
-	role.add_theme_font_size_override("font_size", 14)
-	role.add_theme_color_override("font_color", Color("#d5dfe1"))
-	content.add_child(role)
+	agent_role_label = Label.new()
+	agent_role_label.text = "Комьюнити-менеджер"
+	agent_role_label.add_theme_font_size_override("font_size", 14)
+	agent_role_label.add_theme_color_override("font_color", Color("#d5dfe1"))
+	content.add_child(agent_role_label)
 
 	status_label = Label.new()
 	status_label.text = "● В офисе"
@@ -273,10 +344,19 @@ func _panel_style() -> StyleBoxFlat:
 
 
 func _layout_hud() -> void:
-	if profile_panel == null:
+	if profile_panel == null or roster_panel == null:
 		return
 
 	var width := get_viewport().get_visible_rect().size.x
+	roster_panel.visible = width >= 980.0
+	roster_panel.anchor_left = 0.0
+	roster_panel.anchor_right = 0.0
+	roster_panel.anchor_top = 0.0
+	roster_panel.anchor_bottom = 0.0
+	roster_panel.offset_left = 24.0
+	roster_panel.offset_right = 278.0
+	roster_panel.offset_top = 56.0
+	roster_panel.offset_bottom = 455.0
 	if width < 720.0:
 		profile_panel.anchor_left = 0.0
 		profile_panel.anchor_right = 1.0
@@ -297,33 +377,75 @@ func _layout_hud() -> void:
 		profile_panel.offset_bottom = 135.0
 
 
-func _load_community_status() -> void:
-	if not FileAccess.file_exists(STATUS_PATH):
+func _load_agent_statuses() -> void:
+	if FileAccess.file_exists(STATUS_PATH):
+		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(STATUS_PATH))
+		if parsed is Dictionary:
+			var agents: Variant = parsed.get("agents", {})
+			if agents is Dictionary:
+				agent_data = agents
+
+	_populate_agent_roster()
+	_select_agent(selected_agent)
+
+
+func _populate_agent_roster() -> void:
+	if roster_list == null:
 		return
 
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(STATUS_PATH))
-	if not parsed is Dictionary:
-		return
+	for child in roster_list.get_children():
+		child.queue_free()
+	agent_buttons.clear()
+	roster_button_group = ButtonGroup.new()
 
-	var agents: Variant = parsed.get("agents", {})
-	if not agents is Dictionary:
-		return
+	for agent_key in AGENT_ORDER:
+		var key := str(agent_key)
+		var meta: Dictionary = AGENT_META.get(key, {"name": key.capitalize(), "role": "AI-агент"})
+		var raw_data: Variant = agent_data.get(key, {})
+		var data: Dictionary = raw_data if raw_data is Dictionary else {}
+		var state := str(data.get("status", "idle"))
+		var status_text := str(STATUS_LABELS.get(state, "В офисе"))
+		var agent_button := Button.new()
+		agent_button.text = "●  %s   ·   %s" % [str(meta.get("name", agent_key)), status_text]
+		agent_button.toggle_mode = true
+		agent_button.button_group = roster_button_group
+		agent_button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		agent_button.custom_minimum_size = Vector2(0.0, 31.0)
+		agent_button.add_theme_font_size_override("font_size", 11)
+		agent_button.add_theme_color_override("font_color", Color(STATUS_COLORS.get(state, Color("#c0cbd0"))))
+		agent_button.add_theme_stylebox_override("normal", _roster_button_style(Color(0.0, 0.0, 0.0, 0.0)))
+		agent_button.add_theme_stylebox_override("hover", _roster_button_style(Color(0.35, 0.55, 0.58, 0.22)))
+		agent_button.add_theme_stylebox_override("pressed", _roster_button_style(Color(0.35, 0.55, 0.58, 0.34)))
+		agent_button.pressed.connect(_select_agent.bind(key))
+		roster_list.add_child(agent_button)
+		agent_buttons[key] = agent_button
 
-	var lisa: Variant = agents.get("community", {})
-	if not lisa is Dictionary:
-		return
 
-	var labels := {
-		"working": "Работает",
-		"waiting": "Ждёт ответа",
-		"idle": "Отдыхает",
-		"error": "Нужна проверка",
-	}
-	var agent_status := str(lisa.get("status", "idle"))
-	status_label.text = "● " + str(labels.get(agent_status, "В офисе"))
-	var task := str(lisa.get("task", ""))
-	if not task.is_empty():
-		task_label.text = task
+func _roster_button_style(background: Color) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = background
+	style.set_corner_radius_all(6)
+	style.content_margin_left = 7.0
+	style.content_margin_right = 7.0
+	return style
+
+
+func _select_agent(agent_key: String) -> void:
+	selected_agent = agent_key
+	var meta: Dictionary = AGENT_META.get(agent_key, {"name": agent_key.capitalize(), "role": "AI-агент"})
+	var raw_data: Variant = agent_data.get(agent_key, {})
+	var data: Dictionary = raw_data if raw_data is Dictionary else {}
+	var state := str(data.get("status", "idle"))
+	agent_name_label.text = str(meta.get("name", agent_key))
+	agent_role_label.text = str(meta.get("role", "AI-агент"))
+	status_label.text = "● " + str(STATUS_LABELS.get(state, "В офисе"))
+	status_label.add_theme_color_override("font_color", Color(STATUS_COLORS.get(state, Color("#c0cbd0"))))
+	var task := str(data.get("task", "Сейчас нет активной задачи."))
+	task_label.text = task if not task.is_empty() else "Сейчас нет активной задачи."
+
+	for key in agent_buttons:
+		var button: Button = agent_buttons[key]
+		button.set_pressed_no_signal(key == selected_agent)
 
 
 func _add_box(box_name: String, size: Vector3, position: Vector3, color: Color, roughness := 0.86) -> MeshInstance3D:
