@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-14T15:11:29+03:00",
+ "updated_at": "2026-11-14T15:12:25+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 24,
@@ -101,9 +101,9 @@
    "heard": "2026-11-10T14:02:14+03:00"
   },
   "archivist": {
-   "status": "error",
-   "task": "Ошибка: can only concatenate str (not \"dict\") to str",
-   "last_run": "2026-11-08T18:00:00+03:00",
+   "status": "working",
+   "task": "Разбираю «Очередь»…",
+   "last_run": "2026-11-14T15:12:25+03:00",
    "next_run": "завтра 07:30"
   },
   "producer": {
