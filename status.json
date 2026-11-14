@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-14T14:41:36+03:00",
+ "updated_at": "2026-11-14T14:41:40+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 24,
@@ -69,9 +69,9 @@
    }
   },
   "editor": {
-   "status": "idle",
-   "task": "Сделал рилс: «Быстрый запуск бота в Telegram за 5 минут до дедлайна»",
-   "last_run": "2026-11-14T14:33:21+03:00",
+   "status": "working",
+   "task": "Монтирую рилс…",
+   "last_run": "2026-11-14T14:41:40+03:00",
    "next_run": null
   },
   "video": {
