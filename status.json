@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-14T11:18:46+03:00",
+ "updated_at": "2026-11-14T12:11:42+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 24,
@@ -88,9 +88,9 @@
    "next_run": null
   },
   "coach": {
-   "status": "idle",
-   "task": "Сегодня учил: Михалыч",
-   "last_run": "2026-11-13T22:30:00+03:00",
+   "status": "working",
+   "task": "Разбираюсь: Проблема с михалычем",
+   "last_run": "2026-11-14T12:11:42+03:00",
    "next_run": "завтра 22:30"
   },
   "community": {
