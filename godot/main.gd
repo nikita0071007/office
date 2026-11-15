@@ -35,6 +35,12 @@ const STATUS_COLORS := {
 	"idle": Color("#c0cbd0"),
 	"error": Color("#ef9b95"),
 }
+const SCREEN_STATUS_COLORS := {
+	"working": Color("#4d9979"),
+	"waiting": Color("#b9944f"),
+	"idle": Color("#3e6967"),
+	"error": Color("#a55457"),
+}
 
 var camera: Camera3D
 var avatar: Sprite3D
@@ -48,6 +54,7 @@ var status_label: Label
 var task_label: Label
 var agent_data: Dictionary = {}
 var agent_buttons: Dictionary = {}
+var workstation_screens: Dictionary = {}
 var roster_button_group: ButtonGroup
 var status_request: HTTPRequest
 var status_timer: Timer
@@ -107,8 +114,10 @@ func _build_room() -> void:
 
 	_build_window()
 	_build_wall_board()
-	_build_workstation(Vector3(-0.6, 0.0, -0.55), "Lisa's Desk")
-	_build_workstation(Vector3(-2.3, 0.0, 1.9), "Team Desk")
+	_build_workstation(Vector3(-0.6, 0.0, -0.55), "Lisa's Desk", "community")
+	_build_workstation(Vector3(-2.3, 0.0, 1.9), "Team Desk", "analyst")
+	_build_workstation(Vector3(-2.35, 0.0, -2.0), "Editorial Desk", "editor")
+	_build_workstation(Vector3(2.25, 0.0, -2.0), "Video Desk", "video")
 	_build_plant(Vector3(-3.45, 0.0, 0.55))
 	_build_plant(Vector3(3.85, 0.0, -3.7))
 	_build_rug()
@@ -133,7 +142,7 @@ func _build_wall_board() -> void:
 	_add_box("Board Shelf", Vector3(1.1, 0.07, 0.18), Vector3(2.6, 1.12, -4.62), Color("#947250"))
 
 
-func _build_workstation(center: Vector3, workstation_name: String) -> void:
+func _build_workstation(center: Vector3, workstation_name: String, agent_key: String) -> void:
 	var x := center.x
 	var z := center.z
 	_add_box(workstation_name + " Top", Vector3(2.3, 0.12, 1.25), Vector3(x, 0.76, z), Color("#b78961"))
@@ -143,7 +152,8 @@ func _build_workstation(center: Vector3, workstation_name: String) -> void:
 	_add_box(workstation_name + " Leg D", Vector3(0.11, 0.72, 0.11), Vector3(x + 1.0, 0.35, z + 0.47), Color("#4c4d49"))
 
 	_add_box(workstation_name + " Monitor", Vector3(0.95, 0.62, 0.1), Vector3(x, 1.18, z - 0.34), Color("#303b42"), 0.35)
-	_add_box(workstation_name + " Screen", Vector3(0.82, 0.49, 0.015), Vector3(x, 1.18, z - 0.282), Color("#3e6967"), 0.3)
+	var screen := _add_box(workstation_name + " Screen", Vector3(0.82, 0.49, 0.015), Vector3(x, 1.18, z - 0.282), Color("#3e6967"), 0.3)
+	workstation_screens[agent_key] = screen
 	_add_box(workstation_name + " Monitor Stand", Vector3(0.13, 0.18, 0.11), Vector3(x, 0.88, z - 0.3), Color("#5b6463"))
 	_add_box(workstation_name + " Keyboard", Vector3(0.68, 0.035, 0.24), Vector3(x, 0.855, z + 0.12), Color("#394247"), 0.45)
 
@@ -400,6 +410,7 @@ func _load_agent_statuses() -> void:
 
 	_populate_agent_roster()
 	_select_agent(selected_agent)
+	_apply_workstation_statuses()
 
 
 func _build_status_sync() -> void:
@@ -447,7 +458,19 @@ func _on_status_request_completed(result: int, response_code: int, _headers: Pac
 	agent_data = agents
 	_populate_agent_roster()
 	_select_agent(selected_agent)
+	_apply_workstation_statuses()
 	_set_connection_online(true)
+
+
+func _apply_workstation_statuses() -> void:
+	for agent_key in workstation_screens:
+		var raw_data: Variant = agent_data.get(agent_key, {})
+		var data: Dictionary = raw_data if raw_data is Dictionary else {}
+		var state := str(data.get("status", "idle"))
+		var screen: MeshInstance3D = workstation_screens[agent_key]
+		var material := screen.material_override as StandardMaterial3D
+		if material != null:
+			material.albedo_color = SCREEN_STATUS_COLORS.get(state, Color("#3e6967"))
 
 
 func _set_connection_online(online: bool) -> void:
