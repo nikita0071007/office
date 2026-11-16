@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-16T21:00:00+03:00",
+ "updated_at": "2026-11-16T21:02:42+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 24,
@@ -107,8 +107,8 @@
    "next_run": "завтра 07:30"
   },
   "producer": {
-   "status": "working",
-   "task": "🌙 Ночная фабрика идей: готовлю черновики на завтра",
+   "status": "error",
+   "task": "Ночная фабрика не получилась: 'list' object has no attribute 'get'",
    "last_run": "2026-11-16T21:00:00+03:00",
    "next_run": "воскресенье 19:00"
   },
