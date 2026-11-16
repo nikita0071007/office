@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-16T21:33:14+03:00",
+ "updated_at": "2026-11-16T21:40:00+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 24,
@@ -58,9 +58,9 @@
    "heard": "2026-11-14T15:09:16+03:00"
   },
   "guard": {
-   "status": "error",
-   "task": "Артём: Ошибка: ffmpeg: 0x585fc5a90080] mb B  I16..4:  0.1%  0.0%  0.0%  B16..8:  4.1%  0.6%  0.0%  direct: 0.6%  skip:94.6%  L0:51.1% L",
-   "last_run": "2026-11-16T09:40:00+03:00",
+   "status": "working",
+   "task": "Обхожу офис…",
+   "last_run": "2026-11-16T21:40:00+03:00",
    "next_run": "через 12 часов",
    "nudge": {
     "to": "poster",
