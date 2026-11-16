@@ -181,6 +181,7 @@ const TILE = {".": ["#c89a63", "#b0844f"], ",": ["#7f93ab", "#8599b1"], "c": ["#
   "l": ["#c9bfa6", "#d2c8b0"], "d": ["#b9a27e", "#b9a27e"], "E": ["#9aa3b5", "#9aa3b5"], "p": ["#d9c59a", "#c9b487"], "G": ["#5fa84d", "#4c9140"], "k": ["#6b7fa6", "#7286ad"]};
 const WALL_COL = {1: "#efe3cf", 2: "#e9d9c6", 3: "#e6ddc8"};
 const FH = 4.2, WH = 1.3;
+const pick = a => a[Math.floor(Math.random() * a.length)], rnd = (a, b) => a + Math.random() * (b - a);
 const hourMSK = () => { if (FORCE_H != null) return FORCE_H; const p = new Intl.DateTimeFormat("ru-RU", {hour: "numeric", minute: "numeric", hourCycle: "h23", timeZone: "Europe/Moscow"}).formatToParts(new Date()); return Number(p.find(x => x.type === "hour").value) + Number(p.find(x => x.type === "minute").value) / 60; };
 const H = hourMSK(), NIGHT = H >= 22.5 || H < 7.5;
 
@@ -242,7 +243,7 @@ function furn(f, o, grp) {
   const W = o.w, D = o.h, g = new THREE.Group(); g.position.set(o.x, 0, o.y); grp.add(g);
   const k = o.kind;
   switch (k) {
-    case "desk": case "desk2": { const c = o.pink ? "#b06a86" : PAL.wood; box(g, 0, .68, .1, W, .08, .8, c); for (const lx of [.05, W - .13]) box(g, lx, 0, .15, .08, .68, .7, shade(c)); box(g, .1, .76, .55, .3, .02, .2, "#e6e6e6");
+    case "desk": case "desk2": { const c = o.pink ? "#b06a86" : PAL.wood; box(g, 0, .68, .1, W, .08, .8, c); for (const lx of [.05, W - .13]) box(g, lx, 0, .15, .08, .68, .7, shade(c)); box(g, .1, .76, .55, .3, .02, .2, "#e6e6e6"); box(g, W / 2 - .2, .76, .5, .4, .02, .14, "#2b2f3a"); cyl(g, W - .3, .76, .55, .06, .1, ["#e05d5d", "#f2c14e", "#5de08a", "#4f8fd9"][Math.floor(o.x + o.y) % 4]);
       for (const mx of k === "desk2" ? [.2, 1.1] : [W / 2 - .25]) { box(g, mx, .76, .15, .5, .32, .04, PAL.dark); box(g, mx + .03, .79, .19, .44, .25, .02, EM(NIGHT ? "#7fe8ff" : "#6fd3f2", .8)); box(g, mx + .2, .76, .17, .1, .05, .1, PAL.dark); } break; }
     case "bossdesk": box(g, 0, .72, .1, W, .1, .85, "#5e361c"); box(g, .1, 0, .2, W - .2, .72, .65, "#4a2b18"); box(g, W / 2 - .3, .82, .2, .6, .4, .05, PAL.dark); box(g, W / 2 - .27, .85, .24, .54, .32, .02, EM("#9be37f", .7)); break;
     case "chair": case "bosschair": case "mchair": case "woodchair": case "stool": {
@@ -332,27 +333,34 @@ const SEAT_Y = .02;
 function place(k, phase) {
   const a = agents[k], b = a.g.userData.body; a.g.rotation.set(0, 0, 0); b.position.set(0, 0, 0); b.rotation.set(0, 0, 0);
   if (phase === "night" && BEDS[k]) { const [f, x, y] = BEDS[k]; a.floor = f; a.g.position.set(x + .5, (f - 1) * FH + .62, y + 1); a.g.rotation.x = -Math.PI / 2; a.g.userData.ring.visible = false; a.sleep = true; return; }
-  a.sleep = false; a.g.userData.ring.visible = true; const s = SEATS[k]; if (!s) return; const [f, x, y, face] = s; a.floor = f;
+  a.sleep = false; a.g.userData.ring.visible = true; const s = SEATS[k]; if (!s) return; const [f, x, y, face] = s; a.floor = f; a.tx = x; a.ty = y; a.sitting = true;
   a.g.position.set(x + .5, (f - 1) * FH + SEAT_Y, y + .5 + (face === "back" ? -.05 : .05)); a.g.rotation.y = face === "back" ? Math.PI : 0;
   const sitting = !(k === "guard" && false); if (sitting) { b.position.y = -.05; b.children[0].scale.y = .55; b.children[1].scale.y = .55; }
 }
 
+const clock = new THREE.Clock();
 // ---------- сборка ----------
 for (const f of [1, 2, 3]) buildFloor(f);
 for (const f of [1, 2, 3]) for (const o of FL[f].furn) furn(f, o, floorGroups[f]);
+// ковры и окна
+for (const [f, x, y, w, h, c] of [[3, 2, 3, 3, 2, "#8e3b46"], [1, 14, 9, 4, 2, "#6b7fa6"], [3, 17, 6, 6, 1, "#a05a4a"]]) { const m = box(floorGroups[f], x + .05, 0, y + .05, w - .1, .03, h - .1, c); m.castShadow = false; }
+const WINS = {1: [3, 8, 18, 23], 2: [2, 6, 10, 17, 21, 25], 3: [2, 9, 23, 25]};
+for (const f in WINS) for (const x of WINS[f]) { box(floorGroups[f], x + .12, .45, .93, .76, .55, .1, EM(NIGHT ? "#1d2c4a" : "#9fd6ff", NIGHT ? .3 : .55)); box(floorGroups[f], x + .12, .45, .93, .76, .12, .1, "#6aa86a"); box(floorGroups[f], x + .48, .45, .9, .04, .55, .12, "#7c8ea6"); }
 // лампы ночью
 if (NIGHT) for (const f of [1, 2, 3]) for (const [x, y] of LAMPS[f]) { const l = new THREE.PointLight("#ffd9a0", 7, 9, 1.6); l.position.set(x + .5, (f - 1) * FH + 2, y + .5); scene.add(l); }
-for (const k in TEAM) { const g = makeAgent(k); agents[k] = {k, g, status: "idle", task: ""}; scene.add(g); place(k, NIGHT ? "night" : "day"); }
+for (const k in TEAM) { const g = makeAgent(k); agents[k] = {k, g, status: "idle", task: "", legs: [], next: rnd(3, 25), tx: (SEATS[k] || [0, 0, 0])[1], ty: (SEATS[k] || [0, 0, 0])[2], floor: (SEATS[k] || [1])[0]}; scene.add(g); place(k, NIGHT ? "night" : "day"); }
 
 // ---------- данные ----------
 const DEMO_ST = {poster: ["working", "Пишу подпись к рилсу"], editor: ["working", "Монтирую рилс · 64%"], critic: ["working", "Вычитываю текст"], video: ["waiting", "Урок готов — жду вашего «да»"], archivist: ["error", "Google Диск недоступен"], guard: ["working", "Смотрю камеры"], analyst: ["idle", "Разбираю статистику"]};
 function apply(d) { for (const k in agents) { const v = (d.agents || {})[k] || {}, a = agents[k]; a.status = v.status || "idle"; a.task = v.task || ""; a.last = v.last_run; paint(a); }
-  const ac = d.account || {}; if (ac.followers != null) document.getElementById("sub").textContent = `подписчиков: ${ac.followers} · крутите пальцем, нажмите на сотрудника`; }
+  const pub = (d.log || []).find(e => PUB_RX.test(e.text || "")); let seen = ""; try { seen = localStorage.getItem("town3d_party") || ""; } catch (e) {}
+  if (pub && (Q.get("party") === "1" || (!DEMO && pub.at && Date.now() - new Date(pub.at) < 30 * 60e3 && pub.at !== seen))) { try { localStorage.setItem("town3d_party", pub.at || "x"); } catch (e) {} startParty(pub.text, pub.who); }
+  const ac = d.account || {}; if (!PARTY && ac.followers != null) document.getElementById("sub").textContent = `подписчиков: ${ac.followers} · крутите пальцем, нажмите на сотрудника`; }
 const SC = {working: "#5de08a", waiting: "#f2c14e", error: "#ff6b6b", idle: "#8995a3"}, SL = {working: "Работает", waiting: "Ждёт вас", error: "Нужна помощь", idle: "Отдыхает"};
 function paint(a) { a.g.userData.ring.material.color.set(SC[a.status] || SC.idle); }
-async function load() { if (DEMO) { apply({agents: Object.fromEntries(Object.entries(DEMO_ST).map(([k, [s, t]]) => [k, {status: s, task: t}]))}); return; }
+async function load() { if (DEMO) { apply({agents: Object.fromEntries(Object.entries(DEMO_ST).map(([k, [s, t]]) => [k, {status: s, task: t}])), log: Q.get("party") === "1" ? [{who: "poster", at: new Date().toISOString(), text: "Опубликовано: пост"}] : []}); return; }
   try { const r = await fetch("status.json?t=" + Date.now(), {cache: "no-store"}); if (r.ok) apply(await r.json()); } catch (e) {} }
-load(); setInterval(load, 60000);
+setTimeout(load, 0); setInterval(load, 60000);
 
 // ---------- этажи-кнопки и камера ----------
 let SHOW = 0; const btns = document.getElementById("floors");
@@ -381,12 +389,83 @@ renderer.domElement.addEventListener("pointerup", e => { if (!down || Math.hypot
   document.getElementById("ct").textContent = a.task || ""; card.style.display = "block"; });
 document.getElementById("cx").onclick = () => card.style.display = "none";
 
+// ---------- путь по клеткам ----------
+const walkable = (f, x, y) => { const c = FL[f].g[y]?.[x]; return c && !["#", "#F", "S", "W"].includes(c); };
+function path(f, sx, sy, tx, ty) {
+  const key = (x, y) => y * MW + x, prev = new Map([[key(sx, sy), -1]]), q = [[sx, sy]];
+  while (q.length) { const [x, y] = q.shift(); if (x === tx && y === ty) break;
+    for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) { const nx = x + dx, ny = y + dy, k = key(nx, ny);
+      if (nx < 0 || ny < 0 || nx >= MW || ny >= MH || prev.has(k)) continue;
+      if (!walkable(f, nx, ny) && !(nx === tx && ny === ty)) continue; prev.set(k, key(x, y)); q.push([nx, ny]); } }
+  if (!prev.has(key(tx, ty))) return null;
+  const out = []; let k = key(tx, ty); while (k !== -1 && k !== key(sx, sy)) { out.unshift([k % MW, Math.floor(k / MW)]); k = prev.get(k); }
+  return out;
+}
+const WY = f => (f - 1) * FH;
+function stand(a) { const b = a.g.userData.body; b.position.y = 0; b.children[0].scale.y = 1; b.children[1].scale.y = 1; a.g.position.y = WY(a.floor) + SEAT_Y; a.sitting = false; }
+function sit(a, face) { const b = a.g.userData.body; b.position.y = -.05; b.children[0].scale.y = .55; b.children[1].scale.y = .55; a.g.rotation.y = face === "back" ? Math.PI : 0; a.g.position.set(a.tx + .5, WY(a.floor) + SEAT_Y, a.ty + .5 + (face === "back" ? -.05 : .05)); a.sitting = true; }
+// маршрут: куда [этаж, x, y, как сидит/стоит]; если лифт — сначала к лифту
+function goTo(a, tgt, onArrive) {
+  const [f, x, y, face] = tgt; a.legs = []; let cf = a.floor, cx = a.tx, cy = a.ty;
+  if (cf !== f) { a.legs.push({t: "walk", f: cf, pts: path(cf, cx, cy, 13, 5) || []}); a.legs.push({t: "lift", from: cf, to: f}); cx = 13; cy = 5; cf = f; }
+  a.legs.push({t: "walk", f, pts: path(f, cx, cy, x, y) || [[x, y]]}); a.face = face; a.arrive = () => { onArrive && onArrive(); }; a.cur = null; a.moving = true; if (a.sitting) stand(a);
+}
+function stepAgent(a, dt, t) { const b = a.g.userData.body;
+  if (!a.cur) { a.cur = a.legs.shift(); if (!a.cur) { a.moving = false; swing(a, 0); if (a.face) sit2(a); a.arrive && a.arrive(); return; } a.cur.t0 = t; }
+  const L = a.cur;
+  if (L.t === "lift") { const p = Math.min(1, (t - L.t0) / 1.8); a.g.position.y = WY(L.from) + (WY(L.to) - WY(L.from)) * p + SEAT_Y; swing(a, 0); if (p >= 1) { a.floor = L.to; a.cur = null; } return; }
+  if (!L.pts.length) { a.cur = null; return; }
+  const [px, py] = L.pts[0], tx = px + .5, tz = py + .5, dx = tx - a.g.position.x, dz = tz - a.g.position.z, d = Math.hypot(dx, dz), sp = 2.1 * dt;
+  a.floor = L.f; if (d <= sp) { a.g.position.x = tx; a.g.position.z = tz; a.tx = px; a.ty = py; L.pts.shift(); if (!L.pts.length) a.cur = null; }
+  else { a.g.position.x += dx / d * sp; a.g.position.z += dz / d * sp; const want = Math.atan2(dx, dz); let df = want - a.g.rotation.y; df = Math.atan2(Math.sin(df), Math.cos(df)); a.g.rotation.y += df * Math.min(1, dt * 10); }
+  a.g.position.y = WY(a.floor) + SEAT_Y; swing(a, t);
+}
+function sit2(a) { const f = a.face; if (f === "front" || f === "back") { if (a.seatKind) sit(a, f); else sit(a, f); } else { a.g.rotation.y = Math.random() * 6.28; } }
+function swing(a, t) { const b = a.g.userData.body, s = t ? Math.sin(t * 9) * .55 : 0; b.children[0].rotation.x = s; b.children[1].rotation.x = -s; }
+// расписание
+const CAN = CANTEEN.slice(); const mealSeat = () => pick(CAN);
+function schedule(a, t, hour) { if (a.sleep || a.moving || a.party) return; if (t < a.next) return; const k = a.k, st = a.status;
+  const home = SEATS[k]; a.home = home;
+  if (k === "guard") { goTo(a, [...pick(PATROL), "x"], () => { a.next = t + rnd(3, 7); }); a.away = true; return; }
+  if (k === "orders") { a.next = t + 60; return; }
+  const atHome = !a.away;
+  if (atHome) { const meal = (hour >= 13 && hour < 14) || (hour >= 9 && hour < 9.5) || (hour >= 19 && hour < 19.5);
+    if (meal && Math.random() < .5) { goTo(a, mealSeat(), () => { a.next = t + rnd(20, 40); }); a.away = true; return; }
+    const p = st === "working" ? .22 : st === "error" ? .1 : .55; if (Math.random() < p) { const dest = Math.random() < .35 ? pick(COFFEE) : pick(IDLE); goTo(a, [...dest, "x"], () => { a.next = t + rnd(6, 16); }); a.away = true; return; }
+    a.next = t + rnd(12, 35); return; }
+  goTo(a, home, () => { a.away = false; a.next = t + rnd(15, 50); });
+}
+// питомцы Марины
+function makePet(kind) { const g = new THREE.Group(), c = kind === "cat" ? "#e0873a" : "#a8743e", s = kind === "cat" ? .8 : 1.1;
+  box(g, -.12 * s, .16 * s, -.2 * s, .24 * s, .2 * s, .44 * s, c); box(g, -.1 * s, .2 * s, .2 * s, .2 * s, .2 * s, .18 * s, c); box(g, -.1 * s, .4 * s, .22 * s, .06 * s, .08 * s, .05 * s, c); box(g, .04 * s, .4 * s, .22 * s, .06 * s, .08 * s, .05 * s, c);
+  box(g, -.03 * s, .22 * s, -.34 * s, .06 * s, .06 * s, .16 * s, kind === "cat" ? "#c9702c" : "#7a4d2b");
+  for (const [x, z] of [[-.11, -.16], [.05, -.16], [-.11, .12], [.05, .12]]) box(g, x * s, 0, z * s, .06 * s, .17 * s, .06 * s, c);
+  scene.add(g); return {g, floor: kind === "cat" ? 1 : 1, tx: kind === "cat" ? 14 : 16, ty: 8, legs: [], next: 0, kind}; }
+const pets = [makePet("cat"), makePet("dog")]; for (const p of pets) p.g.position.set(p.tx + .5, WY(1) + .02, p.ty + .5);
+const HALL = []; for (let y = 6; y <= 10; y++) for (let x = 13; x <= 20; x++) if (walkable(1, x, y)) HALL.push([x, y]);
+function stepPet(p, dt, t) { if (!p.pts || !p.pts.length) { if (t < p.next) return; const [x, y] = pick(HALL); p.pts = path(1, p.tx, p.ty, x, y) || []; p.next = t + rnd(3, 9); return; }
+  const [px, py] = p.pts[0], tx = px + .5, tz = py + .5, dx = tx - p.g.position.x, dz = tz - p.g.position.z, d = Math.hypot(dx, dz), sp = (p.kind === "cat" ? 1.1 : 1.5) * dt;
+  if (d <= sp) { p.g.position.x = tx; p.g.position.z = tz; p.tx = px; p.ty = py; p.pts.shift(); } else { p.g.position.x += dx / d * sp; p.g.position.z += dz / d * sp; p.g.rotation.y = Math.atan2(dx, dz); }
+  p.g.position.y = WY(1) + .02 + Math.abs(Math.sin(t * 9)) * .02; }
+// праздник: конфетти
+const conf = (() => { const n = 260, geo = new THREE.BufferGeometry(), pos = new Float32Array(n * 3), col = new Float32Array(n * 3), C = new THREE.Color();
+  for (let i = 0; i < n; i++) { pos[i * 3] = rnd(13, 21); pos[i * 3 + 1] = rnd(0, 5); pos[i * 3 + 2] = rnd(6, 11); C.set(pick(["#f2c14e", "#e05d5d", "#5de08a", "#4f8fd9", "#f59ac0"])); col.set([C.r, C.g, C.b], i * 3); }
+  geo.setAttribute("position", new THREE.BufferAttribute(pos, 3)); geo.setAttribute("color", new THREE.BufferAttribute(col, 3));
+  const m = new THREE.Points(geo, new THREE.PointsMaterial({size: .14, vertexColors: true})); m.visible = false; scene.add(m); return m; })();
+let PARTY = null; const PUB_RX = /Опубликовано|Ролик опубликован|Выложил пост в Threads|Ролик вышел|Выложила/i;
+function startParty(txt, who) { if (PARTY) return; PARTY = {until: clock.elapsedTime + 40}; conf.visible = true; document.getElementById("sub").textContent = "🎉 " + (who ? TEAM[who].short || TEAM[who].name : "") + ": вышла публикация — все праздную в холле";
+  let i = 0; for (const k in agents) { const a = agents[k]; if (a.sleep || k === "orders") continue; a.party = true; a.away = true; goTo(a, [...RING[i++ % RING.length].slice(0, 3), "x"], () => { a.g.rotation.y = Math.atan2(PARTY_C[1] - a.tx, PARTY_C[2] - a.ty); }); } }
+function endParty() { PARTY = null; conf.visible = false; for (const k in agents) { const a = agents[k]; if (!a.party) continue; a.party = false; a.away = true; a.next = 0; } }
 // ---------- цикл ----------
-const clock = new THREE.Clock();
+
 function tick() { const dt = clock.getDelta(), t = clock.elapsedTime;
   if (anim) { anim.t = Math.min(1, anim.t + dt / 1.1); const e = anim.t < .5 ? 2 * anim.t * anim.t : 1 - Math.pow(-2 * anim.t + 2, 2) / 2; camera.position.lerpVectors(anim.from, anim.to, e); controls.target.lerpVectors(anim.tf, anim.tt, e); if (anim.t >= 1) anim = null; }
-  for (const k in agents) { const a = agents[k]; if (a.sleep) { a.g.userData.body.position.y = Math.sin(t * 1.3 + k.length) * .015; continue; }
-    const b = a.g.userData.body; if (a.status === "working") { b.rotation.x = Math.sin(t * 6 + k.length) * .02; b.position.y = -.05 + Math.abs(Math.sin(t * 8 + k.length)) * .012; } else b.rotation.x = 0; }
+  const hr = hourMSK(); for (const k in agents) { const a = agents[k]; if (a.sleep) { a.g.userData.body.position.y = Math.sin(t * 1.3 + k.length) * .015; continue; }
+    if (a.moving) stepAgent(a, dt, t); else { schedule(a, t, hr); if (a.sitting) { const b = a.g.userData.body; if (a.status === "working") { b.rotation.x = Math.sin(t * 6 + k.length) * .02; b.position.y = -.05 + Math.abs(Math.sin(t * 8 + k.length)) * .012; } else b.rotation.x = 0; } } }
+  for (const p of pets) stepPet(p, dt, t);
+  if (PARTY) { if (t > PARTY.until) endParty(); }
+  if (conf.visible) { const ps = conf.geometry.attributes.position; for (let i = 0; i < ps.count; i++) { let y = ps.getY(i) - dt * 1.3; if (y < 0) y = 5; ps.setY(i, y); ps.setX(i, ps.getX(i) + Math.sin(t * 2 + i) * dt * .3); } ps.needsUpdate = true; }
+  if (!NIGHT && (t | 0) % 10 === 0) { const ang = Math.max(0, Math.min(1, (hourMSK() - 6) / 15)) * Math.PI; sun.position.set(-Math.cos(ang) * 40, 12 + Math.sin(ang) * 35, 28); }
   controls.update(); renderer.render(scene, camera); requestAnimationFrame(tick); }
 document.getElementById("load").style.display = "none"; tick();
 window.__ready = true;
