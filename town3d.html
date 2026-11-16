@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Офис gusevmade — дом агентов в 3D</title>
+<meta name="theme-color" content="#1b1f2e">
+<style>
+:root{--panel:rgba(18,20,32,.88);--ink:#f3efe6;--mut:#a9b0c4}
+html,body{margin:0;height:100%;background:#1b1f2e;color:var(--ink);font:13px/1.35 system-ui,"Segoe UI",Roboto,sans-serif;overflow:hidden}
+canvas{display:block;width:100%;height:100%;touch-action:none;outline:none}
+.box{background:var(--panel);border:1px solid #3a4160;border-radius:10px;box-shadow:0 6px 20px #0006;backdrop-filter:blur(6px)}
+.hud{position:fixed;left:10px;top:10px;padding:8px 12px;max-width:calc(100vw - 40px)}
+.hud b{font-size:15px}.hud .sub{color:var(--mut);font-size:12px;margin-top:2px}
+.hud a{color:#8ecbc1;text-decoration:none;margin-right:10px;font-size:12px}
+#floors{position:fixed;left:50%;transform:translateX(-50%);bottom:12px;display:flex;gap:6px;z-index:3;flex-wrap:wrap;justify-content:center;max-width:calc(100vw - 16px)}
+#floors button{font:inherit;color:var(--ink);background:var(--panel);border:1px solid #3a4160;border-radius:999px;padding:8px 14px;cursor:pointer;min-height:40px}
+#floors button.on{background:#f2c14e;color:#1b1b24;border-color:#f2c14e;font-weight:700}
+#card{position:fixed;left:50%;bottom:66px;transform:translateX(-50%);width:min(420px,calc(100vw - 24px));padding:12px 14px;display:none;z-index:4}
+#card h3{margin:0 0 2px;font-size:16px}#card .role{color:var(--mut);font-size:12.5px;margin-bottom:6px}
+#card .st{display:inline-block;padding:2px 10px;border-radius:999px;font-size:12px;color:#111;margin-bottom:6px}
+#card .x{position:absolute;right:10px;top:4px;cursor:pointer;color:var(--mut);font-size:20px}
+#load{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#1b1f2e;z-index:9;font-size:15px}
+@media (max-width:700px){.hud .sub{display:none}#floors{gap:4px}#floors button{padding:7px 10px;font-size:12px;min-height:36px}}
+</style>
+<script type="importmap">{"imports":{"three":"./vendor/three.module.min.js"}}</script>
+</head>
+<body>
+<div id="load">Строю офис…</div>
+<div class="hud box"><b>Дом агентов gusevmade · 3D</b><div class="sub" id="sub">крутите пальцем или мышкой, нажмите на сотрудника</div><div style="margin-top:4px"><a href="index.html">← Офис</a><a href="town.html">Простой вид (2D)</a></div></div>
+<div id="floors"></div>
+<div id="card" class="box"><span class="x" id="cx">×</span><h3 id="cn"></h3><div class="role" id="cr"></div><span class="st" id="cs"></span><div id="ct"></div></div>
+<script type="module">
+import * as THREE from "three";
+import {OrbitControls} from "./vendor/OrbitControls.js";
+const T = 16, MW = 28, MH = 16;
+const Q = new URLSearchParams(location.search), DEMO = Q.get("demo") === "1", FORCE_H = Q.has("t") ? Number(Q.get("t")) : null;
+// ================= этажи =================
+function grid(ch = "#") { return [...Array(MH)].map(() => Array(MW).fill(ch)); }
+function fill(g, x0, y0, x1, y1, ch) { for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) g[y][x] = ch; }
+const FL = {1: {name: "1 · Холл и столовая", g: grid(), furn: [], labels: []}, 2: {name: "2 · Квартиры", g: grid(), furn: [], labels: []}, 3: {name: "3 · Офис", g: grid(), furn: [], labels: []}};
+function shaft(g) { fill(g, 13, 1, 14, 4, "S"); g[5][13] = g[5][14] = "E"; }
+// --- 3 этаж: кабинеты. W — стекло
+{ const g = FL[3].g;
+  fill(g, 1, 6, 26, 8, "h");
+  fill(g, 1, 1, 5, 4, "."); fill(g, 7, 1, 11, 4, ","); fill(g, 16, 1, 19, 4, "c"); fill(g, 21, 1, 26, 4, ";");
+  fill(g, 7, 5, 11, 5, "W"); fill(g, 16, 5, 19, 5, "W"); fill(g, 21, 5, 26, 5, "W");
+  for (const x of [3, 9, 17, 22]) g[5][x] = "d";
+  fill(g, 1, 10, 4, 14, "."); fill(g, 6, 10, 10, 14, "m"); fill(g, 12, 10, 21, 14, ","); fill(g, 23, 10, 26, 14, ";");
+  for (const x of [2, 8, 16, 17, 24]) g[9][x] = "d";
+  shaft(g);
+  FL[3].labels = [[3, 5.25, "Кабинет Никиты", "boss"], [9.5, 5.25, "Анжелика · видео"], [17.5, 5.25, "Часовня Юрия"], [23.8, 5.25, "Коуч Игорь"],
+                  [2.5, 9.35, "Олег"], [8, 9.35, "Монтажная"], [16.5, 9.35, "Опенспейс"], [24.6, 9.35, "Архив"], [13.95, .55, "Лифт"]];
+}
+// --- 2 этаж: квартиры
+const APTS = {poster: [1, 1, "top"], editor: [5, 1, "top"], analyst: [9, 1, "top"], video: [16, 1, "top"], critic: [20, 1, "top"], coach: [24, 1, "top"],
+              archivist: [5, 10, "bot"], producer: [9, 10, "bot"], orders: [24, 10, "bot"]};
+{ const g = FL[2].g;
+  fill(g, 1, 6, 26, 8, "h");
+  for (const k in APTS) { const [x, y, p] = APTS[k]; fill(g, x, y, x + 2, y + (p === "top" ? 3 : 4), "a"); g[p === "top" ? 5 : 9][x + 1] = "d"; }
+  fill(g, 13, 10, 22, 14, "r"); g[9][18] = g[9][19] = "d"; fill(g, 23, 10, 23, 14, "#");
+  fill(g, 1, 10, 3, 14, "a"); g[9][2] = "d"; // спортзал на месте квартиры Лизы
+  fill(g, 24, 10, 26, 14, "a"); // квартира Марины (с котом и собакой)
+  shaft(g);
+}
+// --- 1 этаж: столовая, охрана, холл, переговорная (за стеклом), двор
+{ const g = FL[1].g;
+  fill(g, 1, 1, 11, 10, ":"); g[7][12] = g[8][12] = "d";
+  fill(g, 16, 1, 26, 4, "q"); g[5][20] = "d";
+  fill(g, 23, 1, 23, 4, "#"); g[3][23] = "d"; // каморка Славика с кроватью
+  fill(g, 13, 6, 20, 10, "l");
+  fill(g, 21, 6, 21, 10, "W"); g[10][21] = "d";
+  fill(g, 22, 6, 26, 10, "k");
+  shaft(g);
+  g[11][19] = g[11][20] = "p";
+  fill(g, 0, 12, 27, 15, "G"); fill(g, 19, 12, 20, 15, "p"); fill(g, 17, 14, 22, 14, "p");
+  FL[1].labels = [[6, .55, "Столовая"], [9.9, .55, "☕ Кофе"], [20, 5.25, "ОХРАНА", "guard"], [25, .55, "Каморка"], [16.5, 9.6, "Ресепшен · бабушка Марина"], [24, 11.35, "Переговорная"], [13.95, .55, "Лифт"]];
+}
+FL[2].labels = Object.keys(APTS).map(k => [APTS[k][0] + 1.5, APTS[k][2] === "top" ? 5.25 : 9.35, null, k]).concat([[2.5, 9.35, "Спортзал"], [20.5, 9.35, "Комната отдыха"], [13.95, .55, "Лифт"]]);
+
+// ================= мебель =================
+// face: front — сидит лицом к нам (спинка стула позади), back — спиной к нам (спинка перед ним)
+function F(f, x, y, w, h, kind, o = {}) { FL[f].furn.push({x, y, w, h, kind, ...o}); if (o.solid !== false) for (let j = 0; j < h; j++) for (let i = 0; i < w; i++) FL[f].g[y + j][x + i] = "#F"; }
+const CH = (f, x, y, kind = "chair", face = "front", o = {}) => F(f, x, y, 1, 1, kind, {solid: false, face, ...o});
+// 3 этаж
+F(3, 2, 2, 3, 1, "bossdesk"); CH(3, 3, 1, "bosschair"); F(3, 1, 4, 1, 1, "plant"); F(3, 5, 1, 1, 1, "plant"); F(3, 5, 4, 1, 1, "safe");
+F(3, 8, 2, 2, 1, "desk", {pink: 1}); CH(3, 8, 1, "chair", "front", {col: "#7b4a9a"}); F(3, 11, 1, 1, 1, "ringlight"); F(3, 11, 4, 1, 1, "plant"); F(3, 7, 4, 1, 1, "ytposter");
+F(3, 17, 3, 1, 1, "lectern"); CH(3, 17, 2, "stool"); F(3, 19, 3, 1, 1, "candles"); F(3, 16, 3, 1, 1, "candles"); F(3, 19, 1, 1, 1, "candles"); F(3, 16, 1, 1, 1, "iconstand");
+F(3, 21, 2, 2, 1, "desk"); CH(3, 21, 1); F(3, 24, 2, 2, 1, "stable");
+CH(3, 24, 1, "mchair", "front"); CH(3, 25, 1, "mchair", "front"); CH(3, 24, 3, "mchair", "back"); CH(3, 25, 3, "mchair", "back"); CH(3, 26, 2, "mchair", "front");
+F(3, 21, 4, 1, 1, "plant"); F(3, 26, 4, 1, 1, "flip");
+F(3, 2, 12, 2, 1, "desk"); CH(3, 2, 11); F(3, 4, 10, 1, 1, "board"); F(3, 1, 14, 1, 1, "plant");
+F(3, 7, 12, 2, 1, "desk2"); CH(3, 7, 11, "chair", "front", {col: "#c0602a"}); F(3, 6, 14, 1, 1, "speaker"); F(3, 10, 14, 1, 1, "speaker");
+F(3, 13, 12, 2, 1, "desk"); CH(3, 13, 11); F(3, 16, 12, 2, 1, "desk"); CH(3, 16, 11); F(3, 19, 12, 2, 1, "desk"); CH(3, 19, 11);
+F(3, 21, 14, 1, 1, "plant"); F(3, 12, 14, 1, 1, "plant"); F(3, 21, 10, 1, 1, "printer");
+F(3, 25, 10, 2, 1, "shelf"); F(3, 25, 12, 2, 1, "shelf"); F(3, 23, 13, 2, 1, "desk"); CH(3, 23, 12); F(3, 26, 14, 1, 1, "boxes");
+F(3, 1, 7, 1, 1, "plant"); F(3, 26, 6, 1, 1, "cooler"); F(3, 11, 6, 1, 1, "plant"); F(3, 20, 8, 1, 1, "plant");
+// 2 этаж: кровать, туалет, тумбочка, коврик
+for (const k in APTS) { const [x, y, p] = APTS[k];
+  if (p === "top") { F(2, x, y, 1, 2, "bed", {who: k}); F(2, x + 2, y, 1, 1, "aquarium"); F(2, x + 2, y + 3, 1, 1, "lamp2"); F(2, x + 1, y + 2, 1, 1, "rug", {solid: false, who: k}); F(2, x + 1, y, 1, 1, "frame", {solid: false, who: k}); F(2, x + 1, y + 1, 1, 1, "gadget", {solid: false, who: k}); }
+  else { F(2, x, y + 3, 1, 2, "bed", {who: k}); F(2, x + 2, y + 4, 1, 1, "aquarium"); F(2, x + 2, y, 1, 1, "lamp2"); F(2, x + 1, y + 2, 1, 1, "rug", {solid: false, who: k}); F(2, x + 1, y, 1, 1, "frame", {solid: false, who: k}); F(2, x + 1, y + 1, 1, 1, "gadget", {solid: false, who: k}); } }
+F(2, 15, 10, 3, 1, "tv"); F(2, 15, 12, 3, 1, "sofa3"); F(2, 21, 11, 2, 1, "pingpong"); F(2, 21, 13, 2, 1, "shelf2"); F(2, 26, 12, 1, 1, "petbed", {solid: false}); F(2, 13, 14, 1, 1, "plant");
+F(2, 1, 7, 1, 1, "plant"); F(2, 26, 7, 1, 1, "plant");
+// 1 этаж: столовая со стульями, кофемашина
+F(1, 1, 1, 7, 1, "counter"); F(1, 8, 1, 1, 1, "fridge"); F(1, 9, 1, 2, 1, "coffee"); F(1, 11, 1, 1, 1, "plant");
+const CANTEEN = [];
+for (const [x, y] of [[2, 4], [7, 4], [2, 8], [7, 8]]) { F(1, x, y, 3, 1, "longtable");
+  for (let i = 0; i < 3; i++) { CH(1, x + i, y - 1, "woodchair", "front"); CH(1, x + i, y + 1, "woodchair", "back"); CANTEEN.push([1, x + i, y - 1, "front"], [1, x + i, y + 1, "back"]); } }
+// охрана
+F(1, 18, 2, 4, 1, "monitors"); CH(1, 19, 1, "chair", "front", {col: "#2a3550"}); F(1, 16, 1, 1, 1, "locker"); F(1, 17, 1, 1, 1, "locker"); F(1, 16, 4, 1, 1, "plant");
+F(1, 25, 1, 1, 2, "bed", {who: "guard"}); F(1, 26, 1, 1, 1, "lamp2"); F(1, 26, 4, 1, 1, "plant");
+// холл
+F(1, 15, 8, 3, 1, "reception"); CH(1, 16, 7, "chair", "front", {col: "#8a5a8a"}); F(1, 13, 10, 2, 1, "sofa"); F(1, 13, 9, 1, 1, "plant"); F(1, 20, 7, 1, 1, "plant"); F(1, 18, 10, 1, 1, "plant");
+// переговорная: стол на 8, экран на стене справа
+F(1, 22, 8, 4, 1, "mtable");
+for (let i = 0; i < 4; i++) { CH(1, 22 + i, 7, "mchair", "front"); CH(1, 22 + i, 9, "mchair", "back"); }
+F(1, 26, 6, 1, 1, "plant");
+// двор
+for (const [x, y] of [[3, 13], [7, 14], [11, 13], [25, 13], [24, 15], [1, 15]]) F(1, x, y, 1, 1, "tree");
+F(1, 14, 13, 2, 1, "bench"); F(1, 23, 12, 2, 1, "bench"); F(1, 9, 15, 3, 1, "flowers", {solid: false}); F(1, 16, 15, 2, 1, "flowers", {solid: false});
+
+// ---- обновление интерьера (ноябрь): FX ставит вещь только на свободную клетку пола
+function FX(f, x, y, w, h, kind, o = {}) { for (let j = 0; j < h; j++) for (let i = 0; i < w; i++) { const c = FL[f].g[y + j]?.[x + i]; if (!c || ["#", "#F", "S", "E", "d", "W"].includes(c)) return; } F(f, x, y, w, h, kind, o); }
+FX(2, 1, 12, 1, 2, "treadmill"); FX(2, 2, 11, 1, 1, "yoga", {solid: false}); FX(2, 3, 11, 1, 1, "weights"); FX(2, 1, 10, 1, 1, "mirror"); FX(2, 3, 13, 1, 1, "punchbag");
+FX(1, 13, 6, 1, 1, "standclock"); FX(1, 11, 3, 1, 1, "vending");
+FX(1, 4, 14, 2, 1, "pond"); FX(1, 12, 14, 1, 1, "grill"); FX(1, 26, 13, 1, 1, "doghouse");
+FX(3, 22, 10, 1, 1, "bin"); FX(3, 1, 13, 1, 1, "globe"); FX(3, 21, 7 + 3, 1, 1, "dartboard");
+FX(2, 18, 13, 2, 1, "sofa", {col: "#e0a030"});
+if (new Date().getMonth() === 11 || (new Date().getMonth() === 0 && new Date().getDate() < 15)) FX(1, 14, 7, 1, 1, "xtree");  // ёлка в холле с 1 декабря
+FX(3, 26, 3, 1, 1, "fireplace"); FX(3, 10, 11, 1, 1, "lavalamp"); FX(3, 8, 14, 1, 1, "lavalamp"); FX(2, 26, 11, 1, 1, "flowervase"); FX(1, 24, 5, 1, 1, "plant"); FX(2, 13, 12, 1, 1, "plant");
+
+// места: [этаж, x, y, как сидит]
+const SEATS = {video: [3, 8, 1, "front"], critic: [3, 17, 2, "front"], coach: [3, 21, 1, "front"], producer: [3, 2, 11, "front"], editor: [3, 7, 11, "front"],
+               poster: [3, 13, 11, "front"], analyst: [3, 16, 11, "front"], archivist: [3, 23, 12, "front"], guard: [1, 19, 1, "front"],
+               orders: [1, 16, 7, "front"]};
+const BEDS = Object.fromEntries(Object.keys(APTS).map(k => { const [x, y, p] = APTS[k]; return [k, [2, x, p === "top" ? y : y + 3]]; }));
+BEDS.guard = [1, 25, 1]; // Славик спит у себя в каморке при охране — чтобы сразу выбежать по тревоге
+const MEET = []; for (let i = 0; i < 4; i++) MEET.push([1, 22 + i, 7, "front"], [1, 22 + i, 9, "back"]);
+const MEET_HOST = [1, 26, 8];
+const SESSION = [[3, 24, 1, "front"], [3, 25, 1, "front"], [3, 24, 3, "back"], [3, 25, 3, "back"]], SESSION_HOST = [3, 26, 2, "front"];
+const DOOR_KEYS = new Set(["poster", "editor", "video", "producer"]); // у двери Никиты ждут только с черновиком или планом
+const DOOR_WAIT = [[3, 3, 6], [3, 4, 6], [3, 2, 6], [3, 4, 7], [3, 2, 7]];
+const COFFEE = [[1, 9, 2], [1, 10, 2], [1, 11, 3]];
+const IDLE = [[1, 6, 6], [1, 16, 7], [1, 18, 9], [1, 5, 13], [1, 9, 13], [1, 22, 13], [1, 16, 14], [2, 17, 11], [2, 20, 13], [2, 24, 12], [2, 18, 13], [3, 6, 7], [3, 10, 7], [3, 19, 7], [3, 24, 7], [3, 15, 7]];
+const PATROL = [[1, 18, 7], [1, 15, 7], [1, 6, 6], [1, 19, 13], [2, 6, 7], [2, 20, 7], [3, 5, 7], [3, 20, 7], [3, 16, 13], [3, 8, 7]];
+const PARTY_C = [1, 17, 7], RING = [[1, 16, 6], [1, 18, 6], [1, 15, 7], [1, 19, 7], [1, 16, 7], [1, 18, 7], [1, 14, 8], [1, 19, 8], [1, 18, 9], [1, 14, 7]];
+const LIFT = [13, 5], LIFT_OUT = [13, 6];
+const LAMPS = {3: [[5, 5], [20, 5]], 2: [[5, 5], [21, 5]], 1: [[11, 0], [17, 11]]};
+// ================= команда и внешность =================
+const TEAM = {
+  poster: {name: "Макс", role: "контент-менеджер: черновики, подписи, Instagram", room: "опенспейс, 3 этаж"},
+  editor: {name: "Артём", role: "монтажёр: рилсы, склейки, музыка, субтитры", room: "монтажная, 3 этаж"},
+  analyst: {name: "Вера", role: "аналитик: статистика и советы", room: "опенспейс, 3 этаж"},
+  video: {name: "Анжелика", role: "видеохостинги: YouTube, Shorts, RuTube, уроки по игре", room: "свой кабинет, 3 этаж"},
+  guard: {name: "Славик", role: "охранник: порядок, камеры, Google Диск, ночной обход", room: "охрана, 1 этаж"},
+  critic: {name: "Юрий", role: "редактор-критик, бывший священник", room: "часовня, 3 этаж"},
+  coach: {name: "Игорь Петрович", short: "Игорь", role: "коуч: разбирает ошибки, ведёт планёрку и сессии", room: "кабинет коуча, 3 этаж"},
+  archivist: {name: "Михалыч", role: "архивариус: описывает кадры", room: "архив, 3 этаж"},
+  producer: {name: "Олег", role: "продюсер игры и тренды недели", room: "свой кабинет, 3 этаж"},
+  orders: {name: "Бабушка Марина", short: "Марина", role: "менеджер заказов: отвечает клиентам в чате на сайте gusevmade.ru. Та самая бабушка Марина из «Бабушкиной дачи» — Никита построил ей дачу в игре, там она и живёт", room: "ресепшен в холле, 1 этаж"},
+};
+const LOOK = {
+  poster: {skin: 0, hair: "#4a2f1c", hs: "short", top: "#3d7be0", bot: "#2b3550", hood: 1},
+  editor: {skin: 1, hair: "#1f1a17", hs: "short", top: "#ef8d32", bot: "#333a4a", phones: 1},
+  analyst: {skin: 2, hair: "#a8432a", hs: "bob", top: "#f2c14e", bot: "#3a3a48", glasses: 1},
+  video: {skin: 2, hair: "#2a1810", hs: "long", top: "#9b59d0", bot: "#2e2540", dress: 1},
+  guard: {skin: 1, hair: "#151515", hs: "cap", top: "#22304a", bot: "#151a25", badge: 1},
+  critic: {skin: 0, hair: "#d9d9de", hs: "short", top: "#1a1820", bot: "#1a1820", robe: 1, beard: "#cfcfd6"},
+  coach: {skin: 0, hair: "#7d7d7d", hs: "short", top: "#c94b4b", bot: "#2d2f38", glasses: 1},
+  archivist: {skin: 1, hair: "#e2e2e2", hs: "bald", top: "#efe9dc", bot: "#3a3127", vest: "#7a5a3a", beard: "#e2e2e2"},
+  producer: {skin: 0, hair: "#2b1d14", hs: "short", top: "#2fa36b", bot: "#24323a", hood: 1},
+  orders: {skin: 2, hair: "#dcdce2", hs: "bun", top: "#c46a48", bot: "#5a4668", dress: 1, glasses: 1, shawl: "#e9d7b0"},
+};
+const SKIN = ["#f2c08f", "#e2a878", "#f6cfa8"];
+function baseUnder(f, x, y) {
+  for (const [dx, dy] of [[0, 1], [0, -1], [1, 0], [-1, 0], [0, 2], [2, 0], [-2, 0]]) { const c = FL[f].g[y + dy]?.[x + dx]; if (c && !["#", "#F", "S", "E", "d", "W"].includes(c)) return c; }
+  return ".";
+}
+const TILE = {".": ["#c89a63", "#b0844f"], ",": ["#7f93ab", "#8599b1"], "c": ["#6d7486", "#767d90"], "m": ["#3b4157", "#454c66"], ";": ["#b5a07e", "#ab9674"],
+  "h": ["#d6cdb8", "#cec4ad"], "a": ["#b88a5c", "#a97c50"], "r": ["#8fb39a", "#87ab92"], ":": ["#e8d2a8", "#dcc495"], "q": ["#4b5568", "#535d72"],
+  "l": ["#c9bfa6", "#d2c8b0"], "d": ["#b9a27e", "#b9a27e"], "E": ["#9aa3b5", "#9aa3b5"], "p": ["#d9c59a", "#c9b487"], "G": ["#5fa84d", "#4c9140"], "k": ["#6b7fa6", "#7286ad"]};
+const WALL_COL = {1: "#efe3cf", 2: "#e9d9c6", 3: "#e6ddc8"};
+const FH = 4.2, WH = 1.3;
+const hourMSK = () => { if (FORCE_H != null) return FORCE_H; const p = new Intl.DateTimeFormat("ru-RU", {hour: "numeric", minute: "numeric", hourCycle: "h23", timeZone: "Europe/Moscow"}).formatToParts(new Date()); return Number(p.find(x => x.type === "hour").value) + Number(p.find(x => x.type === "minute").value) / 60; };
+const H = hourMSK(), NIGHT = H >= 22.5 || H < 7.5;
+
+// ---------- сцена ----------
+const renderer = new THREE.WebGLRenderer({antialias: true}); renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap; document.body.prepend(renderer.domElement);
+const scene = new THREE.Scene(); scene.background = new THREE.Color(NIGHT ? "#0e1220" : "#a9cbe8"); scene.fog = new THREE.Fog(NIGHT ? "#0e1220" : "#a9cbe8", 60, 140);
+const camera = new THREE.PerspectiveCamera(42, 1, .1, 300);
+const controls = new OrbitControls(camera, renderer.domElement); controls.enableDamping = true; controls.maxPolarAngle = Math.PI * .48; controls.minDistance = 6; controls.maxDistance = 90;
+scene.add(new THREE.HemisphereLight(NIGHT ? "#6070a0" : "#ffffff", NIGHT ? "#202030" : "#8a7a60", NIGHT ? .75 : 1.05));
+const sun = new THREE.DirectionalLight(NIGHT ? "#8090c0" : "#fff1d6", NIGHT ? .5 : 1.6); sun.position.set(-18, 40, 30); sun.castShadow = true;
+sun.shadow.mapSize.set(2048, 2048); Object.assign(sun.shadow.camera, {left: -26, right: 26, top: 26, bottom: -26, near: 1, far: 120}); sun.shadow.bias = -.0006; scene.add(sun);
+const ground = new THREE.Mesh(new THREE.PlaneGeometry(400, 400), new THREE.MeshStandardMaterial({color: NIGHT ? "#16241a" : "#6fae5a", roughness: 1})); ground.rotation.x = -Math.PI / 2; ground.position.set(14, -.3, 8); ground.receiveShadow = true; scene.add(ground);
+
+const MAT = new Map(); const mat = (c, o = {}) => { const k = c + JSON.stringify(o); if (!MAT.has(k)) MAT.set(k, new THREE.MeshStandardMaterial({color: c, roughness: .8, metalness: .02, ...o})); return MAT.get(k); };
+const BOX = new THREE.BoxGeometry(1, 1, 1);
+function box(parent, x, y, z, w, h, d, c, o) { const m = new THREE.Mesh(BOX, typeof c === "string" ? mat(c, o) : c); m.scale.set(w, h, d); m.position.set(x + w / 2, y + h / 2, z + d / 2); m.castShadow = true; m.receiveShadow = true; parent.add(m); return m; }
+function cyl(parent, x, y, z, r, h, c, seg = 10) { const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, h, seg), mat(c)); m.position.set(x, y + h / 2, z); m.castShadow = true; parent.add(m); return m; }
+function ball(parent, x, y, z, r, c) { const m = new THREE.Mesh(new THREE.SphereGeometry(r, 12, 10), mat(c)); m.position.set(x, y, z); m.castShadow = true; parent.add(m); return m; }
+const GL = (c = "#bfe6ff") => mat(c, {transparent: true, opacity: .35, roughness: .1});
+const EM = (c, i = 1) => mat(c, {emissive: c, emissiveIntensity: i});
+
+// ---------- этажи ----------
+const floorGroups = {}, labelSprites = {};
+function textSprite(text, color = "#fff", bg = "rgba(18,20,32,.78)", size = 40) {
+  const cv = document.createElement("canvas"), g = cv.getContext("2d"); g.font = `600 ${size}px system-ui,sans-serif`; const w = Math.ceil(g.measureText(text).width) + 28; cv.width = w; cv.height = size + 22;
+  g.font = `600 ${size}px system-ui,sans-serif`; g.fillStyle = bg; g.beginPath(); g.roundRect(0, 0, w, cv.height, 14); g.fill(); g.fillStyle = color; g.textBaseline = "middle"; g.fillText(text, 14, cv.height / 2 + 2);
+  const t = new THREE.CanvasTexture(cv); t.colorSpace = THREE.SRGBColorSpace; const s = new THREE.Sprite(new THREE.SpriteMaterial({map: t, depthTest: false, transparent: true})); s.scale.set(w / 70, cv.height / 70, 1); s.renderOrder = 10; return s;
+}
+function buildFloor(f) {
+  const grp = new THREE.Group(); grp.position.y = (f - 1) * FH; scene.add(grp); floorGroups[f] = grp; const G = FL[f].g;
+  // пол одной текстурой
+  const S = 24, cv = document.createElement("canvas"); cv.width = MW * S; cv.height = MH * S; const g = cv.getContext("2d");
+  for (let y = 0; y < MH; y++) for (let x = 0; x < MW; x++) { let c = G[y][x]; if (c === "#F") c = baseUnder(f, x, y); if (c === "#" || c === "S" || c === "W") c = floorAtAny(f, x, y);
+    const [a, b] = TILE[c] || ["#888", "#777"]; g.fillStyle = (x + y) % 2 ? a : b; g.fillRect(x * S, y * S, S, S);
+    if (c === "." || c === "a") { g.fillStyle = b; g.fillRect(x * S, (x % 2 ? 8 : 17), S, 1.5); }
+    if (c === "G") { g.fillStyle = "#3d7f33"; for (let k = 0; k < 5; k++) g.fillRect(x * S + (k * 7 + y * 3) % 22, y * S + (k * 11 + x * 5) % 22, 2, 3); } }
+  const tex = new THREE.CanvasTexture(cv); tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 4;
+  const fl = new THREE.Mesh(new THREE.PlaneGeometry(MW, MH), new THREE.MeshStandardMaterial({map: tex, roughness: .9})); fl.rotation.x = -Math.PI / 2; fl.position.set(MW / 2, .01, MH / 2); fl.receiveShadow = true; grp.add(fl);
+  const slab = new THREE.Mesh(BOX, mat("#3a3f55")); slab.scale.set(MW, .3, MH); slab.position.set(MW / 2, -.15, MH / 2); slab.receiveShadow = true; grp.add(slab);
+  // стены
+  const isWallish = (x, y) => ["#", "S", "W"].includes(G[y]?.[x]);
+  for (let y = 0; y < MH; y++) for (let x = 0; x < MW; x++) { const c = G[y][x];
+    if (c === "#") { let vis = false; for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [-1, -1], [1, -1], [-1, 1]]) { const n = G[y + dy]?.[x + dx]; if (n && !["#"].includes(n)) vis = true; } if (!vis) continue;
+      const outer = (x === 0 || y === 0 || x === MW - 1 || y === MH - 1); box(grp, x, 0, y, 1, WH, 1, outer ? "#4b4f63" : WALL_COL[f]); box(grp, x, WH, y, 1, .08, 1, "#a99e86"); }
+    else if (c === "S") box(grp, x, 0, y, 1, WH, 1, "#3d4252");
+    else if (c === "W") { const m = box(grp, x, 0, y, 1, WH, 1, GL()); m.castShadow = false; box(grp, x, WH - .05, y, 1, .08, 1, "#7c8ea6"); box(grp, x, 0, y, 1, .08, 1, "#7c8ea6"); }
+  }
+  // подписи комнат
+  for (const [x, y, t, k] of FL[f].labels) { const name = t || ("Кв. " + (TEAM[k]?.short || TEAM[k]?.name || "")); const sp = textSprite(name, "#ffe9a8", "rgba(18,20,32,.7)", 30); sp.position.set(x, 2.2, y + .2); sp.visible = false; grp.add(sp); (labelSprites[f] ||= []).push(sp); }
+  return grp;
+}
+function floorAtAny(f, x, y) { const G = FL[f].g; for (const [dx, dy] of [[0, 1], [0, -1], [1, 0], [-1, 0], [1, 1], [-1, -1]]) { const c = G[y + dy]?.[x + dx]; if (c && !["#", "#F", "S", "W", "d"].includes(c)) return c; } return "h"; }
+
+// ---------- мебель ----------
+const LK = who => (LOOK[who] || {}).top || "#5a7fc9";
+const PAL = {wood: "#8b5a34", wood2: "#a8703f", dark: "#22252f", metal: "#9aa3b5", white: "#f2f2f2"};
+function furn(f, o, grp) {
+  const W = o.w, D = o.h, g = new THREE.Group(); g.position.set(o.x, 0, o.y); grp.add(g);
+  const k = o.kind;
+  switch (k) {
+    case "desk": case "desk2": { const c = o.pink ? "#b06a86" : PAL.wood; box(g, 0, .68, .1, W, .08, .8, c); for (const lx of [.05, W - .13]) box(g, lx, 0, .15, .08, .68, .7, shade(c)); box(g, .1, .76, .55, .3, .02, .2, "#e6e6e6");
+      for (const mx of k === "desk2" ? [.2, 1.1] : [W / 2 - .25]) { box(g, mx, .76, .15, .5, .32, .04, PAL.dark); box(g, mx + .03, .79, .19, .44, .25, .02, EM(NIGHT ? "#7fe8ff" : "#6fd3f2", .8)); box(g, mx + .2, .76, .17, .1, .05, .1, PAL.dark); } break; }
+    case "bossdesk": box(g, 0, .72, .1, W, .1, .85, "#5e361c"); box(g, .1, 0, .2, W - .2, .72, .65, "#4a2b18"); box(g, W / 2 - .3, .82, .2, .6, .4, .05, PAL.dark); box(g, W / 2 - .27, .85, .24, .54, .32, .02, EM("#9be37f", .7)); break;
+    case "chair": case "bosschair": case "mchair": case "woodchair": case "stool": {
+      const col = o.col || (k === "woodchair" ? "#9a6a3e" : k === "bosschair" ? "#4a2b18" : k === "mchair" ? "#2e3345" : "#3a3f52"), back = o.face === "back" ? 1 : 0;
+      box(g, .2, .42, .2, .6, .08, .6, col); for (const [lx, lz] of [[.22, .22], [.68, .22], [.22, .68], [.68, .68]]) box(g, lx, 0, lz, .08, .42, .08, "#2b2b33");
+      if (k !== "stool") box(g, .2, .5, back ? .7 : .12, .6, k === "bosschair" ? .6 : .45, .1, col); break; }
+    case "plant": cyl(g, .5, 0, .5, .2, .3, "#b45a3c"); ball(g, .5, .62, .5, .28, "#3f9a4b"); ball(g, .4, .85, .45, .2, "#4eae5a"); break;
+    case "tree": cyl(g, .5, 0, .5, .09, .7, "#7a4d2b"); ball(g, .5, 1.2, .5, .5, "#2f8a3e"); ball(g, .35, 1.6, .45, .32, "#3a9a4a"); break;
+    case "xtree": cyl(g, .5, 0, .5, .08, .3, "#6b4429"); { const m = new THREE.Mesh(new THREE.ConeGeometry(.45, 1.5, 8), mat("#2f8a3e")); m.position.set(.5, 1, .5); m.castShadow = true; g.add(m); } ball(g, .5, 1.78, .5, .07, EM("#f2c14e", 1.5)); ball(g, .35, 1.0, .6, .05, EM("#e05d5d", 1.5)); ball(g, .62, 1.3, .4, .05, EM("#5de0e0", 1.5)); break;
+    case "bed": { const bc = LK(o.who); box(g, .05, 0, .02, .9, .3, W === 1 && D === 2 ? 1.96 : 1.9, "#6b4429"); box(g, .08, .3, .05, .84, .18, 1.9, bc); box(g, .12, .46, .1, .76, .1, .45, "#ffffff"); box(g, .05, .3, .02, .9, .5, .06, "#5a3a22"); break; }
+    case "aquarium": box(g, .1, 0, .15, .8, .35, .7, "#2b3550"); box(g, .12, .35, .17, .76, .5, .66, GL("#6fd0f0")); box(g, .14, .36, .19, .72, .08, .62, "#e9d7b0"); ball(g, .4, .6, .5, .05, EM("#ffb347", .6)); ball(g, .62, .7, .45, .04, EM("#f26d8c", .6)); break;
+    case "frame": { box(g, .15, 1.3, .02, .7, .55, .05, "#8a5a34"); box(g, .2, 1.35, .06, .6, .45, .02, LK(o.who)); box(g, .45, 1.55, .08, .1, .1, .02, "#ffffff"); break; }
+    case "lamp2": cyl(g, .5, 0, .5, .16, .35, "#8a5a34"); cyl(g, .5, .35, .5, .08, .15, "#6b4429"); { const m = new THREE.Mesh(new THREE.CylinderGeometry(.14, .2, .28, 10), EM(NIGHT ? "#ffe58a" : "#f2d27a", NIGHT ? 1.8 : .35)); m.position.set(.5, .62, .5); g.add(m); } break;
+    case "rug": { const m = box(g, .05, 0, .05, .9, .02, .9, LK(o.who)); m.castShadow = false; box(g, .15, .021, .15, .7, .01, .7, "#f2e6c8").castShadow = false; break; }
+    case "gadget": { const w = o.who; const c = {poster: "#22252f", editor: "#ef8d32", analyst: "#3c6fb0", video: "#f2e9c0", critic: "#7a3e1f", coach: "#f2c14e", archivist: "#c99a5b", producer: "#2b3550", orders: "#e9d7b0"}[w] || "#888"; box(g, .35, 0, .35, .3, .45, .3, c); if (w === "coach") ball(g, .5, .6, .5, .13, "#f2c14e"); if (w === "video") ball(g, .5, .62, .5, .17, EM("#fff3c0", .8)); break; }
+    case "sofa": case "sofa3": { const c = o.col || (k === "sofa3" ? "#c94f5d" : "#5a7fc9"); box(g, 0, 0, .2, W, .4, .75, c); box(g, 0, .4, .2, W, .5, .2, c); box(g, 0, .3, .2, .15, .35, .75, shade(c)); box(g, W - .15, .3, .2, .15, .35, .75, shade(c)); break; }
+    case "tv": box(g, .1, .9, .4, W - .2, .8, .08, PAL.dark); box(g, .15, .95, .47, W - .3, .7, .02, EM("#4f8fd9", .8)); box(g, .1, 0, .3, W - .2, .8, .4, "#5a3a22"); break;
+    case "pingpong": box(g, 0, .7, .1, W, .06, .85, "#2f7d5b"); box(g, W / 2 - .02, .76, .1, .04, .15, .85, "#fff"); for (const lx of [.1, W - .15]) box(g, lx, 0, .2, .06, .7, .6, "#333"); break;
+    case "counter": box(g, 0, 0, .1, W, .9, .8, "#9aa3b5"); box(g, 0, .9, .1, W, .06, .85, "#c9d1de"); break;
+    case "fridge": box(g, .1, 0, .15, .8, 1.7, .7, "#e8eef4"); box(g, .75, .9, .12, .04, .5, .04, "#999"); break;
+    case "coffee": box(g, .1, 0, .2, W - .2, .9, .7, "#3d414d"); box(g, .1, .9, .2, W - .2, .6, .6, "#4a4f5e"); box(g, .3, 1.0, .5, .3, .3, .05, EM("#5de08a", .8)); break;
+    case "longtable": case "mtable": case "stable": { const c = k === "longtable" ? "#d8b07a" : k === "mtable" ? "#e9e4d8" : "#9a6a3e"; box(g, 0, .72, .1, W, .07, .8, c); for (const lx of [.1, W - .18]) box(g, lx, 0, .2, .08, .72, .6, shade(c)); if (k === "longtable") { box(g, .3, .79, .35, .3, .02, .3, "#e05d5d"); box(g, W - .65, .79, .35, .3, .02, .3, "#f2c14e"); } break; }
+    case "monitors": box(g, 0, 0, .15, W, .75, .8, "#3a3f50"); for (let i = 0; i < 4; i++) { box(g, .1 + i * 1, .85, .25, .8, .5, .06, PAL.dark); box(g, .13 + i * 1, .88, .31, .74, .42, .02, EM(i % 2 ? "#5de08a" : "#7fe8ff", .6)); } break;
+    case "locker": box(g, .1, 0, .15, .8, 1.8, .7, "#6e7a91"); box(g, .15, .9, .85, .7, .02, .02, "#444"); break;
+    case "reception": box(g, 0, 0, .1, W, 1.0, .85, "#6b4429"); box(g, 0, 1.0, .1, W, .06, .9, "#8a5a34"); break;
+    case "bench": box(g, 0, .4, .3, W, .08, .4, "#b07a42"); for (const lx of [.15, W - .25]) box(g, lx, 0, .35, .08, .4, .3, "#7a4d2b"); break;
+    case "flowers": { const cols = ["#f59ac0", "#f4e37a", "#ffffff"]; for (let i = 0; i < W * 4; i++) { ball(g, .15 + i * .22, .15, .3 + (i % 3) * .2, .06, cols[i % 3]); } break; }
+    case "board": case "flip": box(g, .15, .6, .3, .7, .8, .05, "#ffffff"); box(g, .1, 0, .35, .05, 1.4, .05, "#777"); box(g, .85, 0, .35, .05, 1.4, .05, "#777"); box(g, .25, 1.1, .35, .5, .04, .02, "#e05d5d"); box(g, .25, .9, .35, .4, .04, .02, "#3c6fb0"); break;
+    case "speaker": box(g, .2, 0, .2, .6, 1.1, .6, "#1d1f27"); ball(g, .5, .35, .82, .14, "#44485a"); ball(g, .5, .8, .82, .09, "#44485a"); break;
+    case "shelf": case "shelf2": box(g, 0, 0, .15, W, 1.9, .45, "#7a5232"); for (let r = 0; r < 4; r++) for (let i = 0; i < W * 4; i++) box(g, .1 + i * .24, .15 + r * .45, .35, .16, .3, .2, ["#c94f5d", "#3c6fb0", "#f2c14e", "#5de08a", "#9b59d0"][(i + r * 2) % 5]); break;
+    case "boxes": box(g, .1, 0, .2, .5, .45, .5, "#c99a5b"); box(g, .45, 0, .45, .45, .35, .45, "#d8ad6d"); break;
+    case "cooler": box(g, .3, 0, .3, .4, .8, .4, "#e8eef4"); ball(g, .5, 1.05, .5, .17, "#8fd0f0"); break;
+    case "safe": box(g, .15, 0, .15, .7, .75, .7, "#5a6070"); box(g, .2, .3, .85, .2, .2, .03, "#c9d1de"); break;
+    case "ytposter": box(g, .15, .9, .85, .7, .5, .04, "#ffffff"); box(g, .3, 1.0, .88, .4, .3, .02, "#e0453a"); break;
+    case "ringlight": cyl(g, .5, 0, .5, .03, 1.3, "#555"); { const m = new THREE.Mesh(new THREE.TorusGeometry(.26, .05, 8, 20), EM("#fff3c0", 1.2)); m.position.set(.5, 1.5, .5); g.add(m); } break;
+    case "printer": box(g, .1, 0, .2, .8, .55, .6, "#d8dbe2"); box(g, .1, .55, .2, .8, .12, .6, "#eef0f4"); break;
+    case "lectern": box(g, .2, 0, .25, .6, 1.0, .5, "#6b4429"); box(g, .15, 1.0, .2, .7, .06, .6, "#8a5a34"); break;
+    case "candles": cyl(g, .5, 0, .5, .12, .8, "#b08a3a"); ball(g, .5, .9, .5, .06, EM("#ffd76a", 2)); break;
+    case "iconstand": box(g, .25, 0, .35, .5, 1.1, .3, "#6b4429"); box(g, .3, .7, .6, .4, .4, .03, "#e8b04a"); break;
+    case "petbed": box(g, .1, 0, .1, .8, .12, .8, "#7a4d8a"); box(g, .2, .12, .2, .6, .05, .6, "#c79bd6"); break;
+    case "treadmill": box(g, .15, 0, .1, .7, .3, 1.8, "#3a3f50"); box(g, .2, .3, .2, .6, .05, 1.6, "#1c1e26"); box(g, .15, .3, .1, .7, .9, .08, "#22252f"); break;
+    case "yoga": { const m = box(g, .1, 0, .05, .8, .03, .9, "#9b59d0"); m.castShadow = false; break; }
+    case "weights": box(g, .15, 0, .35, .7, .12, .3, "#555"); ball(g, .2, .2, .5, .12, "#22252f"); ball(g, .8, .2, .5, .12, "#22252f"); break;
+    case "mirror": box(g, .1, .2, .02, .8, 1.5, .05, GL("#9ed8e8")); box(g, .08, .15, .0, .84, .06, .08, "#8a5a34"); break;
+    case "punchbag": cyl(g, .5, .25, .5, .22, .9, "#c94f5d", 12); cyl(g, .5, 1.15, .5, .02, .6, "#555", 6); break;
+    case "standclock": box(g, .25, 0, .25, .5, 1.9, .4, "#6b4429"); box(g, .3, 1.35, .62, .4, .4, .03, "#fffdf0"); box(g, .3, 0.2, .62, .4, 1.0, .03, "#4a2b18"); break;
+    case "vending": box(g, .1, 0, .15, .8, 1.8, .7, "#c94f5d"); box(g, .18, .8, .85, .5, .9, .03, EM("#cfe8f6", .5)); break;
+    case "pond": { const m = box(g, .05, 0, .1, W - .1, .05, .8, "#3b88c4", {roughness: .2}); m.castShadow = false; ball(g, .5, .08, .5, .12, "#3f9a4b"); break; }
+    case "grill": box(g, .2, .5, .25, .6, .25, .5, "#2b2b33"); for (const [lx, lz] of [[.25, .3], [.7, .3], [.25, .65], [.7, .65]]) box(g, lx, 0, lz, .05, .5, .05, "#444"); box(g, .3, .72, .35, .4, .03, .3, EM("#ff7a2f", 1.2)); break;
+    case "doghouse": box(g, .12, 0, .15, .76, .55, .7, "#a8643a"); { const m = new THREE.Mesh(new THREE.ConeGeometry(.65, .4, 4), mat("#7a3e1f")); m.rotation.y = Math.PI / 4; m.position.set(.5, .75, .5); g.add(m); } box(g, .38, 0, .85, .24, .35, .02, "#2b1d14"); break;
+    case "bin": cyl(g, .5, 0, .5, .2, .55, "#5a7a6a"); break;
+    case "globe": cyl(g, .5, 0, .5, .05, .5, "#8a5a34"); ball(g, .5, .72, .5, .2, "#4f8fd9"); break;
+    case "dartboard": { const m = new THREE.Mesh(new THREE.CylinderGeometry(.25, .25, .04, 16), mat("#d94f4f")); m.rotation.x = Math.PI / 2; m.position.set(.5, 1.3, .06); g.add(m); break; }
+    case "fireplace": box(g, .05, 0, .1, .9, 1.3, .5, "#7a4d3a"); box(g, .2, .1, .35, .6, .6, .3, EM("#ff7a2f", 1.6)); box(g, .0, 1.3, .08, 1.0, .08, .55, "#a8643a"); break;
+    case "lavalamp": cyl(g, .5, 0, .5, .12, .5, EM("#8e2c8e", .9)); ball(g, .5, .35, .5, .06, EM("#ff9ad5", 1.5)); break;
+    case "flowervase": cyl(g, .5, 0, .5, .12, .3, "#4f8fd9"); ball(g, .45, .45, .5, .09, "#f59ac0"); ball(g, .57, .42, .5, .08, "#f4e37a"); break;
+    default: box(g, .1, 0, .1, Math.max(.2, W - .2), .9, Math.max(.2, D - .2), "#8a7a6a");
+  }
+}
+function shade(hex, f = .75) { const c = new THREE.Color(hex); c.multiplyScalar(f); return "#" + c.getHexString(); }
+
+// ---------- сотрудники ----------
+const agents = {};
+function makeAgent(k) {
+  const L = LOOK[k], skin = SKIN[L.skin], g = new THREE.Group(); g.scale.setScalar(1.15); const  top = L.top, bot = L.bot || "#333";
+  const body = new THREE.Group(); g.add(body);
+  box(body, -.19, 0, -.1, .15, .5, .2, bot); box(body, .04, 0, -.1, .15, .5, .2, bot);
+  if (L.robe || L.dress) box(body, -.24, .12, -.16, .48, .5, .32, top);
+  box(body, -.22, .48, -.13, .44, .56, .26, top);
+  box(body, -.34, .5, -.08, .12, .5, .16, top); box(body, .22, .5, -.08, .12, .5, .16, top);
+  ball(body, -.28, .48, 0, .07, skin); ball(body, .28, .48, 0, .07, skin);
+  ball(body, 0, 1.28, 0, .19, skin);
+  const hairC = L.hair; if (L.hs !== "bald") { const h = new THREE.Mesh(new THREE.SphereGeometry(.205, 12, 8, 0, Math.PI * 2, 0, Math.PI * (L.hs === "cap" ? .42 : .55)), mat(hairC)); h.position.set(0, 1.31, -.01); h.castShadow = true; body.add(h);
+    if (L.hs === "long" || L.hs === "bob") box(body, -.2, 1.0, -.2, .4, .38, .12, hairC); if (L.hs === "pony") ball(body, 0, 1.2, -.24, .1, hairC); if (L.hs === "bun") ball(body, 0, 1.52, -.05, .1, hairC); }
+  box(body, -.07, 1.28, .17, .04, .04, .03, "#1b2530"); box(body, .03, 1.28, .17, .04, .04, .03, "#1b2530");
+  if (L.glasses) box(body, -.1, 1.26, .185, .2, .06, .015, "#2b2b33");
+  if (L.beard) box(body, -.1, 1.08, .12, .2, .12, .1, L.beard);
+  if (L.hood) box(body, -.2, .95, -.18, .4, .12, .1, shade(top, .8));
+  if (L.badge) box(body, .06, .85, .13, .08, .08, .02, "#f2c14e");
+  if (L.phones) box(body, -.2, 1.34, -.02, .4, .05, .06, "#222");
+  g.userData = {k, body}; g.traverse(m => { if (m.isMesh) m.userData.agent = k; });
+  const ring = new THREE.Mesh(new THREE.RingGeometry(.28, .36, 24), new THREE.MeshBasicMaterial({color: "#999", transparent: true, opacity: .9, side: THREE.DoubleSide, depthTest: false})); ring.rotation.x = -Math.PI / 2; ring.position.y = .03; ring.renderOrder = 5; g.add(ring); g.userData.ring = ring;
+  const nm = TEAM[k].short || TEAM[k].name, sp = textSprite(nm, "#fff", "rgba(18,20,32,.82)", 34); sp.position.y = 1.95; g.add(sp);
+  return g;
+}
+const SEAT_Y = .02;
+function place(k, phase) {
+  const a = agents[k], b = a.g.userData.body; a.g.rotation.set(0, 0, 0); b.position.set(0, 0, 0); b.rotation.set(0, 0, 0);
+  if (phase === "night" && BEDS[k]) { const [f, x, y] = BEDS[k]; a.floor = f; a.g.position.set(x + .5, (f - 1) * FH + .62, y + 1); a.g.rotation.x = -Math.PI / 2; a.g.userData.ring.visible = false; a.sleep = true; return; }
+  a.sleep = false; a.g.userData.ring.visible = true; const s = SEATS[k]; if (!s) return; const [f, x, y, face] = s; a.floor = f;
+  a.g.position.set(x + .5, (f - 1) * FH + SEAT_Y, y + .5 + (face === "back" ? -.05 : .05)); a.g.rotation.y = face === "back" ? Math.PI : 0;
+  const sitting = !(k === "guard" && false); if (sitting) { b.position.y = -.05; b.children[0].scale.y = .55; b.children[1].scale.y = .55; }
+}
+
+// ---------- сборка ----------
+for (const f of [1, 2, 3]) buildFloor(f);
+for (const f of [1, 2, 3]) for (const o of FL[f].furn) furn(f, o, floorGroups[f]);
+// лампы ночью
+if (NIGHT) for (const f of [1, 2, 3]) for (const [x, y] of LAMPS[f]) { const l = new THREE.PointLight("#ffd9a0", 7, 9, 1.6); l.position.set(x + .5, (f - 1) * FH + 2, y + .5); scene.add(l); }
+for (const k in TEAM) { const g = makeAgent(k); agents[k] = {k, g, status: "idle", task: ""}; scene.add(g); place(k, NIGHT ? "night" : "day"); }
+
+// ---------- данные ----------
+const DEMO_ST = {poster: ["working", "Пишу подпись к рилсу"], editor: ["working", "Монтирую рилс · 64%"], critic: ["working", "Вычитываю текст"], video: ["waiting", "Урок готов — жду вашего «да»"], archivist: ["error", "Google Диск недоступен"], guard: ["working", "Смотрю камеры"], analyst: ["idle", "Разбираю статистику"]};
+function apply(d) { for (const k in agents) { const v = (d.agents || {})[k] || {}, a = agents[k]; a.status = v.status || "idle"; a.task = v.task || ""; a.last = v.last_run; paint(a); }
+  const ac = d.account || {}; if (ac.followers != null) document.getElementById("sub").textContent = `подписчиков: ${ac.followers} · крутите пальцем, нажмите на сотрудника`; }
+const SC = {working: "#5de08a", waiting: "#f2c14e", error: "#ff6b6b", idle: "#8995a3"}, SL = {working: "Работает", waiting: "Ждёт вас", error: "Нужна помощь", idle: "Отдыхает"};
+function paint(a) { a.g.userData.ring.material.color.set(SC[a.status] || SC.idle); }
+async function load() { if (DEMO) { apply({agents: Object.fromEntries(Object.entries(DEMO_ST).map(([k, [s, t]]) => [k, {status: s, task: t}]))}); return; }
+  try { const r = await fetch("status.json?t=" + Date.now(), {cache: "no-store"}); if (r.ok) apply(await r.json()); } catch (e) {} }
+load(); setInterval(load, 60000);
+
+// ---------- этажи-кнопки и камера ----------
+let SHOW = 0; const btns = document.getElementById("floors");
+function view(n) { SHOW = n; for (const f of [1, 2, 3]) { floorGroups[f].visible = n === 0 || n === f; (labelSprites[f] || []).forEach(s => s.visible = n !== 0); }
+  for (const k in agents) agents[k].g.visible = n === 0 || agents[k].floor === n;
+  [...btns.children].forEach((b, i) => b.classList.toggle("on", [0, 3, 2, 1][i] === n));
+  const cy = n === 0 ? FH : (n - 1) * FH, tgt = new THREE.Vector3(14, cy, 8);
+  const pos = n === 0 ? innerWidth < 700 ? new THREE.Vector3(14 + 20, 46, 8 + 40) : new THREE.Vector3(14 + 22, 32, 8 + 30) : new THREE.Vector3(14 + 9, (n - 1) * FH + 20, 8 + 15);
+  anim = {t: 0, from: camera.position.clone(), to: pos, tf: controls.target.clone(), tt: tgt}; }
+let anim = null;
+for (const [n, t] of [[0, "🏢 Всё"], [3, "3 · Офис"], [2, "2 · Квартиры"], [1, "1 · Холл"]]) { const b = document.createElement("button"); b.textContent = t; b.onclick = () => view(n); btns.appendChild(b); }
+camera.position.set(36, 32, 38); controls.target.set(14, FH, 8); view(0); anim = null; camera.position.set(36, 32, 38); controls.target.set(14, FH, 8);
+function resize() { renderer.setSize(innerWidth, innerHeight); camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); if (innerWidth < 700) camera.fov = 58; else camera.fov = 42; camera.updateProjectionMatrix(); }
+addEventListener("resize", resize); resize();
+if (innerWidth < 700) { camera.position.set(34, 52, 50); controls.target.set(14, FH - 1, 8); }
+
+// ---------- клик ----------
+const ray = new THREE.Raycaster(), mouse = new THREE.Vector2(); let down = null; const card = document.getElementById("card");
+renderer.domElement.addEventListener("pointerdown", e => down = [e.clientX, e.clientY]);
+renderer.domElement.addEventListener("pointerup", e => { if (!down || Math.hypot(e.clientX - down[0], e.clientY - down[1]) > 6) return;
+  mouse.set(e.clientX / innerWidth * 2 - 1, -(e.clientY / innerHeight) * 2 + 1); ray.setFromCamera(mouse, camera);
+  const hits = ray.intersectObjects(Object.values(agents).filter(a => a.g.visible).map(a => a.g), true).filter(h => h.object.userData.agent);
+  if (!hits.length) { card.style.display = "none"; return; } const a = agents[hits[0].object.userData.agent], t = TEAM[a.k];
+  document.getElementById("cn").textContent = t.name; document.getElementById("cr").textContent = t.role + " · " + t.room;
+  const st = document.getElementById("cs"); st.textContent = a.sleep ? "Спит" : (SL[a.status] || "Отдыхает"); st.style.background = a.sleep ? "#8995a3" : (SC[a.status] || SC.idle);
+  document.getElementById("ct").textContent = a.task || ""; card.style.display = "block"; });
+document.getElementById("cx").onclick = () => card.style.display = "none";
+
+// ---------- цикл ----------
+const clock = new THREE.Clock();
+function tick() { const dt = clock.getDelta(), t = clock.elapsedTime;
+  if (anim) { anim.t = Math.min(1, anim.t + dt / 1.1); const e = anim.t < .5 ? 2 * anim.t * anim.t : 1 - Math.pow(-2 * anim.t + 2, 2) / 2; camera.position.lerpVectors(anim.from, anim.to, e); controls.target.lerpVectors(anim.tf, anim.tt, e); if (anim.t >= 1) anim = null; }
+  for (const k in agents) { const a = agents[k]; if (a.sleep) { a.g.userData.body.position.y = Math.sin(t * 1.3 + k.length) * .015; continue; }
+    const b = a.g.userData.body; if (a.status === "working") { b.rotation.x = Math.sin(t * 6 + k.length) * .02; b.position.y = -.05 + Math.abs(Math.sin(t * 8 + k.length)) * .012; } else b.rotation.x = 0; }
+  controls.update(); renderer.render(scene, camera); requestAnimationFrame(tick); }
+document.getElementById("load").style.display = "none"; tick();
+window.__ready = true;
+</script>
+</body>
+</html>
