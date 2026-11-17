@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-17T19:59:51+03:00",
+ "updated_at": "2026-11-17T19:59:57+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 24,
@@ -88,9 +88,9 @@
    "next_run": null
   },
   "coach": {
-   "status": "working",
-   "task": "Разбираюсь: ⋯ Ещё",
-   "last_run": "2026-11-17T19:59:51+03:00",
+   "status": "idle",
+   "task": "Разобрал: Отсутствует список видеокусков в запросе к монтажёру.",
+   "last_run": "2026-11-17T19:59:57+03:00",
    "next_run": "завтра 22:30"
   },
   "archivist": {
