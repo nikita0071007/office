@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-18T11:31:39+03:00",
+ "updated_at": "2026-11-18T11:36:53+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 24,
@@ -75,8 +75,8 @@
    "next_run": null
   },
   "video": {
-   "status": "working",
-   "task": "Снимаю ролик «Урок 6»…",
+   "status": "error",
+   "task": "Ролик не получился: name '_music' is not defined",
    "last_run": "2026-11-18T11:31:39+03:00",
    "next_run": null,
    "heard": "2026-11-13T15:53:11+03:00"
