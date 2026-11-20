@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-20T11:05:39+03:00",
+ "updated_at": "2026-11-20T11:10:01+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 24,
@@ -88,9 +88,9 @@
    "next_run": null
   },
   "coach": {
-   "status": "error",
-   "task": "Ошибка: slice(None, 1500, None)",
-   "last_run": "2026-11-19T22:30:00+03:00",
+   "status": "idle",
+   "task": "Проверил video: 6/10 — отправил на переделку",
+   "last_run": "2026-11-20T11:10:01+03:00",
    "next_run": "завтра 22:30"
   },
   "archivist": {
