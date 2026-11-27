@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-27T04:31:22+03:00",
+ "updated_at": "2026-11-27T08:15:00+03:00",
  "account": {
   "username": "gusevmade",
   "followers": 22,
@@ -45,9 +45,9 @@
  },
  "agents": {
   "analyst": {
-   "status": "idle",
-   "task": "Без изменений — молчу",
-   "last_run": "2026-11-26T18:20:00+03:00",
+   "status": "working",
+   "task": "Разбираю статистику…",
+   "last_run": "2026-11-27T08:15:00+03:00",
    "next_run": "завтра 08:15"
   },
   "poster": {
@@ -108,6 +108,12 @@
   "orders": {
    "status": "idle",
    "task": "Жду клиентов на сайте gusevmade.ru",
+   "last_run": null,
+   "next_run": null
+  },
+  "community": {
+   "status": "idle",
+   "task": "Читаю комментарии каждые 2 часа",
    "last_run": null,
    "next_run": null
   }
